@@ -1,0 +1,12 @@
+[mcp_servers.ai-cae-automation-lab]
+command = "<REPO_ROOT>/.venv/Scripts/ai-cae-mcp-server.exe"
+args = []
+startup_timeout_sec = 120
+
+[mcp_servers.ai-cae-automation-lab.env]
+ABAQUS_COMMAND = "<optional-path-to-abaqus-command>"
+FLUENT_ROOT = "<optional-path-to-ansys-root>"
+COMSOL_ROOT = "<optional-path-to-comsol-root>"
+MATLABROOT = "<optional-path-to-matlab-root>"
+PCSCHEMATIC_ROOT = "<optional-path-to-pcschematic-root>"
+PCSCHEMATIC_TLB = "<optional-path-to-pcschematic-tlb>"
