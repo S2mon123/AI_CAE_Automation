@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-cae-automation-lab"
+version = "0.1.0"
+description = "Utilities and documentation for AI-assisted CAE automation workflows."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "AI CAE Automation Lab" }]
+dependencies = []
+
+[project.scripts]
+ai-cae-env-check = "ai_cae_lab.env_check:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

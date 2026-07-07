@@ -1,0 +1,22 @@
+name: docs-check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile Python
+        run: python -m compileall src scripts
+      - name: Check required docs
+        run: |
+          test -f README.md
+          test -f README.zh-CN.md
+          test -f docs/architecture.md
+          test -f checklists/smoke-test.md
