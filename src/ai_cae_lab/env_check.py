@@ -12,9 +12,6 @@ DEFAULT_CANDIDATES = {
     "abaqus": [
         r"C:\SIMULIA\Commands\abaqus.bat",
         r"D:\SIMULIA\Commands\abaqus.bat",
-        r"F:\Abaqus2026\ABAQUS2026\command\abaqus.bat",
-        r"F:\Abaqus2026\ABAQUS2026\command\abq2026.bat",
-        r"F:\Abaqus2026\Commands\abaqus.bat",
         r"G:\SIMULIA\Commands\abaqus.bat",
     ],
     "fluent": [
@@ -29,6 +26,13 @@ DEFAULT_CANDIDATES = {
         r"C:\Program Files\MATLAB",
         r"D:\Program Files\MATLAB",
     ],
+}
+
+ENV_CANDIDATES = {
+    "abaqus": ["ABAQUS_COMMAND"],
+    "fluent": ["FLUENT_EXE", "FLUENT_ROOT"],
+    "comsol": ["COMSOL_EXE", "COMSOL_ROOT"],
+    "matlab": ["MATLAB_EXE", "MATLABROOT"],
 }
 
 
@@ -59,7 +63,13 @@ def check_command(name: str) -> CheckResult:
 
 
 def check_candidates(name: str, candidates: list[str]) -> CheckResult:
-    hits = [path for path in candidates if path_exists(path)]
+    env_paths = [
+        value
+        for var in ENV_CANDIDATES.get(name, [])
+        for value in [os.environ.get(var)]
+        if value
+    ]
+    hits = [path for path in [*env_paths, *candidates] if path_exists(path)]
     if hits:
         return CheckResult(name, "ok", hits)
     return CheckResult(name, "missing", [f"no known candidate exists for {name}"])

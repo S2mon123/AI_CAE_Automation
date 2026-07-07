@@ -32,7 +32,8 @@
 ## 快速开始
 
 ```powershell
-cd F:\Obsidian\AI-CAE-Automation-Lab
+git clone <your-repo-url>
+cd AI-CAE-Automation-Lab
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -U pip
 .\.venv\Scripts\python.exe -m pip install -e .
@@ -56,4 +57,3 @@ python -m venv .venv
 3. [`docs/software-matrix.md`](docs/software-matrix.md)
 4. [`checklists/smoke-test.md`](checklists/smoke-test.md)
 5. [`prompts/ai-cae-general.md`](prompts/ai-cae-general.md)
-
