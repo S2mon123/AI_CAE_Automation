@@ -29,6 +29,7 @@
 
 - Export project files, logs, images, CSV/JSON, and a short report.
 - Separate preview images from real solver output.
+- For electrical CAD, export the project file, component list, terminal list, cable list when available, and intelligent PDF when supported.
 - Mark credibility as one of:
   - dry-run,
   - functional validation,
@@ -41,4 +42,3 @@
 - Compare results with expected physics.
 - Identify unstable assumptions.
 - Write the next minimal improvement.
-

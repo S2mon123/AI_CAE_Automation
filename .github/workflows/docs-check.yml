@@ -20,3 +20,5 @@ jobs:
           test -f README.zh-CN.md
           test -f docs/architecture.md
           test -f checklists/smoke-test.md
+          test -f prompts/pcschematic-direct-motor-starter.md
+          test -f docs/electrical-cad-automation.md

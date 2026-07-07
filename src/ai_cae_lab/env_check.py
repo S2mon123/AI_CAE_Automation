@@ -26,6 +26,11 @@ DEFAULT_CANDIDATES = {
         r"C:\Program Files\MATLAB",
         r"D:\Program Files\MATLAB",
     ],
+    "pcschematic": [
+        r"C:\Program Files\PCSCHEMATIC\PCSELCAD\PCsELcad.exe",
+        r"C:\PCSCHEMATIC\PCSELCAD\PCsELcad.exe",
+        r"D:\PCSCHEMATIC\PCSELCAD\PCsELcad.exe",
+    ],
 }
 
 ENV_CANDIDATES = {
@@ -33,6 +38,12 @@ ENV_CANDIDATES = {
     "fluent": ["FLUENT_EXE", "FLUENT_ROOT"],
     "comsol": ["COMSOL_EXE", "COMSOL_ROOT"],
     "matlab": ["MATLAB_EXE", "MATLABROOT"],
+    "pcschematic": [
+        "PCSCHEMATIC_EXE",
+        "PCSCHEMATIC_ROOT",
+        "PCSCHEMATIC_TLB",
+        "PCSCHEMATIC_DOCS",
+    ],
 }
 
 

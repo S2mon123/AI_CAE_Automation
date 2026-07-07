@@ -35,6 +35,14 @@
 - S-parameter export
 - field and surface current plots
 
+### Electrical CAD documentation
+
+- PCSCHEMATIC Automation project generation
+- COM/OLE and built-in script bridge patterns
+- component database and symbol-library evidence
+- terminal, cable, and component list export
+- intelligent PDF and engineering documentation review
+
 ### Open-source solvers and visualization
 
 - OpenFOAM case generation
@@ -51,4 +59,3 @@ examples/      public skeleton projects
 mcp/           bridge patterns and configuration notes
 scripts/       small verification tools
 ```
-

@@ -9,10 +9,11 @@
 | MATLAB/Simulink | official MCP server, MATLAB engine, toolbox commands | attach to MATLAB and evaluate a simple expression | model file, simulation output, figures, diagnostics |
 | OpenFOAM | case file generation, shell commands, MCP wrapper | run `blockMesh` and `checkMesh` on a small case | logs, case folder, residuals, ParaView files |
 | ParaView | Python script, pvpython, MCP wrapper | load a sample file and export screenshot | screenshot, state file, CSV, animation |
+| PCSCHEMATIC Automation | COM/OLE automation, built-in Pascal/Basic scripts, database/symbol inspection, UI fallback | open or create a tiny `.PRO` project and export a list or PDF | `.PRO`, run log, component list, terminal list, cable list, intelligent PDF |
 
 ## Notes
 
 - Commercial software paths are machine-specific. Do not hard-code a path in public docs unless it is a placeholder.
 - Public examples should not include licensed solver assets or proprietary geometry.
 - Every solver integration should have a tiny smoke test before large automation.
-
+- Electrical CAD integrations should verify component databases, symbol libraries, terminal lists, and exported documents instead of claiming schematic generation from screenshots alone.

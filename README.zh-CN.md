@@ -13,8 +13,8 @@
 ## 仓库定位
 
 - 建立 AI + CAE + MCP + Prompt + 证据链的一体化工作台。
-- 支持 Abaqus、Fluent、Workbench/Mechanical、COMSOL、MATLAB/Simulink、OpenFOAM、ParaView 等方向的长期整理。
-- 让每次仿真任务都先检查环境、再执行真实软件、最后导出日志/图像/CSV/工程文件等证据。
+- 支持 Abaqus、Fluent、Workbench/Mechanical、COMSOL、MATLAB/Simulink、OpenFOAM、ParaView、PCSCHEMATIC Automation 等方向的长期整理。
+- 让每次仿真或电气 CAD 自动化任务都先检查环境、再执行真实软件、最后导出日志/图像/CSV/工程文件等证据。
 - 把“功能验证、视觉验证、工程初步、报告级结果”分开，避免把演示当成可信工程结果。
 
 ## 目录结构
@@ -49,11 +49,14 @@ python -m venv .venv
 3. 每次真实任务都导出日志、结果文件、图片、CSV/JSON 或报告。
 4. 失败时记录失败步骤、错误日志和下一步最小修复动作。
 5. 公开仓库只保留脱敏、重写、可复用的知识结构。
+6. 电气 CAD 任务必须追溯真实元件、符号、数据库字段、图纸页和导出清单。
 
 ## 推荐阅读顺序
 
 1. [`docs/architecture.md`](docs/architecture.md)
 2. [`docs/workflow.md`](docs/workflow.md)
 3. [`docs/software-matrix.md`](docs/software-matrix.md)
-4. [`checklists/smoke-test.md`](checklists/smoke-test.md)
-5. [`prompts/ai-cae-general.md`](prompts/ai-cae-general.md)
+4. [`docs/electrical-cad-automation.md`](docs/electrical-cad-automation.md)
+5. [`checklists/smoke-test.md`](checklists/smoke-test.md)
+6. [`prompts/ai-cae-general.md`](prompts/ai-cae-general.md)
+7. [`prompts/pcschematic-direct-motor-starter.md`](prompts/pcschematic-direct-motor-starter.md)

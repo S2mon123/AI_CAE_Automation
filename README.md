@@ -12,11 +12,11 @@ This repository is being built as a public-facing companion to a private Obsidia
 
 ## Scope
 
-- AI-assisted CAE workflows for Abaqus, Ansys Fluent, Ansys Mechanical/Workbench, COMSOL, MATLAB/Simulink, OpenFOAM, and ParaView.
+- AI-assisted CAE and engineering documentation workflows for Abaqus, Ansys Fluent, Ansys Mechanical/Workbench, COMSOL, MATLAB/Simulink, OpenFOAM, ParaView, and PCSCHEMATIC Automation.
 - MCP and desktop bridge patterns for connecting agents to local engineering software.
 - Prompt templates that force path checks, real execution, evidence export, and credibility grading.
 - Smoke tests and evidence-chain checklists for simulation automation.
-- Example project layouts for drilling, external flow, and heat-transfer simulations.
+- Example project layouts for drilling, external flow, heat-transfer simulations, and electrical CAD documentation.
 
 ## Repository Map
 
@@ -50,14 +50,17 @@ The environment checker does not start commercial software. It only reports what
 3. Record executable paths, software versions, license status, input files, commands, logs, and exported artifacts.
 4. Treat solver failures as useful data, not embarrassment.
 5. Keep public examples free of private files and licensed training materials.
+6. For electrical CAD tasks, verify components, symbols, databases, and exported lists against real local project evidence.
 
 ## Recommended Reading Order
 
 1. [`docs/architecture.md`](docs/architecture.md)
 2. [`docs/workflow.md`](docs/workflow.md)
 3. [`docs/software-matrix.md`](docs/software-matrix.md)
-4. [`checklists/smoke-test.md`](checklists/smoke-test.md)
-5. [`prompts/ai-cae-general.md`](prompts/ai-cae-general.md)
+4. [`docs/electrical-cad-automation.md`](docs/electrical-cad-automation.md)
+5. [`checklists/smoke-test.md`](checklists/smoke-test.md)
+6. [`prompts/ai-cae-general.md`](prompts/ai-cae-general.md)
+7. [`prompts/pcschematic-direct-motor-starter.md`](prompts/pcschematic-direct-motor-starter.md)
 
 ## Status
 
@@ -66,4 +69,3 @@ This repository is in early public-structure setup. The first stable milestone i
 ## License
 
 MIT. See [`LICENSE`](LICENSE).
-
