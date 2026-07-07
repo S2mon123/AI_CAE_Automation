@@ -1,4 +1,0 @@
-[console_scripts]
-ai-cae-env-check = ai_cae_lab.env_check:main
-ai-cae-mcp-server = ai_cae_lab.mcp_server:main
-ai-cae-toolbox = ai_cae_lab.toolbox:main
