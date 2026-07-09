@@ -25,4 +25,3 @@ Run a real external-flow CFD task for a STEP or mesh input and export aerodynami
 # Evidence
 Export transcript/logs, case/data, residual history, Cl/Cd history, pressure contour, Cp contour, Mach contour, velocity streamlines, and a short report.
 ```
-

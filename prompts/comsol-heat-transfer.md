@@ -24,4 +24,3 @@ Export model file, solver log, temperature plot, velocity plot, pressure plot, m
 # Credibility
 State whether the result is dry-run, functional validation, engineering draft, or report-grade. Do not hide API compatibility issues.
 ```
-

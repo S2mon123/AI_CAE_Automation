@@ -43,4 +43,3 @@ Report:
 6. credibility level,
 7. best next improvement.
 ```
-

@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/ai-cae-automation-lab/local.toolchain.schema.json",
+  "title": "AI CAE Automation Lab Local Toolchain Config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "runs_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "solver_environment_variables": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "solver_paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "abaqus": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "fluent": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "ansys-workbench": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "comsol": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "matlab": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "openfoam": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "paraview": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "pcschematic": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "ansys": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "workbench": {
+          "$ref": "#/$defs/pathMap"
+        }
+      }
+    },
+    "bridge_profiles": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "allow_model_writes": {
+      "type": "boolean"
+    },
+    "abaqus": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "ansys": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "fluent": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "workbench": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "ansys-workbench": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "comsol": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "matlab": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "openfoam": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "paraview": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "pcschematic": {
+      "$ref": "#/$defs/pathMap"
+    }
+  },
+  "$defs": {
+    "pathMap": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

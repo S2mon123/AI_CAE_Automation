@@ -41,4 +41,3 @@ runs/
 - create a tiny test project,
 - generate or export at least one list,
 - record which parts were automated and which require manual review.
-

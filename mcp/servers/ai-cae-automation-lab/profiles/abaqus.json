@@ -1,0 +1,15 @@
+{
+  "solver": "abaqus",
+  "maturity": "bridge-preview",
+  "capabilities": [
+    "check command",
+    "run noGUI Python",
+    "submit input deck",
+    "scan ODB/log evidence"
+  ],
+  "rules": [
+    "Resolve paths through setup discovery, environment variables, or private local config.",
+    "Create a run record before launching tools.",
+    "Only claim success from logs and evidence artifacts."
+  ]
+}

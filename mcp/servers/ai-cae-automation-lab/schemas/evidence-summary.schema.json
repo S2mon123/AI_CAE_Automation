@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI CAE evidence summary",
+  "type": "object",
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "credibility_grade": {
+      "type": "string"
+    },
+    "execution_status": {
+      "type": "string"
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "additionalProperties": true
+}

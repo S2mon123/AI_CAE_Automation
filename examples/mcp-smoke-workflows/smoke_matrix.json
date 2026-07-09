@@ -1,0 +1,46 @@
+{
+  "solvers": [
+    {
+      "solver": "abaqus",
+      "template": true,
+      "first_real_tool": "abaqus_run_no_gui_script",
+      "required_env": ["ABAQUS_COMMAND"]
+    },
+    {
+      "solver": "fluent",
+      "template": true,
+      "first_real_tool": "fluent_run_journal_file",
+      "required_env": ["FLUENT_EXE", "FLUENT_ROOT"]
+    },
+    {
+      "solver": "ansys-workbench",
+      "template": true,
+      "first_real_tool": "ansys_run_workbench_journal_file",
+      "required_env": ["WORKBENCH_EXE", "ANSYS_ROOT"]
+    },
+    {
+      "solver": "comsol",
+      "template": true,
+      "first_real_tool": "comsol_compile_java_file",
+      "required_env": ["COMSOL_ROOT", "COMSOL_BATCH", "COMSOL_COMPILE"]
+    },
+    {
+      "solver": "matlab",
+      "template": true,
+      "first_real_tool": "matlab_run_script_file",
+      "required_env": ["MATLAB_EXE", "MATLABROOT"]
+    },
+    {
+      "solver": "openfoam",
+      "template": true,
+      "first_real_tool": "openfoam_run_case_command",
+      "required_env": ["OPENFOAM_ROOT", "WM_PROJECT_DIR"]
+    },
+    {
+      "solver": "paraview",
+      "template": true,
+      "first_real_tool": "paraview_run_pvpython_script",
+      "required_env": ["PVPYTHON_EXE", "PARAVIEW_ROOT"]
+    }
+  ]
+}

@@ -31,4 +31,3 @@ runs/
 - plastic strain,
 - energy balance,
 - center-section image.
-

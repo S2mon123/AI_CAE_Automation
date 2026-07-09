@@ -23,4 +23,3 @@ runs/
 - heat source,
 - temperature and velocity plots,
 - maximum temperature table.
-

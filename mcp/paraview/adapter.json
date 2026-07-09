@@ -1,0 +1,9 @@
+{
+  "name": "paraview",
+  "license": "MIT",
+  "maturity": "minimal",
+  "entry_point": "ai-cae-mcp-server",
+  "tools": ["paraview_check_installation", "paraview_run_pvpython_script"],
+  "required_env": ["PARAVIEW_ROOT", "PVPYTHON_EXE"],
+  "bundles_solver": false
+}

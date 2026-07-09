@@ -1,0 +1,5 @@
+[mcp_servers.ai_cae_abaqus]
+command = "python"
+args = ["mcp/abaqus/server.py"]
+env = { AI_CAE_TOOLBOX_CONFIG = "private/ai-cae.local.json" }
+

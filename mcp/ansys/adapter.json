@@ -1,0 +1,9 @@
+{
+  "name": "ansys",
+  "license": "MIT",
+  "maturity": "minimal",
+  "entry_point": "ai-cae-mcp-server",
+  "tools": ["ansys_check_installation", "ansys_run_workbench_journal_file", "fluent_run_journal_file"],
+  "required_env": ["ANSYS_ROOT", "FLUENT_EXE", "FLUENT_ROOT", "WORKBENCH_EXE"],
+  "bundles_solver": false
+}

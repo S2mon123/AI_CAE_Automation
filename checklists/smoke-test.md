@@ -35,4 +35,3 @@ Mark the test failed when:
 - the software opens but no model context is available,
 - the result is only a screenshot with no log,
 - an agent reports success without files.
-

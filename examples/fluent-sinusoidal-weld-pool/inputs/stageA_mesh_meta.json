@@ -1,0 +1,46 @@
+{
+  "domain_m": {
+    "x": 0.03,
+    "y": 0.02,
+    "z": 0.006
+  },
+  "coordinate_definition": {
+    "x": "welding travel direction",
+    "y": "sinusoidal weaving direction",
+    "z": "thickness direction, top surface at z=0, gravity stage B is -z"
+  },
+  "divisions": {
+    "nx": 60,
+    "ny": 40,
+    "nz": 12
+  },
+  "expected_hex_cells": 28800,
+  "nominal_cell_m": {
+    "dx": 0.0005,
+    "dy": 0.0005,
+    "dz": 0.0005
+  },
+  "physical_groups": {
+    "top_heat_flux": [
+      6
+    ],
+    "bottom": [
+      5
+    ],
+    "x_inlet_side": [
+      1
+    ],
+    "x_outlet_side": [
+      2
+    ],
+    "y_min_side": [
+      3
+    ],
+    "y_max_side": [
+      4
+    ]
+  },
+  "mesh_file": "inputs/stageA_plate_ansys.msh",
+  "abaqus_file": "generated/stageA_plate_abaqus.inp",
+  "unv_file": "generated/stageA_plate_unv.unv"
+}

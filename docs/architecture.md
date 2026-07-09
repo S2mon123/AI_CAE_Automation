@@ -45,4 +45,3 @@ A task is not complete until it records:
 - output artifacts,
 - known limitations,
 - credibility level.
-

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI CAE local toolchain config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "runs_root": {
+      "type": "string"
+    },
+    "allow_model_writes": {
+      "type": "boolean"
+    },
+    "solver_paths": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/pathMap"
+      }
+    }
+  },
+  "$defs": {
+    "pathMap": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

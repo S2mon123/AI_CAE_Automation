@@ -1,0 +1,2245 @@
+{
+  "status": "ok",
+  "started": "2026-07-07 21:41:59",
+  "pyfluent_version": "0.30.5",
+  "steps": [
+    {
+      "label": "read base case",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "mesh check",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "mesh quality",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "set unsteady first order",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "enable energy",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "convert cell zone to fluid",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "set laminar model",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "create steel material",
+      "status": "ok",
+      "value": "<settings_252.fluid_child object at 0x0000021D34F07C40>"
+    },
+    {
+      "label": "set steel base properties",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "enable solidification melting",
+      "status": "ok",
+      "value": ""
+    },
+    {
+      "label": "set steel melting properties",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "assign steel to fluid zone",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "load q1000 UDF library",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "hook q1000 moving heat source UDF",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write configured case",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "set time step size",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "set max iter per time step",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "hybrid initialize",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 2",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t00p10",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 4",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t00p20",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 6",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t00p30",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 8",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t00p40",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 10",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t00p50",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 12",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t00p60",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 14",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t00p70",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 16",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t00p80",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 18",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t00p90",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 20",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t01p00",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 22",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t01p10",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 24",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t01p20",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 26",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t01p30",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 28",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t01p40",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 30",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t01p50",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 32",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t01p60",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 34",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t01p70",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 36",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t01p80",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 38",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t01p90",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 40",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t02p00",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 42",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t02p10",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 44",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t02p20",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 46",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t02p30",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 48",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t02p40",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 50",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t02p50",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 52",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t02p60",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 54",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t02p70",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 56",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t02p80",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 58",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t02p90",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 60",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t03p00",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 62",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t03p10",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 64",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t03p20",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 66",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t03p30",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 68",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t03p40",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 70",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t03p50",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 72",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t03p60",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 74",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t03p70",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 76",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t03p80",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 78",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t03p90",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 80",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t04p00",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 82",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t04p10",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 84",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t04p20",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 86",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t04p30",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 88",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t04p40",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 90",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t04p50",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 92",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t04p60",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 94",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t04p70",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 96",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t04p80",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 98",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t04p90",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 100",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t05p00",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 102",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t05p10",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 104",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t05p20",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 106",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t05p30",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 108",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t05p40",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 110",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t05p50",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 112",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t05p60",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 114",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t05p70",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 116",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t05p80",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 118",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t05p90",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 120",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t06p00",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 122",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t06p10",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 124",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t06p20",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 126",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t06p30",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 128",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t06p40",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 130",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t06p50",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 132",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t06p60",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 134",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t06p70",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 136",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t06p80",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 138",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t06p90",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 140",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t07p00",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 142",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t07p10",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 144",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t07p20",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 146",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t07p30",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 148",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t07p40",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 150",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t07p50",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 152",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t07p60",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 154",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t07p70",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 156",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t07p80",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 158",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t07p90",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 160",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t08p00",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 162",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t08p10",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 164",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t08p20",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 166",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t08p30",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 168",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t08p40",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 170",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t08p50",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 172",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t08p60",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 174",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t08p70",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 176",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t08p80",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 178",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t08p90",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 180",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t09p00",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 182",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t09p10",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 184",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t09p20",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 186",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t09p30",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 188",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t09p40",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 190",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t09p50",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 192",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t09p60",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 194",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t09p70",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 196",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t09p80",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 198",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t09p90",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "run to dense step 200",
+      "status": "ok",
+      "value": null
+    },
+    {
+      "label": "write dense data t10p00",
+      "status": "ok",
+      "value": null
+    }
+  ],
+  "snapshots": [
+    {
+      "step": 2,
+      "time_s": 0.1,
+      "center": {
+        "time_s": 0.1,
+        "x_mm": 0.30000000000000004,
+        "y_mm": 2.8531695488854605
+      },
+      "data": "private-run/stageA3c_dense_q1000_t00p10.dat.h5"
+    },
+    {
+      "step": 4,
+      "time_s": 0.2,
+      "center": {
+        "time_s": 0.2,
+        "x_mm": 0.6000000000000001,
+        "y_mm": 1.7633557568774199
+      },
+      "data": "private-run/stageA3c_dense_q1000_t00p20.dat.h5"
+    },
+    {
+      "step": 6,
+      "time_s": 0.30000000000000004,
+      "center": {
+        "time_s": 0.30000000000000004,
+        "x_mm": 0.9000000000000002,
+        "y_mm": -1.7633557568774203
+      },
+      "data": "private-run/stageA3c_dense_q1000_t00p30.dat.h5"
+    },
+    {
+      "step": 8,
+      "time_s": 0.4,
+      "center": {
+        "time_s": 0.4,
+        "x_mm": 1.2000000000000002,
+        "y_mm": -2.853169548885461
+      },
+      "data": "private-run/stageA3c_dense_q1000_t00p40.dat.h5"
+    },
+    {
+      "step": 10,
+      "time_s": 0.5,
+      "center": {
+        "time_s": 0.5,
+        "x_mm": 1.5,
+        "y_mm": -7.34788079488412e-16
+      },
+      "data": "private-run/stageA3c_dense_q1000_t00p50.dat.h5"
+    },
+    {
+      "step": 12,
+      "time_s": 0.6000000000000001,
+      "center": {
+        "time_s": 0.6000000000000001,
+        "x_mm": 1.8000000000000005,
+        "y_mm": 2.8531695488854614
+      },
+      "data": "private-run/stageA3c_dense_q1000_t00p60.dat.h5"
+    },
+    {
+      "step": 14,
+      "time_s": 0.7000000000000001,
+      "center": {
+        "time_s": 0.7000000000000001,
+        "x_mm": 2.1,
+        "y_mm": 1.7633557568774203
+      },
+      "data": "private-run/stageA3c_dense_q1000_t00p70.dat.h5"
+    },
+    {
+      "step": 16,
+      "time_s": 0.8,
+      "center": {
+        "time_s": 0.8,
+        "x_mm": 2.4000000000000004,
+        "y_mm": -1.7633557568774185
+      },
+      "data": "private-run/stageA3c_dense_q1000_t00p80.dat.h5"
+    },
+    {
+      "step": 18,
+      "time_s": 0.9,
+      "center": {
+        "time_s": 0.9,
+        "x_mm": 2.7,
+        "y_mm": -2.8531695488854614
+      },
+      "data": "private-run/stageA3c_dense_q1000_t00p90.dat.h5"
+    },
+    {
+      "step": 20,
+      "time_s": 1.0,
+      "center": {
+        "time_s": 1.0,
+        "x_mm": 3.0,
+        "y_mm": -1.469576158976824e-15
+      },
+      "data": "private-run/stageA3c_dense_q1000_t01p00.dat.h5"
+    },
+    {
+      "step": 22,
+      "time_s": 1.1,
+      "center": {
+        "time_s": 1.1,
+        "x_mm": 3.3000000000000003,
+        "y_mm": 2.853169548885462
+      },
+      "data": "private-run/stageA3c_dense_q1000_t01p10.dat.h5"
+    },
+    {
+      "step": 24,
+      "time_s": 1.2000000000000002,
+      "center": {
+        "time_s": 1.2000000000000002,
+        "x_mm": 3.600000000000001,
+        "y_mm": 1.7633557568774165
+      },
+      "data": "private-run/stageA3c_dense_q1000_t01p20.dat.h5"
+    },
+    {
+      "step": 26,
+      "time_s": 1.3,
+      "center": {
+        "time_s": 1.3,
+        "x_mm": 3.9000000000000004,
+        "y_mm": -1.7633557568774179
+      },
+      "data": "private-run/stageA3c_dense_q1000_t01p30.dat.h5"
+    },
+    {
+      "step": 28,
+      "time_s": 1.4000000000000001,
+      "center": {
+        "time_s": 1.4000000000000001,
+        "x_mm": 4.2,
+        "y_mm": -2.8531695488854614
+      },
+      "data": "private-run/stageA3c_dense_q1000_t01p40.dat.h5"
+    },
+    {
+      "step": 30,
+      "time_s": 1.5,
+      "center": {
+        "time_s": 1.5,
+        "x_mm": 4.500000000000001,
+        "y_mm": -2.2043642384652354e-15
+      },
+      "data": "private-run/stageA3c_dense_q1000_t01p50.dat.h5"
+    },
+    {
+      "step": 32,
+      "time_s": 1.6,
+      "center": {
+        "time_s": 1.6,
+        "x_mm": 4.800000000000001,
+        "y_mm": 2.85316954888546
+      },
+      "data": "private-run/stageA3c_dense_q1000_t01p60.dat.h5"
+    },
+    {
+      "step": 34,
+      "time_s": 1.7000000000000002,
+      "center": {
+        "time_s": 1.7000000000000002,
+        "x_mm": 5.1000000000000005,
+        "y_mm": 1.7633557568774127
+      },
+      "data": "private-run/stageA3c_dense_q1000_t01p70.dat.h5"
+    },
+    {
+      "step": 36,
+      "time_s": 1.8,
+      "center": {
+        "time_s": 1.8,
+        "x_mm": 5.4,
+        "y_mm": -1.7633557568774174
+      },
+      "data": "private-run/stageA3c_dense_q1000_t01p80.dat.h5"
+    },
+    {
+      "step": 38,
+      "time_s": 1.9000000000000001,
+      "center": {
+        "time_s": 1.9000000000000001,
+        "x_mm": 5.7,
+        "y_mm": -2.853169548885462
+      },
+      "data": "private-run/stageA3c_dense_q1000_t01p90.dat.h5"
+    },
+    {
+      "step": 40,
+      "time_s": 2.0,
+      "center": {
+        "time_s": 2.0,
+        "x_mm": 6.0,
+        "y_mm": -2.939152317953648e-15
+      },
+      "data": "private-run/stageA3c_dense_q1000_t02p00.dat.h5"
+    },
+    {
+      "step": 42,
+      "time_s": 2.1,
+      "center": {
+        "time_s": 2.1,
+        "x_mm": 6.3,
+        "y_mm": 2.85316954888546
+      },
+      "data": "private-run/stageA3c_dense_q1000_t02p10.dat.h5"
+    },
+    {
+      "step": 44,
+      "time_s": 2.2,
+      "center": {
+        "time_s": 2.2,
+        "x_mm": 6.6000000000000005,
+        "y_mm": 1.7633557568774134
+      },
+      "data": "private-run/stageA3c_dense_q1000_t02p20.dat.h5"
+    },
+    {
+      "step": 46,
+      "time_s": 2.3000000000000003,
+      "center": {
+        "time_s": 2.3000000000000003,
+        "x_mm": 6.9,
+        "y_mm": -1.7633557568774254
+      },
+      "data": "private-run/stageA3c_dense_q1000_t02p30.dat.h5"
+    },
+    {
+      "step": 48,
+      "time_s": 2.4000000000000004,
+      "center": {
+        "time_s": 2.4000000000000004,
+        "x_mm": 7.200000000000002,
+        "y_mm": -2.8531695488854587
+      },
+      "data": "private-run/stageA3c_dense_q1000_t02p40.dat.h5"
+    },
+    {
+      "step": 50,
+      "time_s": 2.5,
+      "center": {
+        "time_s": 2.5,
+        "x_mm": 7.5,
+        "y_mm": -3.67394039744206e-15
+      },
+      "data": "private-run/stageA3c_dense_q1000_t02p50.dat.h5"
+    },
+    {
+      "step": 52,
+      "time_s": 2.6,
+      "center": {
+        "time_s": 2.6,
+        "x_mm": 7.800000000000001,
+        "y_mm": 2.8531695488854596
+      },
+      "data": "private-run/stageA3c_dense_q1000_t02p60.dat.h5"
+    },
+    {
+      "step": 54,
+      "time_s": 2.7,
+      "center": {
+        "time_s": 2.7,
+        "x_mm": 8.100000000000001,
+        "y_mm": 1.7633557568774227
+      },
+      "data": "private-run/stageA3c_dense_q1000_t02p70.dat.h5"
+    },
+    {
+      "step": 56,
+      "time_s": 2.8000000000000003,
+      "center": {
+        "time_s": 2.8000000000000003,
+        "x_mm": 8.4,
+        "y_mm": -1.763355756877416
+      },
+      "data": "private-run/stageA3c_dense_q1000_t02p80.dat.h5"
+    },
+    {
+      "step": 58,
+      "time_s": 2.9000000000000004,
+      "center": {
+        "time_s": 2.9000000000000004,
+        "x_mm": 8.700000000000001,
+        "y_mm": -2.8531695488854556
+      },
+      "data": "private-run/stageA3c_dense_q1000_t02p90.dat.h5"
+    },
+    {
+      "step": 60,
+      "time_s": 3.0,
+      "center": {
+        "time_s": 3.0,
+        "x_mm": 9.000000000000002,
+        "y_mm": -4.408728476930471e-15
+      },
+      "data": "private-run/stageA3c_dense_q1000_t03p00.dat.h5"
+    },
+    {
+      "step": 62,
+      "time_s": 3.1,
+      "center": {
+        "time_s": 3.1,
+        "x_mm": 9.3,
+        "y_mm": 2.853169548885459
+      },
+      "data": "private-run/stageA3c_dense_q1000_t03p10.dat.h5"
+    },
+    {
+      "step": 64,
+      "time_s": 3.2,
+      "center": {
+        "time_s": 3.2,
+        "x_mm": 9.600000000000001,
+        "y_mm": 1.763355756877423
+      },
+      "data": "private-run/stageA3c_dense_q1000_t03p20.dat.h5"
+    },
+    {
+      "step": 66,
+      "time_s": 3.3000000000000003,
+      "center": {
+        "time_s": 3.3000000000000003,
+        "x_mm": 9.9,
+        "y_mm": -1.7633557568774154
+      },
+      "data": "private-run/stageA3c_dense_q1000_t03p30.dat.h5"
+    },
+    {
+      "step": 68,
+      "time_s": 3.4000000000000004,
+      "center": {
+        "time_s": 3.4000000000000004,
+        "x_mm": 10.200000000000001,
+        "y_mm": -2.8531695488854556
+      },
+      "data": "private-run/stageA3c_dense_q1000_t03p40.dat.h5"
+    },
+    {
+      "step": 70,
+      "time_s": 3.5,
+      "center": {
+        "time_s": 3.5,
+        "x_mm": 10.5,
+        "y_mm": -5.143516556418883e-15
+      },
+      "data": "private-run/stageA3c_dense_q1000_t03p50.dat.h5"
+    },
+    {
+      "step": 72,
+      "time_s": 3.6,
+      "center": {
+        "time_s": 3.6,
+        "x_mm": 10.8,
+        "y_mm": 2.8531695488854587
+      },
+      "data": "private-run/stageA3c_dense_q1000_t03p60.dat.h5"
+    },
+    {
+      "step": 74,
+      "time_s": 3.7,
+      "center": {
+        "time_s": 3.7,
+        "x_mm": 11.1,
+        "y_mm": 1.7633557568774236
+      },
+      "data": "private-run/stageA3c_dense_q1000_t03p70.dat.h5"
+    },
+    {
+      "step": 76,
+      "time_s": 3.8000000000000003,
+      "center": {
+        "time_s": 3.8000000000000003,
+        "x_mm": 11.4,
+        "y_mm": -1.7633557568774147
+      },
+      "data": "private-run/stageA3c_dense_q1000_t03p80.dat.h5"
+    },
+    {
+      "step": 78,
+      "time_s": 3.9000000000000004,
+      "center": {
+        "time_s": 3.9000000000000004,
+        "x_mm": 11.700000000000003,
+        "y_mm": -2.853169548885456
+      },
+      "data": "private-run/stageA3c_dense_q1000_t03p90.dat.h5"
+    },
+    {
+      "step": 80,
+      "time_s": 4.0,
+      "center": {
+        "time_s": 4.0,
+        "x_mm": 12.0,
+        "y_mm": -5.878304635907296e-15
+      },
+      "data": "private-run/stageA3c_dense_q1000_t04p00.dat.h5"
+    },
+    {
+      "step": 82,
+      "time_s": 4.1000000000000005,
+      "center": {
+        "time_s": 4.1000000000000005,
+        "x_mm": 12.300000000000002,
+        "y_mm": 2.853169548885466
+      },
+      "data": "private-run/stageA3c_dense_q1000_t04p10.dat.h5"
+    },
+    {
+      "step": 84,
+      "time_s": 4.2,
+      "center": {
+        "time_s": 4.2,
+        "x_mm": 12.6,
+        "y_mm": 1.7633557568774245
+      },
+      "data": "private-run/stageA3c_dense_q1000_t04p20.dat.h5"
+    },
+    {
+      "step": 86,
+      "time_s": 4.3,
+      "center": {
+        "time_s": 4.3,
+        "x_mm": 12.9,
+        "y_mm": -1.763355756877414
+      },
+      "data": "private-run/stageA3c_dense_q1000_t04p30.dat.h5"
+    },
+    {
+      "step": 88,
+      "time_s": 4.4,
+      "center": {
+        "time_s": 4.4,
+        "x_mm": 13.200000000000001,
+        "y_mm": -2.853169548885456
+      },
+      "data": "private-run/stageA3c_dense_q1000_t04p40.dat.h5"
+    },
+    {
+      "step": 90,
+      "time_s": 4.5,
+      "center": {
+        "time_s": 4.5,
+        "x_mm": 13.5,
+        "y_mm": -6.6130927153957075e-15
+      },
+      "data": "private-run/stageA3c_dense_q1000_t04p50.dat.h5"
+    },
+    {
+      "step": 92,
+      "time_s": 4.6000000000000005,
+      "center": {
+        "time_s": 4.6000000000000005,
+        "x_mm": 13.8,
+        "y_mm": 2.8531695488854654
+      },
+      "data": "private-run/stageA3c_dense_q1000_t04p60.dat.h5"
+    },
+    {
+      "step": 94,
+      "time_s": 4.7,
+      "center": {
+        "time_s": 4.7,
+        "x_mm": 14.100000000000001,
+        "y_mm": 1.7633557568774252
+      },
+      "data": "private-run/stageA3c_dense_q1000_t04p70.dat.h5"
+    },
+    {
+      "step": 96,
+      "time_s": 4.800000000000001,
+      "center": {
+        "time_s": 4.800000000000001,
+        "x_mm": 14.400000000000004,
+        "y_mm": -1.763355756877431
+      },
+      "data": "private-run/stageA3c_dense_q1000_t04p80.dat.h5"
+    },
+    {
+      "step": 98,
+      "time_s": 4.9,
+      "center": {
+        "time_s": 4.9,
+        "x_mm": 14.700000000000001,
+        "y_mm": -2.853169548885456
+      },
+      "data": "private-run/stageA3c_dense_q1000_t04p90.dat.h5"
+    },
+    {
+      "step": 100,
+      "time_s": 5.0,
+      "center": {
+        "time_s": 5.0,
+        "x_mm": 15.0,
+        "y_mm": -7.34788079488412e-15
+      },
+      "data": "private-run/stageA3c_dense_q1000_t05p00.dat.h5"
+    },
+    {
+      "step": 102,
+      "time_s": 5.1000000000000005,
+      "center": {
+        "time_s": 5.1000000000000005,
+        "x_mm": 15.3,
+        "y_mm": 2.853169548885465
+      },
+      "data": "private-run/stageA3c_dense_q1000_t05p10.dat.h5"
+    },
+    {
+      "step": 104,
+      "time_s": 5.2,
+      "center": {
+        "time_s": 5.2,
+        "x_mm": 15.600000000000001,
+        "y_mm": 1.7633557568774254
+      },
+      "data": "private-run/stageA3c_dense_q1000_t05p20.dat.h5"
+    },
+    {
+      "step": 106,
+      "time_s": 5.300000000000001,
+      "center": {
+        "time_s": 5.300000000000001,
+        "x_mm": 15.9,
+        "y_mm": -1.7633557568774303
+      },
+      "data": "private-run/stageA3c_dense_q1000_t05p30.dat.h5"
+    },
+    {
+      "step": 108,
+      "time_s": 5.4,
+      "center": {
+        "time_s": 5.4,
+        "x_mm": 16.200000000000003,
+        "y_mm": -2.853169548885463
+      },
+      "data": "private-run/stageA3c_dense_q1000_t05p40.dat.h5"
+    },
+    {
+      "step": 110,
+      "time_s": 5.5,
+      "center": {
+        "time_s": 5.5,
+        "x_mm": 16.5,
+        "y_mm": -2.939895094717554e-14
+      },
+      "data": "private-run/stageA3c_dense_q1000_t05p50.dat.h5"
+    },
+    {
+      "step": 112,
+      "time_s": 5.6000000000000005,
+      "center": {
+        "time_s": 5.6000000000000005,
+        "x_mm": 16.8,
+        "y_mm": 2.8531695488854583
+      },
+      "data": "private-run/stageA3c_dense_q1000_t05p60.dat.h5"
+    },
+    {
+      "step": 114,
+      "time_s": 5.7,
+      "center": {
+        "time_s": 5.7,
+        "x_mm": 17.1,
+        "y_mm": 1.7633557568774088
+      },
+      "data": "private-run/stageA3c_dense_q1000_t05p70.dat.h5"
+    },
+    {
+      "step": 116,
+      "time_s": 5.800000000000001,
+      "center": {
+        "time_s": 5.800000000000001,
+        "x_mm": 17.400000000000002,
+        "y_mm": -1.7633557568774472
+      },
+      "data": "private-run/stageA3c_dense_q1000_t05p80.dat.h5"
+    },
+    {
+      "step": 118,
+      "time_s": 5.9,
+      "center": {
+        "time_s": 5.9,
+        "x_mm": 17.7,
+        "y_mm": -2.853169548885457
+      },
+      "data": "private-run/stageA3c_dense_q1000_t05p90.dat.h5"
+    },
+    {
+      "step": 120,
+      "time_s": 6.0,
+      "center": {
+        "time_s": 6.0,
+        "x_mm": 18.000000000000004,
+        "y_mm": -8.817456953860942e-15
+      },
+      "data": "private-run/stageA3c_dense_q1000_t06p00.dat.h5"
+    },
+    {
+      "step": 122,
+      "time_s": 6.1000000000000005,
+      "center": {
+        "time_s": 6.1000000000000005,
+        "x_mm": 18.3,
+        "y_mm": 2.8531695488854645
+      },
+      "data": "private-run/stageA3c_dense_q1000_t06p10.dat.h5"
+    },
+    {
+      "step": 124,
+      "time_s": 6.2,
+      "center": {
+        "time_s": 6.2,
+        "x_mm": 18.6,
+        "y_mm": 1.7633557568774267
+      },
+      "data": "private-run/stageA3c_dense_q1000_t06p20.dat.h5"
+    },
+    {
+      "step": 126,
+      "time_s": 6.300000000000001,
+      "center": {
+        "time_s": 6.300000000000001,
+        "x_mm": 18.900000000000002,
+        "y_mm": -1.7633557568774292
+      },
+      "data": "private-run/stageA3c_dense_q1000_t06p30.dat.h5"
+    },
+    {
+      "step": 128,
+      "time_s": 6.4,
+      "center": {
+        "time_s": 6.4,
+        "x_mm": 19.200000000000003,
+        "y_mm": -2.8531695488854636
+      },
+      "data": "private-run/stageA3c_dense_q1000_t06p40.dat.h5"
+    },
+    {
+      "step": 130,
+      "time_s": 6.5,
+      "center": {
+        "time_s": 6.5,
+        "x_mm": 19.5,
+        "y_mm": 1.176403703945365e-14
+      },
+      "data": "private-run/stageA3c_dense_q1000_t06p50.dat.h5"
+    },
+    {
+      "step": 132,
+      "time_s": 6.6000000000000005,
+      "center": {
+        "time_s": 6.6000000000000005,
+        "x_mm": 19.8,
+        "y_mm": 2.8531695488854574
+      },
+      "data": "private-run/stageA3c_dense_q1000_t06p60.dat.h5"
+    },
+    {
+      "step": 134,
+      "time_s": 6.7,
+      "center": {
+        "time_s": 6.7,
+        "x_mm": 20.1,
+        "y_mm": 1.7633557568774103
+      },
+      "data": "private-run/stageA3c_dense_q1000_t06p70.dat.h5"
+    },
+    {
+      "step": 136,
+      "time_s": 6.800000000000001,
+      "center": {
+        "time_s": 6.800000000000001,
+        "x_mm": 20.400000000000002,
+        "y_mm": -1.7633557568774458
+      },
+      "data": "private-run/stageA3c_dense_q1000_t06p80.dat.h5"
+    },
+    {
+      "step": 138,
+      "time_s": 6.9,
+      "center": {
+        "time_s": 6.9,
+        "x_mm": 20.700000000000003,
+        "y_mm": -2.8531695488854574
+      },
+      "data": "private-run/stageA3c_dense_q1000_t06p90.dat.h5"
+    },
+    {
+      "step": 140,
+      "time_s": 7.0,
+      "center": {
+        "time_s": 7.0,
+        "x_mm": 21.0,
+        "y_mm": -1.0287033112837767e-14
+      },
+      "data": "private-run/stageA3c_dense_q1000_t07p00.dat.h5"
+    },
+    {
+      "step": 142,
+      "time_s": 7.1000000000000005,
+      "center": {
+        "time_s": 7.1000000000000005,
+        "x_mm": 21.300000000000004,
+        "y_mm": 2.853169548885464
+      },
+      "data": "private-run/stageA3c_dense_q1000_t07p10.dat.h5"
+    },
+    {
+      "step": 144,
+      "time_s": 7.2,
+      "center": {
+        "time_s": 7.2,
+        "x_mm": 21.6,
+        "y_mm": 1.763355756877428
+      },
+      "data": "private-run/stageA3c_dense_q1000_t07p20.dat.h5"
+    },
+    {
+      "step": 146,
+      "time_s": 7.300000000000001,
+      "center": {
+        "time_s": 7.300000000000001,
+        "x_mm": 21.900000000000002,
+        "y_mm": -1.763355756877428
+      },
+      "data": "private-run/stageA3c_dense_q1000_t07p30.dat.h5"
+    },
+    {
+      "step": 148,
+      "time_s": 7.4,
+      "center": {
+        "time_s": 7.4,
+        "x_mm": 22.2,
+        "y_mm": -2.853169548885464
+      },
+      "data": "private-run/stageA3c_dense_q1000_t07p40.dat.h5"
+    },
+    {
+      "step": 150,
+      "time_s": 7.5,
+      "center": {
+        "time_s": 7.5,
+        "x_mm": 22.5,
+        "y_mm": -3.233810326512919e-14
+      },
+      "data": "private-run/stageA3c_dense_q1000_t07p50.dat.h5"
+    },
+    {
+      "step": 152,
+      "time_s": 7.6000000000000005,
+      "center": {
+        "time_s": 7.6000000000000005,
+        "x_mm": 22.8,
+        "y_mm": 2.8531695488854574
+      },
+      "data": "private-run/stageA3c_dense_q1000_t07p60.dat.h5"
+    },
+    {
+      "step": 154,
+      "time_s": 7.7,
+      "center": {
+        "time_s": 7.7,
+        "x_mm": 23.1,
+        "y_mm": 1.7633557568774114
+      },
+      "data": "private-run/stageA3c_dense_q1000_t07p70.dat.h5"
+    },
+    {
+      "step": 156,
+      "time_s": 7.800000000000001,
+      "center": {
+        "time_s": 7.800000000000001,
+        "x_mm": 23.400000000000006,
+        "y_mm": -1.7633557568774447
+      },
+      "data": "private-run/stageA3c_dense_q1000_t07p80.dat.h5"
+    },
+    {
+      "step": 158,
+      "time_s": 7.9,
+      "center": {
+        "time_s": 7.9,
+        "x_mm": 23.700000000000003,
+        "y_mm": -2.8531695488854574
+      },
+      "data": "private-run/stageA3c_dense_q1000_t07p90.dat.h5"
+    },
+    {
+      "step": 160,
+      "time_s": 8.0,
+      "center": {
+        "time_s": 8.0,
+        "x_mm": 24.0,
+        "y_mm": -1.1756609271814592e-14
+      },
+      "data": "private-run/stageA3c_dense_q1000_t08p00.dat.h5"
+    },
+    {
+      "step": 162,
+      "time_s": 8.1,
+      "center": {
+        "time_s": 8.1,
+        "x_mm": 24.299999999999997,
+        "y_mm": 2.8531695488854507
+      },
+      "data": "private-run/stageA3c_dense_q1000_t08p10.dat.h5"
+    },
+    {
+      "step": 164,
+      "time_s": 8.200000000000001,
+      "center": {
+        "time_s": 8.200000000000001,
+        "x_mm": 24.600000000000005,
+        "y_mm": 1.7633557568773948
+      },
+      "data": "private-run/stageA3c_dense_q1000_t08p20.dat.h5"
+    },
+    {
+      "step": 166,
+      "time_s": 8.3,
+      "center": {
+        "time_s": 8.3,
+        "x_mm": 24.900000000000002,
+        "y_mm": -1.7633557568774267
+      },
+      "data": "private-run/stageA3c_dense_q1000_t08p30.dat.h5"
+    },
+    {
+      "step": 168,
+      "time_s": 8.4,
+      "center": {
+        "time_s": 8.4,
+        "x_mm": 25.2,
+        "y_mm": -2.8531695488854645
+      },
+      "data": "private-run/stageA3c_dense_q1000_t08p40.dat.h5"
+    },
+    {
+      "step": 170,
+      "time_s": 8.5,
+      "center": {
+        "time_s": 8.5,
+        "x_mm": 25.500000000000004,
+        "y_mm": 8.824884721500003e-15
+      },
+      "data": "private-run/stageA3c_dense_q1000_t08p50.dat.h5"
+    },
+    {
+      "step": 172,
+      "time_s": 8.6,
+      "center": {
+        "time_s": 8.6,
+        "x_mm": 25.8,
+        "y_mm": 2.853169548885457
+      },
+      "data": "private-run/stageA3c_dense_q1000_t08p60.dat.h5"
+    },
+    {
+      "step": 174,
+      "time_s": 8.700000000000001,
+      "center": {
+        "time_s": 8.700000000000001,
+        "x_mm": 26.100000000000005,
+        "y_mm": 1.7633557568774123
+      },
+      "data": "private-run/stageA3c_dense_q1000_t08p70.dat.h5"
+    },
+    {
+      "step": 176,
+      "time_s": 8.8,
+      "center": {
+        "time_s": 8.8,
+        "x_mm": 26.400000000000002,
+        "y_mm": -1.7633557568774434
+      },
+      "data": "private-run/stageA3c_dense_q1000_t08p80.dat.h5"
+    },
+    {
+      "step": 178,
+      "time_s": 8.9,
+      "center": {
+        "time_s": 8.9,
+        "x_mm": 26.700000000000003,
+        "y_mm": -2.8531695488854583
+      },
+      "data": "private-run/stageA3c_dense_q1000_t08p90.dat.h5"
+    },
+    {
+      "step": 180,
+      "time_s": 9.0,
+      "center": {
+        "time_s": 9.0,
+        "x_mm": 27.0,
+        "y_mm": -1.3226185430791415e-14
+      },
+      "data": "private-run/stageA3c_dense_q1000_t09p00.dat.h5"
+    },
+    {
+      "step": 182,
+      "time_s": 9.1,
+      "center": {
+        "time_s": 9.1,
+        "x_mm": 27.299999999999997,
+        "y_mm": 2.8531695488854503
+      },
+      "data": "private-run/stageA3c_dense_q1000_t09p10.dat.h5"
+    },
+    {
+      "step": 184,
+      "time_s": 9.200000000000001,
+      "center": {
+        "time_s": 9.200000000000001,
+        "x_mm": 27.6,
+        "y_mm": 1.7633557568773957
+      },
+      "data": "private-run/stageA3c_dense_q1000_t09p20.dat.h5"
+    },
+    {
+      "step": 186,
+      "time_s": 9.3,
+      "center": {
+        "time_s": 9.3,
+        "x_mm": 27.900000000000002,
+        "y_mm": -1.7633557568774254
+      },
+      "data": "private-run/stageA3c_dense_q1000_t09p30.dat.h5"
+    },
+    {
+      "step": 188,
+      "time_s": 9.4,
+      "center": {
+        "time_s": 9.4,
+        "x_mm": 28.200000000000003,
+        "y_mm": -2.853169548885465
+      },
+      "data": "private-run/stageA3c_dense_q1000_t09p40.dat.h5"
+    },
+    {
+      "step": 190,
+      "time_s": 9.5,
+      "center": {
+        "time_s": 9.5,
+        "x_mm": 28.5,
+        "y_mm": -3.527725558308283e-14
+      },
+      "data": "private-run/stageA3c_dense_q1000_t09p50.dat.h5"
+    },
+    {
+      "step": 192,
+      "time_s": 9.600000000000001,
+      "center": {
+        "time_s": 9.600000000000001,
+        "x_mm": 28.800000000000008,
+        "y_mm": 2.85316954888547
+      },
+      "data": "private-run/stageA3c_dense_q1000_t09p60.dat.h5"
+    },
+    {
+      "step": 194,
+      "time_s": 9.700000000000001,
+      "center": {
+        "time_s": 9.700000000000001,
+        "x_mm": 29.100000000000005,
+        "y_mm": 1.7633557568774136
+      },
+      "data": "private-run/stageA3c_dense_q1000_t09p70.dat.h5"
+    },
+    {
+      "step": 196,
+      "time_s": 9.8,
+      "center": {
+        "time_s": 9.8,
+        "x_mm": 29.400000000000002,
+        "y_mm": -1.763355756877442
+      },
+      "data": "private-run/stageA3c_dense_q1000_t09p80.dat.h5"
+    },
+    {
+      "step": 198,
+      "time_s": 9.9,
+      "center": {
+        "time_s": 9.9,
+        "x_mm": 29.7,
+        "y_mm": -2.8531695488854587
+      },
+      "data": "private-run/stageA3c_dense_q1000_t09p90.dat.h5"
+    },
+    {
+      "step": 200,
+      "time_s": 10.0,
+      "center": {
+        "time_s": 10.0,
+        "x_mm": 30.0,
+        "y_mm": -1.469576158976824e-14
+      },
+      "data": "private-run/stageA3c_dense_q1000_t10p00.dat.h5"
+    }
+  ],
+  "time_step_s": 0.05,
+  "save_interval_s": 0.1,
+  "total_steps": 200,
+  "checkpoint_steps": [
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    22,
+    24,
+    26,
+    28,
+    30,
+    32,
+    34,
+    36,
+    38,
+    40,
+    42,
+    44,
+    46,
+    48,
+    50,
+    52,
+    54,
+    56,
+    58,
+    60,
+    62,
+    64,
+    66,
+    68,
+    70,
+    72,
+    74,
+    76,
+    78,
+    80,
+    82,
+    84,
+    86,
+    88,
+    90,
+    92,
+    94,
+    96,
+    98,
+    100,
+    102,
+    104,
+    106,
+    108,
+    110,
+    112,
+    114,
+    116,
+    118,
+    120,
+    122,
+    124,
+    126,
+    128,
+    130,
+    132,
+    134,
+    136,
+    138,
+    140,
+    142,
+    144,
+    146,
+    148,
+    150,
+    152,
+    154,
+    156,
+    158,
+    160,
+    162,
+    164,
+    166,
+    168,
+    170,
+    172,
+    174,
+    176,
+    178,
+    180,
+    182,
+    184,
+    186,
+    188,
+    190,
+    192,
+    194,
+    196,
+    198,
+    200
+  ],
+  "max_iter_per_step": 3,
+  "heat_source": {
+    "Q_W": 1000.0,
+    "v_m_per_s": 0.003,
+    "A_m": 0.003,
+    "freq_Hz": 2.0,
+    "r_beam_m": 0.003
+  },
+  "wall_after_hook": {
+    "name": "default_exterior-1",
+    "momentum": {
+      "wall_motion": "Stationary Wall",
+      "shear_condition": "No Slip"
+    },
+    "thermal": {
+      "thermal_condition": "Heat Flux",
+      "material": "aluminum",
+      "heat_flux": {
+        "option": "udf",
+        "udf": "moving_heat_source_sinusoidal_q1000::libudf_stageA3_q1000"
+      },
+      "wall_thickness": {
+        "option": "value",
+        "value": 0
+      },
+      "heat_generation_rate": {
+        "option": "value",
+        "value": 0
+      },
+      "enable_shell_conduction": false,
+      "contact_resistance": {
+        "option": "value",
+        "value": 0
+      },
+      "caf": {
+        "option": "value",
+        "value": 1
+      }
+    }
+  },
+  "finished": "2026-07-07 21:50:37"
+}

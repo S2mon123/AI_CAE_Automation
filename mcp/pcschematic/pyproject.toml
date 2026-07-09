@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-cae-pcschematic-mcp"
+version = "0.2.0"
+description = "PCSCHEMATIC-focused MCP entry point for AI CAE Automation Lab."
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = ["mcp>=1.0,<2.0"]
+
+[project.scripts]
+ai-cae-pcschematic-mcp = "server:main"
+
+[tool.setuptools]
+py-modules = ["server"]

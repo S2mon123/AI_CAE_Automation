@@ -5,46 +5,11 @@ import json
 import os
 import shutil
 from dataclasses import asdict, dataclass
-from pathlib import Path
+from typing import Any
 
-
-DEFAULT_CANDIDATES = {
-    "abaqus": [
-        r"C:\SIMULIA\Commands\abaqus.bat",
-        r"D:\SIMULIA\Commands\abaqus.bat",
-        r"G:\SIMULIA\Commands\abaqus.bat",
-    ],
-    "fluent": [
-        r"C:\Program Files\ANSYS Inc",
-        r"D:\Program Files\ANSYS Inc",
-    ],
-    "comsol": [
-        r"C:\Program Files\COMSOL",
-        r"D:\Program Files\COMSOL",
-    ],
-    "matlab": [
-        r"C:\Program Files\MATLAB",
-        r"D:\Program Files\MATLAB",
-    ],
-    "pcschematic": [
-        r"C:\Program Files\PCSCHEMATIC\PCSELCAD\PCsELcad.exe",
-        r"C:\PCSCHEMATIC\PCSELCAD\PCsELcad.exe",
-        r"D:\PCSCHEMATIC\PCSELCAD\PCsELcad.exe",
-    ],
-}
-
-ENV_CANDIDATES = {
-    "abaqus": ["ABAQUS_COMMAND"],
-    "fluent": ["FLUENT_EXE", "FLUENT_ROOT"],
-    "comsol": ["COMSOL_EXE", "COMSOL_ROOT"],
-    "matlab": ["MATLAB_EXE", "MATLABROOT"],
-    "pcschematic": [
-        "PCSCHEMATIC_EXE",
-        "PCSCHEMATIC_ROOT",
-        "PCSCHEMATIC_TLB",
-        "PCSCHEMATIC_DOCS",
-    ],
-}
+from .adapters.openfoam import openfoam_check_install
+from .adapters.paraview import paraview_check_install
+from .discovery import discover_toolchains
 
 
 @dataclass
@@ -54,13 +19,9 @@ class CheckResult:
     details: list[str]
 
 
-def path_exists(path: str) -> bool:
-    return Path(path).exists()
-
-
 def check_python() -> CheckResult:
     details = [
-        f"sys executable from environment: {shutil.which('python') or 'not on PATH'}",
+        f"python on PATH: {shutil.which('python') or 'not found'}",
         f"conda python: {os.environ.get('CONDA_PYTHON_EXE', 'not set')}",
     ]
     return CheckResult("python", "ok", details)
@@ -73,23 +34,59 @@ def check_command(name: str) -> CheckResult:
     return CheckResult(name, "missing", [f"{name} not found on PATH"])
 
 
-def check_candidates(name: str, candidates: list[str]) -> CheckResult:
-    env_paths = [
-        value
-        for var in ENV_CANDIDATES.get(name, [])
-        for value in [os.environ.get(var)]
-        if value
+def _details_from_adapter(payload: dict[str, Any]) -> list[str]:
+    details: list[str] = [payload.get("message", "")]
+    checks = payload.get("checks", {})
+    if isinstance(checks, dict):
+        for key, item in checks.items():
+            if isinstance(item, dict):
+                details.append(f"{key}: {item.get('path') or 'not set'} exists={item.get('exists')}")
+    return [item for item in details if item]
+
+
+def _details_from_discovery(record: dict[str, Any]) -> list[str]:
+    details: list[str] = []
+    paths = record.get("paths", {})
+    sources = record.get("sources", {})
+    if isinstance(paths, dict):
+        for key, value in sorted(paths.items()):
+            source = sources.get(key) if isinstance(sources, dict) else None
+            suffix = f" ({source})" if source else ""
+            details.append(f"{key}: {value}{suffix}")
+    messages = record.get("messages", [])
+    if isinstance(messages, list):
+        details.extend(str(item) for item in messages)
+    if not details:
+        details.append("not found; run ai-cae-toolbox setup or set a private local config/environment variable")
+    return details
+
+
+def check_discovered_solver(name: str, discovery: dict[str, Any]) -> CheckResult:
+    record = discovery.get("solvers", {}).get(name, {})
+    if not isinstance(record, dict):
+        return CheckResult(name, "unknown", ["discovery record not available"])
+    return CheckResult(name, record.get("status", "unknown"), _details_from_discovery(record))
+
+
+def check_openfoam() -> CheckResult:
+    payload = openfoam_check_install()
+    return CheckResult("openfoam", payload.get("status", "missing"), _details_from_adapter(payload))
+
+
+def check_paraview() -> CheckResult:
+    payload = paraview_check_install()
+    return CheckResult("paraview", payload.get("status", "missing"), _details_from_adapter(payload))
+
+
+def run_checks(deep: bool = False) -> list[CheckResult]:
+    discovery = discover_toolchains(deep=deep)
+    results = [
+        check_python(),
+        check_command("git"),
     ]
-    hits = [path for path in [*env_paths, *candidates] if path_exists(path)]
-    if hits:
-        return CheckResult(name, "ok", hits)
-    return CheckResult(name, "missing", [f"no known candidate exists for {name}"])
-
-
-def run_checks() -> list[CheckResult]:
-    results = [check_python(), check_command("git")]
-    for name, candidates in DEFAULT_CANDIDATES.items():
-        results.append(check_candidates(name, candidates))
+    for name in ("abaqus", "ansys", "fluent", "workbench", "comsol", "matlab", "pcschematic"):
+        results.append(check_discovered_solver(name, discovery))
+    results.extend([check_openfoam(), check_paraview()])
     return results
 
 
@@ -105,9 +102,10 @@ def format_text(results: list[CheckResult]) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Check local CAE automation environment.")
     parser.add_argument("--json", action="store_true", help="Print JSON output.")
+    parser.add_argument("--deep", action="store_true", help="Use slower discovery rules where supported.")
     args = parser.parse_args()
 
-    results = run_checks()
+    results = run_checks(deep=args.deep)
     if args.json:
         print(json.dumps([asdict(item) for item in results], ensure_ascii=False, indent=2))
     else:

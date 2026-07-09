@@ -1,4 +1,7 @@
 .venv/
+.env
+.env.*
+!.env.example
 __pycache__/
 *.pyc
 .pytest_cache/
@@ -7,6 +10,15 @@ __pycache__/
 *.egg-info/
 
 # Solver outputs and heavy artifacts
+*.class
+*.jar
+*.mphbin
+*.cas.h5
+*.dat.h5
+*.trn
+*.dmp
+*.ip
+*.lck
 *.odb
 *.sim
 *.dat
@@ -27,6 +39,8 @@ __pycache__/
 *.stp
 *.iges
 *.igs
+*.pro
+*.PRO
 
 # Local evidence bundles
 runs/
@@ -40,9 +54,27 @@ secrets/
 *.jpg
 *.jpeg
 *.mp4
+*.pdf
+*.docx
+*.xlsx
+*.xls
+*.tsv
 
 # OS/editor
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+
+# AI-CAE:fluent-weld-pool-example:START
+# Public sample outputs and seed inputs for the Fluent weld-pool example.
+!examples/fluent-sinusoidal-weld-pool/
+!examples/fluent-sinusoidal-weld-pool/**
+examples/fluent-sinusoidal-weld-pool/runs/
+examples/fluent-sinusoidal-weld-pool/outputs/
+examples/fluent-sinusoidal-weld-pool/**/libudf*/
+examples/fluent-sinusoidal-weld-pool/**/*.cas.h5
+examples/fluent-sinusoidal-weld-pool/**/*.dat.h5
+examples/fluent-sinusoidal-weld-pool/**/*.mp4
+examples/fluent-sinusoidal-weld-pool/**/*.log
+# AI-CAE:fluent-weld-pool-example:END

@@ -1,0 +1,5 @@
+[mcp_servers.ai_cae_matlab]
+command = "python"
+args = ["mcp/matlab/server.py"]
+env = { AI_CAE_TOOLBOX_CONFIG = "private/ai-cae.local.json" }
+

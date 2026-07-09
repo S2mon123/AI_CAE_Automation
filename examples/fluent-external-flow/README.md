@@ -28,4 +28,3 @@ runs/
 - residual history,
 - Cl/Cd monitor,
 - pressure and velocity images.
-

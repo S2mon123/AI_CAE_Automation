@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "ai-cae-automation-lab": {
+      "command": "<REPO_ROOT>/.venv/Scripts/ai-cae-mcp-server.exe",
+      "args": [],
+      "env": {
+        "ABAQUS_COMMAND": "<optional-path-to-abaqus-command>",
+        "ANSYS_ROOT": "<optional-path-to-ansys-root>",
+        "FLUENT_ROOT": "<optional-path-to-ansys-root>",
+        "FLUENT_EXE": "<optional-path-to-fluent-exe>",
+        "WORKBENCH_EXE": "<optional-path-to-runwb2-exe>",
+        "COMSOL_ROOT": "<optional-path-to-comsol-root>",
+        "COMSOL_BATCH": "<optional-path-to-comsolbatch-exe>",
+        "COMSOL_COMPILE": "<optional-path-to-comsolcompile-exe>",
+        "COMSOL_MPHSERVER": "<optional-path-to-comsolmphserver-exe>",
+        "COMSOL_JAVA": "<optional-path-to-comsol-java>",
+        "MATLABROOT": "<optional-path-to-matlab-root>",
+        "MATLAB_EXE": "<optional-path-to-matlab-exe>",
+        "OPENFOAM_ROOT": "<optional-path-to-openfoam-root>",
+        "WM_PROJECT_DIR": "<optional-openfoam-project-dir>",
+        "PARAVIEW_ROOT": "<optional-path-to-paraview-root>",
+        "PVPYTHON_EXE": "<optional-path-to-pvpython-exe>",
+        "PCSCHEMATIC_ROOT": "<optional-path-to-pcschematic-root>",
+        "PCSCHEMATIC_EXE": "<optional-path-to-pcschematic-exe>",
+        "PCSCHEMATIC_TLB": "<optional-path-to-pcschematic-tlb>"
+      }
+    }
+  }
+}

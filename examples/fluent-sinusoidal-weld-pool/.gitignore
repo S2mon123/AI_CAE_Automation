@@ -1,0 +1,6 @@
+runs/
+outputs/
+__pycache__/
+libudf*/
+*.dat.h5
+*.log

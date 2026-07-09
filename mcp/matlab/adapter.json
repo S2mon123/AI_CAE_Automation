@@ -1,0 +1,9 @@
+{
+  "name": "matlab",
+  "license": "MIT",
+  "maturity": "minimal",
+  "entry_point": "ai-cae-mcp-server",
+  "tools": ["matlab_check_installation", "matlab_run_script_file"],
+  "required_env": ["MATLAB_EXE", "MATLABROOT"],
+  "bundles_solver": false
+}

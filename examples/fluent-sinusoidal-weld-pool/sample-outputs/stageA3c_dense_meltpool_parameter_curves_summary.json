@@ -1,0 +1,23 @@
+{
+  "status": "ok",
+  "input_csv": "private-run/stageA3c_dense_melt_pool_depth_sections_timeseries.csv",
+  "output_png": "private-run/stageA3c_dense_meltpool_parameter_curves.png",
+  "output_svg": "private-run/stageA3c_dense_meltpool_parameter_curves.svg",
+  "sample_count": 240,
+  "time_range_s": [
+    0.0,
+    10.0
+  ],
+  "max_source_plane_depth": {
+    "value_mm": 1.25,
+    "time_s": 9.707112970711297
+  },
+  "max_midplane_depth": {
+    "value_mm": 1.25,
+    "time_s": 9.790794979079497
+  },
+  "notes": [
+    "Depth is estimated from liquid_fraction >= 0.5.",
+    "Stage A3c through-thickness mesh resolution is about 0.5 mm, so depth values are diagnostic rather than report-grade."
+  ]
+}

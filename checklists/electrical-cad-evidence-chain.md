@@ -46,4 +46,3 @@ Use this checklist for PCSCHEMATIC Automation or similar electrical CAD workflow
 - Every symbol traces to the symbol library.
 - Exported lists match project content.
 - Unverified items are listed explicitly.
-

@@ -33,4 +33,3 @@
 - No proprietary geometry.
 - No solver license files.
 - No false claims of verified results.
-

@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.2",
+  "execution_status": "success",
+  "credibility_grade": "functional-validation",
+  "counts": {
+    "run_metadata": 2,
+    "script": 2,
+    "log": 3,
+    "solver_output": 1,
+    "evidence_metadata": 1
+  },
+  "log_analysis": [
+    {
+      "path": "logs/comsol_compile.log",
+      "status": "success",
+      "signals": [
+        {
+          "category": "success",
+          "text": "RETURN_CODE: 0"
+        }
+      ]
+    },
+    {
+      "path": "logs/comsol_class_batch.log",
+      "status": "success",
+      "signals": [
+        {
+          "category": "success",
+          "text": "AI_CAE_MPH_LOADABLE"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Example only: generated from a successful local smoke run shape, not a bundled solver result.",
+    "A real evidence.json must be produced by scan_run_evidence on the user machine."
+  ]
+}

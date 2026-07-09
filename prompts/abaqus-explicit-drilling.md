@@ -27,4 +27,3 @@ Build and run a drilling or penetration validation case. The first target is a f
 # Evidence
 Export `.sta`, `.msg`, `.odb`, viewport images, center-section images, and CSV curves for RF3, RM3, STATUS/SDEG, PEEQ, Mises, ALLKE, ALLIE, ALLWK, and ETOTAL.
 ```
-

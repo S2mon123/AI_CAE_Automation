@@ -1,0 +1,30 @@
+{
+  "status": "ok",
+  "source": "Dense Stage A3c Fluent data, 100 saved .dat.h5 checkpoints at 0.10 s interval.",
+  "fps": 24,
+  "duration_s": 10.0,
+  "frame_count": 240,
+  "source_case": "private-run/stageA3c_dense_q1000.cas.h5",
+  "source_snapshot_count": 100,
+  "temperature_cloud_video": {
+    "mp4": "private-run/stageA3c_dense_realtime_temperature_cloud_top_surface.mp4",
+    "mp4_bytes": 5043617,
+    "frame_dir": "private-run/stageA3c_dense_temperature_cloud_frames",
+    "frame_count": 240,
+    "encoding": {
+      "returncode": 0,
+      "stderr_tail": "(libopenh264))\nPress [q] to stop, [?] for help\n[libopenh264 @ 0000020dd4be0940] [OpenH264] this = 0x0000020dd4bef750, Warning:layerId(0) doesn't support profile(578), change to UNSPECIFIC profile\n[libopenh264 @ 0000020dd4be0940] [OpenH264] this = 0x0000020dd4bef750, Warning:bEnableFrameSkip = 0,bitrate can't be controlled for RC_QUALITY_MODE,RC_BITRATE_MODE and RC_TIMESTAMP_MODE without enabling skip frame.\nOutput #0, mp4, to 'private-run/stageA3c_dense_realtime_temperature_cloud_top_surface.tmp.mp4':\n  Metadata:\n    encoder         : Lavf61.7.100\n  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 8000 kb/s, 24 fps, 12288 tbn\n      Metadata:\n        encoder         : Lavc61.19.101 libopenh264\n      Side data:\n        cpb: bitrate max/min/avg: 8000000/0/8000000 buffer size: 0 vbv_delay: N/A\nframe=   20 fps=0.0 q=-0.0 size=     256KiB time=00:00:00.75 bitrate=2796.7kbits/s speed=1.45x    \nframe=   51 fps= 48 q=-0.0 size=     768KiB time=00:00:02.12 bitrate=2960.9kbits/s speed=   2x    \nframe=   79 fps= 50 q=-0.0 size=    1280KiB time=00:00:03.29 bitrate=3185.7kbits/s speed=2.09x    \nframe=  104 fps= 50 q=-0.0 size=    1792KiB time=00:00:04.33 bitrate=3387.8kbits/s speed=2.08x    \nframe=  135 fps= 52 q=-0.0 size=    2560KiB time=00:00:05.62 bitrate=3728.3kbits/s speed=2.16x    \nframe=  161 fps= 52 q=-0.0 size=    3072KiB time=00:00:06.70 bitrate=3751.5kbits/s speed=2.15x    \nframe=  190 fps= 52 q=-0.0 size=    3840KiB time=00:00:07.91 bitrate=3973.6kbits/s speed=2.18x    \nframe=  216 fps= 52 q=-0.0 size=    4352KiB time=00:00:09.00 bitrate=3961.3kbits/s speed=2.17x    \n[mp4 @ 0000020dd4ba6dc0] Starting second pass: moving the moov atom to the beginning of the file\n[out#0/mp4 @ 0000020dd4b67880] video:4924KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.037031%\nframe=  240 fps= 53 q=-0.0 Lsize=    4925KiB time=00:00:10.00 bitrate=4034.9kbits/s speed=2.19x    \n"
+    }
+  },
+  "melt_pool_section_video": {
+    "mp4": "private-run/stageA3c_dense_melt_pool_depth_sections.mp4",
+    "mp4_bytes": 5070976,
+    "frame_dir": "private-run/stageA3c_dense_melt_pool_depth_frames",
+    "frame_count": 240,
+    "depth_csv": "private-run/stageA3c_dense_melt_pool_depth_sections_timeseries.csv",
+    "encoding": {
+      "returncode": 0,
+      "stderr_tail": "tive) -> h264 (libopenh264))\nPress [q] to stop, [?] for help\n[libopenh264 @ 000001efc1d2e2c0] [OpenH264] this = 0x000001efbf3dd6d0, Warning:layerId(0) doesn't support profile(578), change to UNSPECIFIC profile\n[libopenh264 @ 000001efc1d2e2c0] [OpenH264] this = 0x000001efbf3dd6d0, Warning:bEnableFrameSkip = 0,bitrate can't be controlled for RC_QUALITY_MODE,RC_BITRATE_MODE and RC_TIMESTAMP_MODE without enabling skip frame.\nOutput #0, mp4, to 'private-run/stageA3c_dense_melt_pool_depth_sections.tmp.mp4':\n  Metadata:\n    encoder         : Lavf61.7.100\n  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 8000 kb/s, 24 fps, 12288 tbn\n      Metadata:\n        encoder         : Lavc61.19.101 libopenh264\n      Side data:\n        cpb: bitrate max/min/avg: 8000000/0/8000000 buffer size: 0 vbv_delay: N/A\nframe=   16 fps=0.0 q=-0.0 size=       0KiB time=00:00:00.70 bitrate=   0.5kbits/s speed= 1.4x    \nframe=   47 fps= 46 q=-0.0 size=     768KiB time=00:00:01.95 bitrate=3212.9kbits/s speed=1.91x    \nframe=   72 fps= 47 q=-0.0 size=    1024KiB time=00:00:03.00 bitrate=2796.3kbits/s speed=1.94x    \nframe=   99 fps= 48 q=-0.0 size=    1792KiB time=00:00:04.12 bitrate=3558.9kbits/s speed=2.01x    \nframe=  129 fps= 50 q=-0.0 size=    2304KiB time=00:00:05.37 bitrate=3511.6kbits/s speed=2.09x    \nframe=  156 fps= 51 q=-0.0 size=    2816KiB time=00:00:06.66 bitrate=3460.4kbits/s speed=2.16x    \nframe=  187 fps= 52 q=-0.0 size=    3584KiB time=00:00:07.79 bitrate=3768.2kbits/s speed=2.16x    \nframe=  215 fps= 52 q=-0.0 size=    4096KiB time=00:00:08.95 bitrate=3745.7kbits/s speed=2.18x    \n[mp4 @ 000001efbf39ac40] Starting second pass: moving the moov atom to the beginning of the file\n[out#0/mp4 @ 000001efbf362e80] video:4950KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.036831%\nframe=  240 fps= 52 q=-0.0 Lsize=    4952KiB time=00:00:10.00 bitrate=4056.8kbits/s speed=2.17x    \n"
+    }
+  }
+}

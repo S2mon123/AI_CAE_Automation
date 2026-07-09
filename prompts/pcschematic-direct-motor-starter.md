@@ -114,4 +114,3 @@ Report:
 6. exported files,
 7. credibility level and remaining manual review items.
 ```
-

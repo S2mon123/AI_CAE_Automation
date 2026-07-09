@@ -1,0 +1,16 @@
+[mcp_servers.ai-cae-automation-lab]
+command = "<REPO_ROOT>/.venv/Scripts/ai-cae-mcp-server.exe"
+args = []
+startup_timeout_sec = 120
+
+[mcp_servers.ai-cae-automation-lab.env]
+# Recommended: generate this file with `ai-cae-toolbox setup`.
+AI_CAE_TOOLBOX_CONFIG = "<REPO_ROOT>/private/ai-cae.local.json"
+
+# Optional override style for advanced users. Prefer private config over committed paths.
+# ABAQUS_COMMAND = "<optional-path-to-abaqus-command>"
+# FLUENT_EXE = "<optional-path-to-fluent-exe>"
+# WORKBENCH_EXE = "<optional-path-to-runwb2-exe>"
+# COMSOL_BATCH = "<optional-path-to-comsolbatch-exe>"
+# MATLAB_EXE = "<optional-path-to-matlab-exe>"
+# PCSCHEMATIC_EXE = "<optional-path-to-pcschematic-exe>"

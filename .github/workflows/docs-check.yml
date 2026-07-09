@@ -12,13 +12,31 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install package
+        run: python -m pip install -e .
       - name: Compile Python
         run: python -m compileall src scripts
+      - name: Run unit tests
+        run: python -m unittest discover -s tests
       - name: Check required docs
         run: |
           test -f README.md
           test -f README.zh-CN.md
           test -f docs/architecture.md
+          test -f docs/deep-solver-bridge-mcp.md
           test -f checklists/smoke-test.md
           test -f prompts/pcschematic-direct-motor-starter.md
+          test -f prompts/comsol-ehd-soybean-drying.md
           test -f docs/electrical-cad-automation.md
+          test -f docs/mit-reference-and-mcp-restructure.md
+          test -f mcp/MANIFEST.json
+          test -f mcp/LICENSE.md
+          test -f mcp/comsol/server.py
+          test -f mcp/abaqus/server.py
+          test -f "mcp/ansys/Fluent MCP/server.py"
+          test -f Skill/README.md
+      - name: Check public safety patterns
+        shell: bash
+        run: |
+          ! grep -RInE '[A-Z]:\\' \
+            --exclude-dir=.git --exclude-dir=runs --exclude-dir=.venv .

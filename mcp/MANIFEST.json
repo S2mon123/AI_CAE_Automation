@@ -1,0 +1,133 @@
+{
+  "name": "ai-cae-automation-lab-mcp",
+  "license": "MIT",
+  "entry_point": "ai-cae-mcp-server",
+  "server_module": "ai_cae_lab.mcp_server",
+  "tools": [
+    "env_check",
+    "discover_toolchains",
+    "setup_local_toolchain",
+    "write_local_toolchain_config",
+    "write_toolchain_activation_script",
+    "write_codex_mcp_config",
+    "list_codex_skills",
+    "list_solver_adapters",
+    "create_run_record",
+    "solver_context_scope",
+    "solver_toolchain_paths",
+    "solver_bridge_plan",
+    "write_solver_smoke_template",
+    "scan_run_evidence",
+    "generate_run_report",
+    "abaqus_run_no_gui_script",
+    "abaqus_submit_input_deck",
+    "fluent_run_journal_file",
+    "ansys_check_installation",
+    "ansys_run_workbench_journal_file",
+    "comsol_check_installation",
+    "comsol_run_java_model_to_mph_file",
+    "comsol_validate_mph_loadable_file",
+    "comsol_write_mph_validator_java",
+    "comsol_write_cube_smoke_java",
+    "comsol_compile_java_file",
+    "comsol_run_compiled_java_class",
+    "comsol_run_batch_file",
+    "matlab_check_installation",
+    "matlab_run_script_file",
+    "openfoam_check_installation",
+    "openfoam_run_case_command",
+    "paraview_check_installation",
+    "paraview_run_pvpython_script",
+    "pcschematic_check_installation"
+  ],
+  "adapters": [
+    "abaqus",
+    "fluent",
+    "ansys-workbench",
+    "comsol",
+    "matlab",
+    "openfoam",
+    "paraview",
+    "pcschematic"
+  ],
+  "public_safety": {
+    "bundles_commercial_solvers": false,
+    "bundles_vendor_manuals": false,
+    "bundles_private_results": false,
+    "requires_user_owned_solver_installations": true
+  },
+  "server_package": {
+    "path": "mcp/servers/ai-cae-automation-lab",
+    "entry_script": "mcp/servers/ai-cae-automation-lab/server.py",
+    "tool_groups": [
+      "discovery_tools",
+      "bridge_tools",
+      "run_tools",
+      "evidence_tools",
+      "abaqus_tools",
+      "ansys_tools",
+      "comsol_tools",
+      "matlab_tools",
+      "openfoam_tools",
+      "paraview_tools",
+      "pcschematic_tools"
+    ],
+    "schemas": [
+      "toolchain.schema.json",
+      "run-request.schema.json",
+      "evidence-summary.schema.json"
+    ]
+  },
+  "solver_packages": [
+    {
+      "profile": "abaqus",
+      "path": "mcp/abaqus",
+      "entry_script": "mcp/abaqus/server.py"
+    },
+    {
+      "profile": "fluent",
+      "path": "mcp/ansys/Fluent MCP",
+      "entry_script": "mcp/ansys/Fluent MCP/server.py"
+    },
+    {
+      "profile": "workbench",
+      "path": "mcp/ansys/Workbench MCP",
+      "entry_script": "mcp/ansys/Workbench MCP/server.py"
+    },
+    {
+      "profile": "comsol",
+      "path": "mcp/comsol",
+      "entry_script": "mcp/comsol/server.py"
+    },
+    {
+      "profile": "matlab",
+      "path": "mcp/matlab",
+      "entry_script": "mcp/matlab/server.py"
+    },
+    {
+      "profile": "openfoam",
+      "path": "mcp/openfoam",
+      "entry_script": "mcp/openfoam/server.py"
+    },
+    {
+      "profile": "paraview",
+      "path": "mcp/paraview",
+      "entry_script": "mcp/paraview/server.py"
+    },
+    {
+      "profile": "pcschematic",
+      "path": "mcp/pcschematic",
+      "entry_script": "mcp/pcschematic/server.py"
+    }
+  ],
+  "profiles": [
+    "abaqus",
+    "ansys-workbench",
+    "comsol",
+    "fluent",
+    "matlab",
+    "openfoam",
+    "paraview",
+    "pcschematic"
+  ]
+}

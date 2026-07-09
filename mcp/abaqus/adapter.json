@@ -1,0 +1,9 @@
+{
+  "name": "abaqus",
+  "license": "MIT",
+  "maturity": "minimal",
+  "entry_point": "ai-cae-mcp-server",
+  "tools": ["abaqus_run_no_gui_script", "abaqus_submit_input_deck"],
+  "required_env": ["ABAQUS_COMMAND"],
+  "bundles_solver": false
+}

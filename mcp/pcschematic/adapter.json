@@ -1,0 +1,9 @@
+{
+  "name": "pcschematic",
+  "license": "MIT",
+  "maturity": "minimal",
+  "entry_point": "ai-cae-mcp-server",
+  "tools": ["pcschematic_check_installation"],
+  "required_env": ["PCSCHEMATIC_EXE", "PCSCHEMATIC_ROOT", "PCSCHEMATIC_TLB"],
+  "bundles_solver": false
+}

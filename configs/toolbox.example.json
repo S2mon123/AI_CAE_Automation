@@ -1,0 +1,56 @@
+{
+  "runs_root": "runs",
+  "hash_size_limit_mb": 64,
+  "public_release_rules": {
+    "allow_prompts": true,
+    "allow_checklists": true,
+    "allow_lightweight_scripts": true,
+    "block_private_paths": true,
+    "block_solver_outputs": true,
+    "block_commercial_manuals": true,
+    "block_credentials": true
+  },
+  "solver_environment_variables": {
+    "abaqus": ["ABAQUS_COMMAND"],
+    "ansys": ["ANSYS_ROOT", "WORKBENCH_EXE", "ANSYS_WORKBENCH_EXE"],
+    "fluent": ["FLUENT_EXE", "FLUENT_ROOT"],
+    "comsol": ["COMSOL_EXE", "COMSOL_ROOT", "COMSOL_BATCH", "COMSOL_COMPILE", "COMSOL_MPHSERVER", "COMSOL_JAVA"],
+    "matlab": ["MATLAB_EXE", "MATLABROOT"],
+    "openfoam": ["OPENFOAM_ROOT", "WM_PROJECT_DIR", "OPENFOAM_BLOCKMESH", "OPENFOAM_CHECKMESH"],
+    "paraview": ["PARAVIEW_ROOT", "PVPYTHON_EXE"],
+    "pcschematic": ["PCSCHEMATIC_EXE", "PCSCHEMATIC_ROOT", "PCSCHEMATIC_TLB"]
+  },
+  "solver_paths": {
+    "abaqus": {
+      "command": "<path-to-abaqus-or-abaqus.bat>"
+    },
+    "fluent": {
+      "fluent_exe": "<path-to-fluent.exe>",
+      "fluent_root": "<path-to-ansys-root>"
+    },
+    "ansys-workbench": {
+      "workbench_exe": "<path-to-RunWB2.exe>"
+    },
+    "comsol": {
+      "root": "<path-to-COMSOL-Multiphysics-root-or-parent>",
+      "batch": "<path-to-comsolbatch.exe>",
+      "compile": "<path-to-comsolcompile.exe>",
+      "mphserver": "<path-to-comsolmphserver.exe>",
+      "java": "<path-to-COMSOL-java.exe>"
+    },
+    "matlab": {
+      "matlab_exe": "<path-to-matlab.exe>"
+    },
+    "openfoam": {
+      "root": "<path-to-OpenFOAM-root-or-WSL-project-dir>"
+    },
+    "paraview": {
+      "pvpython": "<path-to-pvpython.exe>"
+    },
+    "pcschematic": {
+      "exe": "<path-to-PCsELcad.exe>",
+      "root": "<path-to-PCSELCAD-root>",
+      "tlb": "<path-to-PCSELCAD.tlb>"
+    }
+  }
+}

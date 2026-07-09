@@ -1,0 +1,21 @@
+{
+    "name":  "comsol",
+    "license":  "MIT",
+    "maturity":  "bridge-preview",
+    "entry_point":  "ai-cae-mcp-server",
+    "tools":  [
+                  "comsol_check_installation",
+                  "comsol_write_cube_smoke_java",
+                  "comsol_compile_java_file",
+                  "comsol_run_compiled_java_class",
+                  "comsol_run_java_model_to_mph_file",
+                  "comsol_run_batch_file"
+              ],
+    "required_env":  [
+                         "COMSOL_ROOT",
+                         "COMSOL_BATCH",
+                         "COMSOL_COMPILE",
+                         "COMSOL_JAVA"
+                     ],
+    "bundles_solver":  false
+}

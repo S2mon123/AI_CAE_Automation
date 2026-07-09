@@ -41,4 +41,3 @@
 | visual validation | output is visible and plausible, still not calibrated |
 | engineering draft | inputs and solver settings are reviewed, limitations remain |
 | report-grade | validated material data, mesh study, convergence, and independent checks |
-

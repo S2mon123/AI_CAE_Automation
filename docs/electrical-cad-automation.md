@@ -53,4 +53,3 @@ The starter example is a three-phase induction motor direct-start cabinet:
 - component list,
 - terminal list,
 - cable list when supported.
-

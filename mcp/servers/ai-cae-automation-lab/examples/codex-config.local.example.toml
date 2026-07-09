@@ -1,0 +1,7 @@
+[mcp_servers.ai-cae-automation-lab]
+command = "<REPO_ROOT>/.venv/Scripts/python.exe"
+args = ["<REPO_ROOT>/mcp/servers/ai-cae-automation-lab/server.py"]
+startup_timeout_sec = 120
+
+[mcp_servers.ai-cae-automation-lab.env]
+AI_CAE_TOOLBOX_CONFIG = "<REPO_ROOT>/private/ai-cae.local.json"

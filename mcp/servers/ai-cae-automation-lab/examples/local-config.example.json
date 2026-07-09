@@ -1,0 +1,14 @@
+{
+  "runs_root": "runs",
+  "allow_model_writes": true,
+  "solver_paths": {
+    "comsol": {
+      "root": "<path-to-comsol-root>",
+      "batch": "<path-to-comsolbatch.exe>",
+      "java": "<path-to-comsol-java.exe>"
+    },
+    "abaqus": {
+      "command": "<path-to-abaqus.bat>"
+    }
+  }
+}

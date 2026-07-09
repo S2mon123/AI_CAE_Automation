@@ -1,0 +1,9 @@
+{
+  "name": "openfoam",
+  "license": "MIT",
+  "maturity": "minimal",
+  "entry_point": "ai-cae-mcp-server",
+  "tools": ["openfoam_check_installation", "openfoam_run_case_command"],
+  "required_env": ["OPENFOAM_ROOT", "WM_PROJECT_DIR"],
+  "bundles_solver": false
+}

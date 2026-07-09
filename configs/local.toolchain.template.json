@@ -1,0 +1,37 @@
+{
+  "runs_root": "runs",
+  "allow_model_writes": true,
+  "solver_paths": {
+    "abaqus": {
+      "command": "<path-to-abaqus-or-abaqus.bat>"
+    },
+    "fluent": {
+      "fluent_exe": "<path-to-fluent.exe>",
+      "fluent_root": "<path-to-ansys-root>"
+    },
+    "ansys-workbench": {
+      "workbench_exe": "<path-to-RunWB2.exe>"
+    },
+    "comsol": {
+      "root": "<path-to-COMSOL-root-or-Multiphysics-folder>",
+      "batch": "<path-to-comsolbatch.exe>",
+      "compile": "<path-to-comsolcompile.exe>",
+      "mphserver": "<path-to-comsolmphserver.exe>",
+      "java": "<path-to-COMSOL-bundled-java.exe>"
+    },
+    "matlab": {
+      "matlab_exe": "<path-to-matlab.exe>"
+    },
+    "openfoam": {
+      "root": "<path-to-openfoam-root-or-wsl-project-dir>"
+    },
+    "paraview": {
+      "pvpython": "<path-to-pvpython.exe>"
+    },
+    "pcschematic": {
+      "exe": "<path-to-PCsELcad.exe>",
+      "root": "<path-to-PCSELCAD-root>",
+      "tlb": "<path-to-PCSELCAD.tlb>"
+    }
+  }
+}

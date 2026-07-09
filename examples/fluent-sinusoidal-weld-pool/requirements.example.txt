@@ -1,0 +1,8 @@
+# Example-only Python packages.
+# PyFluent may be provided by the Ansys installation. If using pip, install the
+# version compatible with your Fluent release.
+numpy
+matplotlib
+pillow
+gmsh
+# ansys-fluent-core

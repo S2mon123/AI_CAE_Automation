@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI CAE run request",
+  "type": "object",
+  "required": [
+    "solver",
+    "case_name"
+  ],
+  "properties": {
+    "solver": {
+      "type": "string"
+    },
+    "case_name": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "timeout_sec": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "additionalProperties": true
+}
