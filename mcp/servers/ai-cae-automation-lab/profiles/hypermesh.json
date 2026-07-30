@@ -1,0 +1,6 @@
+{
+  "solver": "hypermesh",
+  "maturity": "bridge-preview",
+  "capabilities": ["check hmbatch", "run explicit Tcl", "scan mesh and deck evidence"],
+  "rules": ["Gate CAD import.", "Require nonzero entities/elements.", "Block severe quality or export failures."]
+}

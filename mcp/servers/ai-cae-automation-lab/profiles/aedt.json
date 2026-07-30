@@ -1,0 +1,6 @@
+{
+  "solver": "aedt",
+  "maturity": "bridge-preview",
+  "capabilities": ["check AEDT/PyAEDT", "run PyAEDT script", "scan projects, logs, fields, and tables"],
+  "rules": ["Record design and solution type.", "Do not substitute HFSS for Maxwell.", "Claim solve success only from native evidence."]
+}

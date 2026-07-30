@@ -1,0 +1,6 @@
+{
+  "solver": "lammps",
+  "maturity": "bridge-preview",
+  "capabilities": ["check executable", "run input deck", "scan logs, thermo, data, and trajectories"],
+  "rules": ["Record potential provenance.", "Reject lost atoms/fatal logs.", "Do not overstate nanoscale demo values."]
+}

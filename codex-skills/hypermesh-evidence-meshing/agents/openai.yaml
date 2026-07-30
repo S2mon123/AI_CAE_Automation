@@ -1,0 +1,4 @@
+interface:
+  display_name: "HyperMesh Evidence Meshing"
+  short_description: "Quality-gated HyperMesh meshing workflows"
+  default_prompt: "Use $hypermesh-evidence-meshing to audit and automate a HyperMesh meshing workflow."

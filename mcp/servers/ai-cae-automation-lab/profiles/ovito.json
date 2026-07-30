@@ -1,0 +1,6 @@
+{
+  "solver": "ovito",
+  "maturity": "bridge-preview",
+  "capabilities": ["check GUI versus script route", "run OVITO Python", "scan renders and tables"],
+  "rules": ["Record pipeline parameters.", "Label non-OVITO fallback plots.", "Keep upstream solve evidence separate."]
+}
