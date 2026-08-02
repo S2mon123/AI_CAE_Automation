@@ -1,6 +1,6 @@
 ---
 name: hypermesh-evidence-meshing
-description: Evidence-first Altair HyperMesh automation for CAD import, cleanup, surface or volume meshing, Tcl and hmbatch execution, BatchMesher diagnostics, solver-deck export, and mesh-quality reporting. Use when Codex must create, repair, audit, or export a HyperMesh model while preventing CAD-import failures or empty/low-quality meshes from being reported as success.
+description: Evidence-first Altair HyperMesh geometry cleanup, measured construction-line partitioning, shell/solid meshing, and mesh-quality remediation through Tcl and hmbatch. Use when Codex must plan or automate 2D quad flow, mapped/swept hexa blocks, tetra fallback, spheres, spherical shells, domes, flange plates, hubs, bolt circles/PCD, cylinders, holes, washers, slots, fillets, rounds, edge blends, chamfers, bevels, intersections, size transitions, biased edges, symmetry, contact or boundary regions, BatchMesher, solver-deck export, or repair of skew, Jacobian, warpage, aspect, angle, duplicate, and free-edge failures without reporting an empty or low-quality mesh as success.
 ---
 
 # HyperMesh Evidence Meshing
@@ -18,24 +18,90 @@ ai-cae-toolbox write-smoke-template --solver hypermesh --run-dir <run-dir>
 ```
 
 Use `hypermesh_check_installation` and `hypermesh_run_tcl_file` when MCP is
-available.
+available. Use `hypermesh_mcp_manifest` to inspect the profile primitives and
+`hypermesh_validate_workspace_paths` before execution when a workspace root is
+configured. Use `hypermesh_plan_partition_strategy`,
+`hypermesh_plan_size_transition`, and
+`hypermesh_plan_circular_feature_mesh`, `hypermesh_plan_fillet_chamfer_mesh`,
+`hypermesh_plan_tetra_quality_remediation`,
+`hypermesh_plan_sphere_mesh`, and `hypermesh_plan_flange_mesh` before writing
+geometry-cut or meshing Tcl.
+
+## Choose the Meshing Route
+
+- For shells or midsurfaces, design quad flow and local transitions before
+  `automesh`; allow trias only where the solver and physics permit them.
+- For hex-dominant solids, prove each planned block is sweep/mapping-compatible
+  and define source, target, path, shared-face dependencies, and mesh order.
+- For tet-dominant solids, clean and protect the boundary surface mesh first;
+  do not over-partition merely to imitate a hex workflow.
+- Prefer a simpler, verifiable topology over a fragile pure-hex target when
+  decomposition cost or distorted transition blocks outweighs its benefit.
 
 ## Gate the Workflow
 
 1. Copy source CAD into the run input area; never overwrite the original.
 2. Confirm the CAD reader/import completed and count imported surfaces/solids.
-3. Audit free edges, duplicate surfaces, intersections, normals, and topology.
-4. Generate surface mesh before volume mesh when the workflow requires it.
-5. Apply explicit quality thresholds for the chosen solver profile.
-6. Export `.hm`, solver deck, quality report, and command/log evidence.
+3. Define solver-specific size and quality criteria, then audit free edges,
+   duplicate/overlapping surfaces, intersections, normals, and topology.
+4. Classify mesh-driving features and preserve intentional circular edges,
+   holes, contacts, loads, constraints, interfaces, and symmetry boundaries.
+5. Write a partition plan before cutting geometry. For each patch/block, record
+   why it exists, source/target/path topology, shared interfaces, and dependent
+   blocks. A large number of cuts is not evidence of a valid decomposition.
+6. Apply cuts incrementally. Re-check topology and mappability after each group
+   and reject sliver surfaces, short edges, acute wedges, and conflicting sweep
+   directions introduced by the cut.
+7. Define edge densities, local size, bias, washer rings, transition bands, and
+   sweep layers before generating dependent surface or volume mesh.
+8. Mesh difficult terminal/source regions first, then propagate compatible
+   shared-face meshes through dependent blocks. Generate verified surface mesh
+   before volume mesh when the route requires it.
+9. Diagnose failed elements by cause. Prefer topology repair or local remesh
+   before connectivity edits, and use node smoothing only when geometry and
+   topology are already suitable.
+10. Export `.hm`, solver deck, quality report, partition/feature summaries, and
+    command/log evidence.
 
 Read [references/quality-gates.md](references/quality-gates.md) before accepting
 the mesh. A return code of zero without entities and quality statistics is not a
 successful mesh.
 
+Read [references/partition-strategy.md](references/partition-strategy.md) before
+cutting 2D surfaces or decomposing a solid for mapped/swept hex meshing.
+
+Read [references/feature-meshing.md](references/feature-meshing.md) whenever the
+geometry includes cylinders, holes, circular/curved edges, slots, thin annuli,
+sweepable solids, fillets, steps, intersections, contacts, interfaces, or
+boundary-condition regions.
+
+Read [references/fillet-chamfer-meshing.md](references/fillet-chamfer-meshing.md)
+whenever the geometry contains interior fillets, exterior rounds, edge blends,
+chamfers, or bevels. Measure the profile, classify its physics role, derive
+curvature/row/transition controls, and verify protected boundaries and topology
+before accepting either preservation or defeaturing.
+
+Read [references/shape-partition-patterns.md](references/shape-partition-patterns.md)
+for spheres, spherical shells, domes, flange plates, hubs, bolt circles, or any
+revolved part that needs measured centers/axes, construction lines, concentric
+rings, meridians, symmetry planes, a non-collapsing core, or periodic sectors.
+
+Read [references/quality-remediation.md](references/quality-remediation.md) when
+QI or solver checks fail. Record the selected feature IDs, patch/block IDs,
+derived division counts, failed element sets, and before/after statistics; do
+not rely on a global element size or a final screenshot alone.
+
+Read [references/tetra-quality-optimization.md](references/tetra-quality-optimization.md)
+for any tetra route or tetra-quality failure. Export exact values with
+`hm_getelemcheckvalues`, localize overlapping failures, prove feature-to-gate
+feasibility, quality-check the boundary-tria mesh first, and reject node-only
+optimization when it plateaus or only renumbers failed elements.
+
 ## Finish
 
 Report source geometry type, import translator, entity counts, element counts,
-element types, size controls, failed-quality counts, remediation, and exported
-solver profile. Preserve failed BatchMesher logs because they identify translator
-or parameter-file problems.
+element types, global and local size controls, edge densities and bias, feature
+division counts, block dependency and meshing order, failed-quality counts,
+remediation, and exported solver profile. Preserve failed BatchMesher logs
+because they identify translator, criteria, parameter-file, or topology
+problems.

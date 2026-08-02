@@ -5,9 +5,6 @@ import sys
 from pathlib import Path
 
 
-PROFILE = "hypermesh"
-
-
 def _ensure_repo_src_on_path() -> None:
     for parent in Path(__file__).resolve().parents:
         src = parent / "src"
@@ -16,12 +13,17 @@ def _ensure_repo_src_on_path() -> None:
             return
 
 
-def main() -> None:
-    os.environ.setdefault("AI_CAE_MCP_SOLVERS", PROFILE)
+def build_server():
+    os.environ.setdefault("AI_CAE_MCP_SOLVERS", "hypermesh")
     _ensure_repo_src_on_path()
-    from ai_cae_lab.mcp_server import main as run_server
+    from ai_cae_lab.mcp_server import build_server as build_core_server
+    from hypermesh_profile import register_hypermesh_profile
 
-    run_server()
+    return register_hypermesh_profile(build_core_server("hypermesh"))
+
+
+def main() -> None:
+    build_server().run(transport="stdio")
 
 
 if __name__ == "__main__":
