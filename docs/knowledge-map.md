@@ -16,12 +16,15 @@
 - Abaqus/Explicit drilling
 - element deletion and damage variables
 - force, torque, energy, and status outputs
+- Ansys Mechanical static, modal, contact, and thermal-structural workflows
+- Solved state, MAPDL termination, reaction balance, mesh, and RST evidence
 
 ### CFD and aerodynamics
 
 - Fluent external flow
 - axis audit for geometry
 - residuals, Cl/Cd, Cp, Mach, and streamline outputs
+- Fluent welding: thermal, liquid fraction, melt flow, VOF, spatter, and FSI claim gates
 
 ### Multiphysics and heat transfer
 
@@ -31,9 +34,24 @@
 
 ### Electrical and electromagnetic simulation
 
-- HFSS/AEDT automation
+- AEDT design and solution type selection
+- Maxwell winding polarity, inductance matrix, and reciprocity
+- HFSS ports, adaptive convergence, passivity, and S-parameters
 - S-parameter export
 - field and surface current plots
+
+### Preprocessing and meshing
+
+- HyperMesh CAD translator evidence
+- topology cleanup and free-edge audit
+- element counts, solver profiles, named quality criteria, and deck export
+
+### Molecular dynamics and atomistic visualization
+
+- LAMMPS minimization, equilibration, loading, thermo, and trajectories
+- potential provenance, units, seeds, strain rate, and stress conventions
+- OVITO modifiers, reference configurations, camera, scalar ranges, and exports
+- separate upstream solve evidence from visualization evidence
 
 ### Electrical CAD documentation
 
@@ -47,6 +65,8 @@
 
 - OpenFOAM case generation
 - ParaView post-processing
+- LAMMPS molecular dynamics
+- OVITO atomistic post-processing
 - Python-based FEM agents
 
 ## Long-Term Knowledge Base Shape

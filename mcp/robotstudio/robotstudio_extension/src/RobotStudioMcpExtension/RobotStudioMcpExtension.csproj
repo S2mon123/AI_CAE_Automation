@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.props" Condition="Exists('$(MSBuildToolsPath)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{65D57459-8A29-4C69-A4E8-4D1C2400724B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>RobotStudioMcpExtension</RootNamespace>
+    <AssemblyName>RobotStudioMcpExtension</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <LangVersion>7.3</LangVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <RobotStudioInstallDir Condition="'$(RobotStudioInstallDir)' == ''">C:\Program Files (x86)\ABB\RobotStudio 2025</RobotStudioInstallDir>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="ABB.Robotics.Math">
+      <HintPath>$(RobotStudioInstallDir)\Bin\ABB.Robotics.Math.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ABB.Robotics.Controllers.PC">
+      <HintPath>$(RobotStudioInstallDir)\Bin\ABB.Robotics.Controllers.PC.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio">
+      <HintPath>$(RobotStudioInstallDir)\Bin\ABB.Robotics.RobotStudio.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Stations">
+      <HintPath>$(RobotStudioInstallDir)\Bin\ABB.Robotics.RobotStudio.Stations.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddInMain.cs" />
+    <Compile Include="Adapters\ControllerAdapter.cs" />
+    <Compile Include="Adapters\EnvironmentAdapter.cs" />
+    <Compile Include="Adapters\Serialization.cs" />
+    <Compile Include="Adapters\StationAdapter.cs" />
+    <Compile Include="Bridge\AuthenticationService.cs" />
+    <Compile Include="Bridge\BridgeContracts.cs" />
+    <Compile Include="Bridge\LengthPrefixedJson.cs" />
+    <Compile Include="Bridge\LocalBridgeServer.cs" />
+    <Compile Include="Bridge\MethodRegistry.cs" />
+    <Compile Include="Configuration\BridgeSettings.cs" />
+    <Compile Include="Configuration\SettingsLoader.cs" />
+    <Compile Include="Dispatch\UiThreadDispatcher.cs" />
+    <Compile Include="Logging\BridgeLogger.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -88,6 +88,14 @@ it. Symlink/junction-resolved paths are checked with `Path.resolve`.
 - `hypermesh_plan_tetra_quality_remediation`: combine exact worst values,
   failure-set overlap, geometry/criteria feasibility, and optimizer history into
   a surface-first tetra remediation and acceptance plan.
+- `hypermesh_plan_tetra_hotspot_remediation`: classify boundary-associated and
+  interior failure clusters, block harmful blind refinement for absolute
+  minimum-height failures, and create checkpointed per-hotspot Pareto repair
+  routes with guarded model-level size candidates.
+- `hypermesh_plan_tetra_zero_failure_search`: escalate a plateaued tetra mesh
+  through feature-aware morph smoothing, metric-specific residual repair, and
+  independent reload verification. It reports numerical quality acceptance
+  separately from CAD-association and boundary-displacement acceptance.
 - `hypermesh_plan_sphere_mesh`: calculate great-circle/quarter-arc counts,
   non-collapsing core and outer radial blocks, through-thickness layers,
   construction planes/curves, risks, and acceptance checks for spheres and
@@ -266,3 +274,11 @@ python -m pytest mcp\hypermesh\tests -q
 The tests build the server in-process and verify tools, resources, prompts,
 partition/transition/feature calculations, workspace containment, and
 Skill-backed resource loading without launching commercial software.
+
+The 0.9.0 profile currently exposes 29 tools in total and has 29 dedicated
+profile tests. Its zero-failure route was additionally exercised with
+HyperMesh 2025 on a 355,383-element steering-knuckle Tet4 model: collapse,
+aspect ratio, volumetric skew, and minimum height all reached zero failures and
+were reproduced after solver-deck reload. This numerical result does not waive
+the separate engineering review of boundary-node displacement and CAD
+adherence.

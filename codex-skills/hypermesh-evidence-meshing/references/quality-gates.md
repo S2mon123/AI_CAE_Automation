@@ -24,10 +24,30 @@
   location, and ranked worst set; a failure threshold is not a worst value.
 - Tetra reports cross-correlate minimum-height, collapse, aspect, and volume-
   skew sets and distinguish severe failures from marginal misses.
+- Tetra hotspot evidence reports node-to-geometry associations, boundary-node
+  count distribution, geometry IDs, cluster sizes, and local mesh-edge versus
+  associated geometry-edge lengths before choosing refinement.
+- Blind local refinement is blocked when an absolute minimum-height failure is
+  dominant and the hotspot is boundary constrained; boundary sampling and
+  surface-tria topology must be regularized or reviewed first.
 - Individual solver-specific metrics remain available when an aggregate QI is
   reported; a better compound QI does not override a severe metric failure.
 - Quality remediation records the diagnosed cause, operation, affected patch,
   and before/after counts and worst values.
+- Topology-changing local repair is checkpointed per hotspot, globally
+  rechecked, rolled back on an active-metric regression, and reclustered before
+  another element-ID-based operation.
+- A hard zero-failure tetra deliverable has zero failures for tet collapse,
+  aspect ratio, volumetric skew, minimum height, and any additionally active
+  Jacobian gate; it also contains no unintended non-tetra elements.
+- Zero-failure status is independently reproduced after solver-deck export and
+  reload. Record exact worst values and their safety margins, not only zeros.
+- Numerical quality acceptance and CAD-adherence acceptance are separate.
+  Record moved-node count, maximum boundary displacement, a user/engineering-
+  approved tolerance, and current/initial geometry-association changes.
+- Do not reproject nodes to stale initial point/line/surface IDs unless those
+  entities exist in the current model and a checkpointed trial preserves all
+  topology, feature, and quality gates.
 - A tetra volume is not repaired until its closed boundary-tria mesh has passed
   topology and active 2D quality checks or its exceptions are documented.
 - Any quality exception is localized and justified.

@@ -31,9 +31,14 @@ discovery, evidence, and setup tools.
 
 | Package | MCP profile | Purpose |
 |---|---|---|
+| `mcp/aedt` | `aedt` | AEDT/PyAEDT checks and user-supplied automation scripts |
 | `mcp/abaqus` | `abaqus` | Abaqus noGUI scripts and input-deck submission |
 | `mcp/ansys/Fluent MCP` | `fluent` | Fluent journal execution and CFD evidence capture |
 | `mcp/ansys/Workbench MCP` | `workbench` | Workbench journal execution and Ansys install checks |
+| `mcp/ansys/Mechanical MCP` | `mechanical` | RunWB2, ExtAPI/PyMechanical, and structural result gates |
+| `mcp/hypermesh` | `hypermesh` | Explicit Tcl execution through `hmbatch -tcl` |
+| `mcp/lammps` | `lammps` | LAMMPS input execution and log capture |
+| `mcp/ovito` | `ovito` | OVITO GUI/script capability checks and Python postprocessing |
 | `mcp/comsol` | `comsol` | COMSOL Java API compile, batch, MPH smoke, and validation |
 | `mcp/matlab` | `matlab` | MATLAB batch script execution |
 | `mcp/openfoam` | `openfoam` | OpenFOAM command execution for local or WSL cases |

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RobotStudioAddIn xmlns="urn:abb-robotics-robotstudio-addin"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  autoLoad="true">
+  <ApplicationId>org.ai-cae-automation-lab.robotstudio-mcp-bridge</ApplicationId>
+  <DisplayName>RobotStudio MCP Read-Only Bridge</DisplayName>
+  <DisplayVersion>0.1.0</DisplayVersion>
+  <Description>Authenticated local read-only bridge for RobotStudio 2025.3.</Description>
+  <AddInType>General</AddInType>
+  <MinimumHostVersion>25.3</MinimumHostVersion>
+  <MaximumHostVersion>25.3.99999.99999</MaximumHostVersion>
+  <Assembly>
+    <FileName>RobotStudioMcpExtension.dll</FileName>
+    <Entrypoint>RobotStudioMcpExtension.AddInEntry.AddinMain</Entrypoint>
+  </Assembly>
+  <Dependencies>Station</Dependencies>
+  <Platform>x64</Platform>
+</RobotStudioAddIn>

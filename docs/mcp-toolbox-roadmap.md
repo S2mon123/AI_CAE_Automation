@@ -49,8 +49,13 @@ execution/check wrappers that write logs and return status objects.
 
 | Adapter | First useful tool | Evidence target |
 |---|---|---|
+| AEDT | PyAEDT connection/script | project, design/solution type, adaptive log, native fields/tables |
 | Abaqus | noGUI script or `.inp` job | `.sta`, `.msg`, `.dat`, `.odb` presence |
 | Fluent | run a journal file | transcript, `.cas`, `.dat`, images, CSV |
+| Mechanical | RunWB2 or PyMechanical | Solved state, MAPDL, reactions, mesh, `.rst`, tables, images |
+| HyperMesh | explicit Tcl through hmbatch | import status, entities/elements, quality, `.hm`, solver deck |
+| LAMMPS | run an input file | normal log, thermo, data/restart, trajectory |
+| OVITO | run a Python pipeline | capability report, modifiers, tables, renders |
 | COMSOL | run batch model or Java API script | log, `.mph`, exported tables |
 | MATLAB/Simulink | run script or model test | diary log, figures, MAT/CSV |
 | OpenFOAM | run case commands | `log.*`, mesh checks, VTK/foam files |

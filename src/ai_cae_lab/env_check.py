@@ -84,7 +84,20 @@ def run_checks(deep: bool = False) -> list[CheckResult]:
         check_python(),
         check_command("git"),
     ]
-    for name in ("abaqus", "ansys", "fluent", "workbench", "comsol", "matlab", "pcschematic"):
+    for name in (
+        "aedt",
+        "abaqus",
+        "ansys",
+        "fluent",
+        "workbench",
+        "mechanical",
+        "hypermesh",
+        "lammps",
+        "ovito",
+        "comsol",
+        "matlab",
+        "pcschematic",
+    ):
         results.append(check_discovered_solver(name, discovery))
     results.extend([check_openfoam(), check_paraview()])
     return results

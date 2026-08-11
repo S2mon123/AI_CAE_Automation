@@ -10,8 +10,11 @@ The following product names may appear in documentation because the adapters can
 connect to user-owned local installations:
 
 - Abaqus / SIMULIA
-- Ansys Fluent and Ansys Workbench
+- Ansys Electronics Desktop, Fluent, Workbench, and Mechanical
+- Altair HyperMesh
 - COMSOL Multiphysics
+- LAMMPS
+- OVITO
 - MATLAB / Simulink
 - PCSCHEMATIC Automation
 - ParaView
@@ -23,8 +26,10 @@ All trademarks belong to their respective owners.
 
 - Keep local executable paths in environment variables or ignored private config.
 - Do not commit commercial solver binaries or manuals.
-- Do not commit private `.mph`, `.odb`, `.cas`, `.dat`, `.wbpj`, `.PRO`, `.slx`,
-  or customer geometry files.
+- Do not commit private `.aedt`, `.mph`, `.odb`, `.cas`, `.dat`, `.rst`, `.wbpj`,
+  `.hm`, `.h3d`, `.lammpstrj`, `.PRO`, `.slx`, or customer geometry files.
+- Do not redistribute interatomic-potential files until their individual
+  licenses and attribution requirements have been reviewed.
 - Do not copy third-party MCP implementations into this repository unless their
   license and attribution are reviewed and documented.
 ## Design References

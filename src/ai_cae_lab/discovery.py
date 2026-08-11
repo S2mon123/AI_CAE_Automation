@@ -18,7 +18,20 @@ STATUS_MISSING = "missing"
 STATUS_INVALID = "invalid"
 STATUS_UNKNOWN = "unknown"
 
-SOLVER_KEYS = ("abaqus", "ansys", "fluent", "workbench", "comsol", "matlab", "pcschematic")
+SOLVER_KEYS = (
+    "aedt",
+    "abaqus",
+    "ansys",
+    "fluent",
+    "workbench",
+    "mechanical",
+    "hypermesh",
+    "lammps",
+    "ovito",
+    "comsol",
+    "matlab",
+    "pcschematic",
+)
 
 
 @dataclass
@@ -315,6 +328,52 @@ def discover_abaqus(deep: bool = False) -> DiscoveryRecord:
     return _attach_invalid_config(record, candidates)
 
 
+def discover_aedt(deep: bool = False) -> DiscoveryRecord:
+    env = os.environ
+    configured = configured_solver_paths(load_toolbox_config(), "aedt")
+    exe_candidates: list[tuple[str | Path | None, str]] = [
+        (env.get("AEDT_EXE"), "env:AEDT_EXE"),
+        (configured.get("aedt_exe"), "config:aedt.aedt_exe"),
+        (
+            Path(env["AEDT_INSTALL_DIR"]) / "ansysedt.exe" if env.get("AEDT_INSTALL_DIR") else None,
+            "env:AEDT_INSTALL_DIR",
+        ),
+        (_which("ansysedt"), "PATH:ansysedt"),
+    ]
+    exe_candidates.extend(
+        _windows_glob(
+            _drive_patterns(
+                [
+                    r"Program Files\ANSYS Inc\v*\AnsysEM\ansysedt.exe",
+                    r"ANSYS Inc\v*\AnsysEM\ansysedt.exe",
+                ]
+            )
+        )
+    )
+    python_candidates: list[tuple[str | Path | None, str]] = [
+        (env.get("PYAEDT_PYTHON"), "env:PYAEDT_PYTHON"),
+        (configured.get("python"), "config:aedt.python"),
+    ]
+    exe, exe_source = _first_existing(exe_candidates)
+    python, python_source = _first_existing(python_candidates)
+    version_root = _ansys_version_root(exe)
+    root = exe.parent if exe else None
+    record = _record(
+        "aedt",
+        {
+            "root": (root, "derived:aedt-executable" if root else None),
+            "aedt_exe": (exe, exe_source),
+            "python": (python, python_source),
+            "version_root": (version_root, "derived:aedt-executable" if version_root else None),
+        },
+        required=["aedt_exe"],
+    )
+    if record.status == STATUS_OK and not python:
+        record.status = STATUS_PARTIAL
+        record.messages.append("AEDT executable found, but no dedicated PyAEDT Python is configured.")
+    return _attach_invalid_config(record, [*exe_candidates, *python_candidates])
+
+
 def _ansys_version_root(path: Path | None) -> Path | None:
     if not path:
         return None
@@ -333,12 +392,14 @@ def discover_ansys_family(deep: bool = False) -> dict[str, DiscoveryRecord]:
     ansys_config = configured_solver_paths(load_toolbox_config(), "ansys")
     fluent_config = configured_solver_paths(load_toolbox_config(), "fluent")
     workbench_config = configured_solver_paths(load_toolbox_config(), "ansys-workbench")
+    mechanical_config = configured_solver_paths(load_toolbox_config(), "ansys-mechanical")
     root_candidates: list[tuple[str | Path | None, str]] = [
         (env.get("ANSYS_ROOT"), "env:ANSYS_ROOT"),
         (env.get("FLUENT_ROOT"), "env:FLUENT_ROOT"),
         (ansys_config.get("root"), "config:ansys.root"),
         (fluent_config.get("root"), "config:fluent.root"),
         (workbench_config.get("root"), "config:workbench.root"),
+        (mechanical_config.get("root"), "config:mechanical.root"),
     ]
     fluent_candidates: list[tuple[str | Path | None, str]] = [
         (env.get("FLUENT_EXE"), "env:FLUENT_EXE"),
@@ -351,36 +412,208 @@ def discover_ansys_family(deep: bool = False) -> dict[str, DiscoveryRecord]:
         (env.get("ANSYS_WORKBENCH_EXE"), "env:ANSYS_WORKBENCH_EXE"),
         (workbench_config.get("workbench_exe"), "config:workbench.workbench_exe"),
         (ansys_config.get("workbench_exe"), "config:ansys.workbench_exe"),
+        (mechanical_config.get("workbench_exe"), "config:mechanical.workbench_exe"),
+    ]
+    mechanical_exe_candidates: list[tuple[str | Path | None, str]] = [
+        (env.get("ANSYS_MECHANICAL_EXE"), "env:ANSYS_MECHANICAL_EXE"),
+        (mechanical_config.get("mechanical_exe"), "config:mechanical.mechanical_exe"),
+    ]
+    mechanical_python_candidates: list[tuple[str | Path | None, str]] = [
+        (env.get("PYMECHANICAL_PYTHON"), "env:PYMECHANICAL_PYTHON"),
+        (mechanical_config.get("python"), "config:mechanical.python"),
     ]
     common_roots = _drive_patterns([r"Program Files\ANSYS Inc", r"ANSYS Inc"])
     for base in common_roots:
         root_candidates.append((base, f"common:{base}"))
         fluent_candidates.extend(_windows_glob([base + r"\v*\fluent\ntbin\win64\fluent.exe", base + r"\v*\fluent\bin\fluent"]))
         workbench_candidates.extend(_windows_glob([base + r"\v*\Framework\bin\Win64\RunWB2.exe", base + r"\v*\aisol\bin\winx64\AnsysWBU.exe"]))
+        mechanical_exe_candidates.extend(
+            _windows_glob(
+                [
+                    base + r"\v*\aisol\bin\winx64\AnsysWBU.exe",
+                    base + r"\v*\aisol\bin\winx64\AnsysWBUClient.exe",
+                ]
+            )
+        )
 
     fluent, fluent_source = _first_existing(fluent_candidates)
     workbench, workbench_source = _first_existing(workbench_candidates)
-    version_root = _ansys_version_root(fluent) or _ansys_version_root(workbench)
+    mechanical_exe, mechanical_exe_source = _first_existing(mechanical_exe_candidates)
+    mechanical_python, mechanical_python_source = _first_existing(mechanical_python_candidates)
+    version_root = _ansys_version_root(fluent) or _ansys_version_root(workbench) or _ansys_version_root(mechanical_exe)
     root, root_source = _first_existing(root_candidates)
     if not root:
         root = _ansys_root_from_version(version_root)
         root_source = "derived:ansys-executable" if root else None
 
-    ansys = _record("ansys", {"root": (root, root_source), "fluent_exe": (fluent, fluent_source), "workbench_exe": (workbench, workbench_source)}, required=[])
-    if root and not (fluent or workbench):
+    ansys = _record(
+        "ansys",
+        {
+            "root": (root, root_source),
+            "fluent_exe": (fluent, fluent_source),
+            "workbench_exe": (workbench, workbench_source),
+            "mechanical_exe": (mechanical_exe, mechanical_exe_source),
+        },
+        required=[],
+    )
+    if root and not (fluent or workbench or mechanical_exe):
         ansys.status = STATUS_PARTIAL
-        ansys.messages.append("Ansys root found, but no Fluent or Workbench executable was found.")
-    elif fluent or workbench:
+        ansys.messages.append("Ansys root found, but no Fluent, Workbench, or Mechanical executable was found.")
+    elif fluent or workbench or mechanical_exe:
         ansys.status = STATUS_OK
     else:
         ansys.status = STATUS_MISSING
-    ansys = _attach_invalid_config(ansys, [*root_candidates, *fluent_candidates, *workbench_candidates])
+    ansys = _attach_invalid_config(
+        ansys,
+        [*root_candidates, *fluent_candidates, *workbench_candidates, *mechanical_exe_candidates],
+    )
 
     fluent_record = _record("fluent", {"root": (root, root_source), "fluent_exe": (fluent, fluent_source)}, required=["fluent_exe"])
     fluent_record = _attach_invalid_config(fluent_record, [*root_candidates, *fluent_candidates])
     workbench_record = _record("workbench", {"root": (root, root_source), "workbench_exe": (workbench, workbench_source)}, required=["workbench_exe"])
     workbench_record = _attach_invalid_config(workbench_record, [*root_candidates, *workbench_candidates])
-    return {"ansys": ansys, "fluent": fluent_record, "workbench": workbench_record}
+    mechanical_record = _record(
+        "mechanical",
+        {
+            "root": (root, root_source),
+            "workbench_exe": (workbench, workbench_source),
+            "mechanical_exe": (mechanical_exe, mechanical_exe_source),
+            "python": (mechanical_python, mechanical_python_source),
+        },
+        required=[],
+    )
+    if workbench or mechanical_exe or mechanical_python:
+        mechanical_record.status = STATUS_OK if (workbench or mechanical_exe) and mechanical_python else STATUS_PARTIAL
+        if mechanical_record.status == STATUS_PARTIAL:
+            mechanical_record.messages.append(
+                "Mechanical discovery found only part of the Workbench/Mechanical/PyMechanical routes."
+            )
+    mechanical_record = _attach_invalid_config(
+        mechanical_record,
+        [*root_candidates, *workbench_candidates, *mechanical_exe_candidates, *mechanical_python_candidates],
+    )
+    return {
+        "ansys": ansys,
+        "fluent": fluent_record,
+        "workbench": workbench_record,
+        "mechanical": mechanical_record,
+    }
+
+
+def discover_hypermesh(deep: bool = False) -> DiscoveryRecord:
+    env = os.environ
+    configured = configured_solver_paths(load_toolbox_config(), "hypermesh")
+    root_candidates: list[tuple[str | Path | None, str]] = [
+        (env.get("ALTAIR_HOME"), "env:ALTAIR_HOME"),
+        (env.get("HYPERMESH_ROOT"), "env:HYPERMESH_ROOT"),
+        (configured.get("root"), "config:hypermesh.root"),
+    ]
+    batch_candidates: list[tuple[str | Path | None, str]] = [
+        (env.get("HMBATCH_EXE"), "env:HMBATCH_EXE"),
+        (configured.get("batch_exe"), "config:hypermesh.batch_exe"),
+        (_which("hmbatch"), "PATH:hmbatch"),
+    ]
+    gui_candidates: list[tuple[str | Path | None, str]] = [
+        (env.get("HYPERMESH_EXE"), "env:HYPERMESH_EXE"),
+        (configured.get("gui_exe"), "config:hypermesh.gui_exe"),
+        (_which("hmopengl"), "PATH:hmopengl"),
+    ]
+    patterns = _drive_patterns(
+        [
+            r"Program Files\Altair\*\hwdesktop\hm\bin\win64\hmbatch.exe",
+            r"Altair\*\hwdesktop\hm\bin\win64\hmbatch.exe",
+        ]
+    )
+    batch_candidates.extend(_windows_glob(patterns))
+    batch, batch_source = _first_existing(batch_candidates)
+    gui, gui_source = _first_existing(gui_candidates)
+    root, root_source = _first_existing(root_candidates)
+    if not root and batch:
+        root = next((parent for parent in batch.parents if parent.name.lower() == "hwdesktop"), batch.parent)
+        root_source = "derived:hmbatch"
+    record = _record(
+        "hypermesh",
+        {"root": (root, root_source), "batch_exe": (batch, batch_source), "gui_exe": (gui, gui_source)},
+        required=["batch_exe"],
+    )
+    return _attach_invalid_config(record, [*root_candidates, *batch_candidates, *gui_candidates])
+
+
+def discover_lammps(deep: bool = False) -> DiscoveryRecord:
+    env = os.environ
+    configured = configured_solver_paths(load_toolbox_config(), "lammps")
+    candidates: list[tuple[str | Path | None, str]] = [
+        (env.get("LAMMPS_EXE"), "env:LAMMPS_EXE"),
+        (configured.get("lammps_exe"), "config:lammps.lammps_exe"),
+        (_which("lmp"), "PATH:lmp"),
+        (_which("lmp_serial"), "PATH:lmp_serial"),
+        (_which("lmp_mpi"), "PATH:lmp_mpi"),
+    ]
+    candidates.extend(
+        _windows_glob(
+            _drive_patterns(
+                [
+                    r"LAMMPS*\bin\lmp.exe",
+                    r"Lammps\LAMMPS*\bin\lmp.exe",
+                    r"Program Files\LAMMPS*\bin\lmp.exe",
+                ]
+            )
+        )
+    )
+    command, source = _first_existing(candidates)
+    root = command.parent.parent if command else None
+    record = _record(
+        "lammps",
+        {"root": (root, "derived:lammps-executable" if root else None), "lammps_exe": (command, source)},
+        required=["lammps_exe"],
+    )
+    return _attach_invalid_config(record, candidates)
+
+
+def discover_ovito(deep: bool = False) -> DiscoveryRecord:
+    env = os.environ
+    configured = configured_solver_paths(load_toolbox_config(), "ovito")
+    gui_candidates: list[tuple[str | Path | None, str]] = [
+        (env.get("OVITO_EXE"), "env:OVITO_EXE"),
+        (configured.get("ovito_exe"), "config:ovito.ovito_exe"),
+        (_which("ovito"), "PATH:ovito"),
+    ]
+    script_candidates: list[tuple[str | Path | None, str]] = [
+        (env.get("OVITOS_EXE"), "env:OVITOS_EXE"),
+        (configured.get("ovitos_exe"), "config:ovito.ovitos_exe"),
+        (env.get("OVITO_PYTHON"), "env:OVITO_PYTHON"),
+        (configured.get("python"), "config:ovito.python"),
+        (_which("ovitos"), "PATH:ovitos"),
+    ]
+    gui_candidates.extend(
+        _windows_glob(
+            _drive_patterns(
+                [
+                    r"Program Files\OVITO*\ovito.exe",
+                    r"OVITO*\ovito.exe",
+                    r"Obsidian\Software\OVITO\ovito*\ovito.exe",
+                ]
+            )
+        )
+    )
+    gui, gui_source = _first_existing(gui_candidates)
+    script, script_source = _first_existing(script_candidates)
+    root = gui.parent if gui else (script.parent if script else None)
+    record = _record(
+        "ovito",
+        {
+            "root": (root, "derived:ovito-command" if root else None),
+            "ovito_exe": (gui, gui_source),
+            "script_command": (script, script_source),
+        },
+        required=[],
+    )
+    if gui and not script:
+        record.status = STATUS_PARTIAL
+        record.messages.append("OVITO GUI found, but no ovitos or external OVITO Python was found.")
+    elif gui or script:
+        record.status = STATUS_OK
+    return _attach_invalid_config(record, [*gui_candidates, *script_candidates])
 
 
 def discover_matlab(deep: bool = False) -> DiscoveryRecord:
@@ -446,8 +679,12 @@ def discover_pcschematic(deep: bool = False) -> DiscoveryRecord:
 def discover_toolchains(deep: bool = False) -> dict[str, Any]:
     ansys_family = discover_ansys_family(deep=deep)
     records = {
+        "aedt": discover_aedt(deep=deep),
         "abaqus": discover_abaqus(deep=deep),
         **ansys_family,
+        "hypermesh": discover_hypermesh(deep=deep),
+        "lammps": discover_lammps(deep=deep),
+        "ovito": discover_ovito(deep=deep),
         "comsol": discover_comsol(deep=deep),
         "matlab": discover_matlab(deep=deep),
         "pcschematic": discover_pcschematic(deep=deep),
@@ -506,10 +743,25 @@ def write_activation_script(config_path: str | Path | None = None, output_path: 
     payload = json.loads(config.read_text(encoding="utf-8-sig")) if config.exists() else {"solver_paths": {}}
     solver_paths = payload.get("solver_paths", {})
     env_map = {
+        "aedt": {"aedt_exe": "AEDT_EXE", "root": "AEDT_INSTALL_DIR", "python": "PYAEDT_PYTHON"},
         "abaqus": {"command": "ABAQUS_COMMAND"},
         "fluent": {"fluent_exe": "FLUENT_EXE", "root": "FLUENT_ROOT"},
         "ansys": {"root": "ANSYS_ROOT"},
         "workbench": {"workbench_exe": "WORKBENCH_EXE"},
+        "ansys-workbench": {"workbench_exe": "WORKBENCH_EXE"},
+        "mechanical": {
+            "workbench_exe": "WORKBENCH_EXE",
+            "mechanical_exe": "ANSYS_MECHANICAL_EXE",
+            "python": "PYMECHANICAL_PYTHON",
+        },
+        "ansys-mechanical": {
+            "workbench_exe": "WORKBENCH_EXE",
+            "mechanical_exe": "ANSYS_MECHANICAL_EXE",
+            "python": "PYMECHANICAL_PYTHON",
+        },
+        "hypermesh": {"batch_exe": "HMBATCH_EXE", "gui_exe": "HYPERMESH_EXE", "root": "ALTAIR_HOME"},
+        "lammps": {"lammps_exe": "LAMMPS_EXE"},
+        "ovito": {"ovito_exe": "OVITO_EXE", "script_command": "OVITOS_EXE"},
         "comsol": {"root": "COMSOL_ROOT", "batch": "COMSOL_BATCH", "exe": "COMSOL_EXE", "java": "COMSOL_JAVA", "compile": "COMSOL_COMPILE", "mphserver": "COMSOL_MPHSERVER"},
         "matlab": {"root": "MATLABROOT", "matlab_exe": "MATLAB_EXE"},
         "pcschematic": {"root": "PCSCHEMATIC_ROOT", "exe": "PCSCHEMATIC_EXE", "tlb": "PCSCHEMATIC_TLB"},

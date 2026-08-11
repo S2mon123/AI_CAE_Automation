@@ -12,7 +12,7 @@ This repository is being built as a public-facing companion to a private Obsidia
 
 ## Scope
 
-- AI-assisted CAE and engineering documentation workflows for Abaqus, Ansys Fluent, Ansys Mechanical/Workbench, COMSOL, MATLAB/Simulink, OpenFOAM, ParaView, and PCSCHEMATIC Automation.
+- AI-assisted workflows for AEDT, Abaqus, Ansys Fluent, Ansys Mechanical/Workbench, HyperMesh, LAMMPS, OVITO, COMSOL, MATLAB/Simulink, OpenFOAM, ParaView, and PCSCHEMATIC Automation.
 - MCP and desktop bridge patterns for connecting agents to local engineering software.
 - Prompt templates that force path checks, real execution, evidence export, and credibility grading.
 - Smoke tests and evidence-chain checklists for simulation automation.
@@ -46,7 +46,12 @@ python -m venv .venv
 .\.venv\Scripts\ai-cae-toolbox.exe doctor
 ```
 
-`setup` performs first-run local discovery for Abaqus, COMSOL, MATLAB, Ansys, Fluent, Workbench, and PCSCHEMATIC. It checks real executable paths, writes `private/ai-cae.local.json`, writes `private/activate-ai-cae.ps1`, and writes a local Codex MCP TOML snippet. Files under `private/` are ignored by git, so machine-specific paths are not committed. The checker does not start heavy commercial solver jobs.
+`setup` performs first-run local discovery for AEDT, Abaqus, Ansys Fluent,
+Workbench/Mechanical, HyperMesh, LAMMPS, OVITO, COMSOL, MATLAB, and
+PCSCHEMATIC. It checks executable paths, writes `private/ai-cae.local.json`,
+`private/activate-ai-cae.ps1`, and a local Codex MCP TOML snippet. Files under
+`private/` are ignored by git. Discovery does not prove a solver license or a
+completed engineering run.
 
 ## Codex-Ready Install
 
@@ -75,9 +80,15 @@ tools plus the shared setup, run-record, evidence, and report tools.
 The installable skills are:
 
 - `ai-cae-run-manager`
+- `aedt-evidence-electromagnetics`
 - `abaqus-evidence-simulation`
 - `fluent-evidence-cfd`
+- `ansys-mechanical-evidence-structural`
+- `hypermesh-evidence-meshing`
+- `lammps-evidence-md`
+- `ovito-evidence-postprocessing`
 - `comsol-evidence-multiphysics`
+- `comsol-motor-nvh-evidence`
 - `open-toolchain-evidence`
 - `pcschematic-evidence-cad`
 
@@ -113,7 +124,13 @@ The first implementation milestone adds a local toolbox that can be used from th
 .\.venv\Scripts\ai-cae-mcp-server.exe
 ```
 
-The MCP server exposes first-run toolchain discovery/setup, private config generation, activation-script generation, scoped context selection, executable path-resolution guidance, environment checks, skill listings, adapter listings, run record creation, bridge plans, solver-native smoke template generation, evidence scanning, report generation, and solver adapters for Abaqus, Ansys Fluent, Ansys Workbench, COMSOL, MATLAB, OpenFOAM, ParaView, and PCSCHEMATIC checks. COMSOL includes a 10 mm cube Java API smoke template, Java compilation, compiled-class batch execution, Java-to-MPH generation, and MPH loadability validation. Solver adapters read environment variables and `private/ai-cae.local.json`, write logs, update run status, and return status objects; they do not claim engineering success without evidence.
+The MCP server exposes discovery/setup, private config generation, scoped
+context, path guidance, run records, bridge plans, smoke templates, evidence
+scans, reports, and solver adapters. Solver-specific bridges now include AEDT,
+Abaqus, Fluent, Workbench, Mechanical, HyperMesh, LAMMPS, OVITO, COMSOL,
+MATLAB, OpenFOAM, ParaView, and PCSCHEMATIC. Mechanical has independent solve
+gates; OVITO distinguishes GUI availability from batch Python; AEDT records the
+actual design/solution type; LAMMPS potential files remain user-supplied.
 
 The full toolbox command `ai-cae-mcp-server` exposes every solver. The package
 entries in `mcp/<solver>/server.py` expose only that solver profile by setting
@@ -164,11 +181,27 @@ entries in `mcp/<solver>/server.py` expose only that solver profile by setting
   soybean drying, with a prompt, evidence checklist, bridge-plan workflow, and
   COMSOL Java API smoke-template path.
 
+- [`examples/comsol-pm-motor-nvh`](examples/comsol-pm-motor-nvh/README.md):
+  a checkpointed, public-safe COMSOL Java API workflow for permanent-magnet
+  motor electromagnetic, structural, acoustic, and Campbell evidence.
+
 ## MCP Smoke Workflow
 
 - [`examples/mcp-smoke-workflows`](examples/mcp-smoke-workflows/README.md):
   the smallest clone-and-run workflow for validating the toolbox layer before
   connecting real commercial solvers.
+
+## Additional Bridge Examples
+
+- [`examples/aedt-wireless-power`](examples/aedt-wireless-power/README.md):
+  Maxwell-oriented project, matrix, polarity, reciprocity, and field-evidence gates.
+- [`examples/ansys-mechanical-static`](examples/ansys-mechanical-static/README.md):
+  structural result-summary contract for Solved state, MAPDL, reactions, mesh,
+  RST, numeric exports, and images.
+- [`examples/hypermesh-meshing`](examples/hypermesh-meshing/README.md):
+  CAD import, nonzero mesh, quality, and solver-deck acceptance flow.
+- [`examples/lammps-tension`](examples/lammps-tension/README.md):
+  potential-free parser smoke plus separate LAMMPS and OVITO evidence layout.
 
 ## Tests
 
@@ -176,12 +209,17 @@ entries in `mcp/<solver>/server.py` expose only that solver profile by setting
 python -m unittest discover -s tests
 ```
 
-The tests validate bridge-plan output, smoke-template generation, and evidence
-classification. They do not require commercial CAE software.
+The tests validate aliases, solver-scoped tools, smoke-template generation,
+Mechanical evidence gates, GUI-versus-scripting capability checks, log signals,
+and evidence classification. They do not require commercial CAE software.
 
 ## Status
 
-This repository is in bridge-preview status. It now includes public documentation, first-run local toolchain discovery, private config generation, local toolbox commands, traceable run records, evidence scanning with log-signal parsing, and a first COMSOL Java API smoke model. Full solver-native automation still depends on each user-owned CAE installation and license state.
+This repository is in bridge-preview status. It includes public documentation,
+local discovery/configuration, solver-scoped MCP packages, 11 Codex skills,
+traceable runs, evidence grading, and smoke templates for the supported bridge
+profiles. Real solver validation still depends on each user's installed
+software, API packages, license state, and model inputs.
 
 ## License
 

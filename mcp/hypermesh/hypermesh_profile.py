@@ -160,6 +160,8 @@ def manifest() -> dict[str, Any]:
                 "hypermesh_plan_circular_feature_mesh",
                 "hypermesh_plan_fillet_chamfer_mesh",
                 "hypermesh_plan_tetra_quality_remediation",
+                "hypermesh_plan_tetra_hotspot_remediation",
+                "hypermesh_plan_tetra_zero_failure_search",
                 "hypermesh_plan_sphere_mesh",
                 "hypermesh_plan_flange_mesh",
                 "hypermesh_list_client_roots",
@@ -1177,6 +1179,414 @@ def plan_tetra_quality_remediation(
     }
 
 
+def plan_tetra_hotspot_remediation(
+    total_elements: int,
+    failed_element_count: int,
+    hotspot_count: int,
+    boundary_associated_failure_count: int,
+    two_or_more_boundary_nodes_count: int,
+    three_or_more_boundary_nodes_count: int,
+    target_size: float,
+    minimum_surface_size: float,
+    minimum_height_fail_count: int = 0,
+    minimum_height_worst: float | None = None,
+    minimum_height_threshold: float = 0.20,
+    tet_collapse_fail_count: int = 0,
+    aspect_ratio_fail_count: int = 0,
+    volumetric_skew_fail_count: int = 0,
+    dominant_hotspot_element_count: int = 0,
+    minimum_failed_tet_edge: float | None = None,
+    minimum_associated_geometry_edge: float | None = None,
+    requested_local_size: float | None = None,
+    maximum_growth_ratio: float = 1.25,
+    strict_pareto: bool = True,
+) -> dict[str, Any]:
+    """Classify tetra failure hotspots and choose a transactional remedy.
+
+    This planner deliberately separates geometric-boundary failures from
+    interior node-position failures.  An absolute minimum-height failure is not
+    automatically a refinement request: smaller tets can make the same gate
+    harder to satisfy when the boundary topology is already over-constrained.
+    """
+
+    if total_elements < 1:
+        raise ValueError("total_elements must be greater than zero")
+    if failed_element_count < 1 or failed_element_count > total_elements:
+        raise ValueError("failed_element_count must be between one and total_elements")
+    if hotspot_count < 1 or hotspot_count > failed_element_count:
+        raise ValueError("hotspot_count must be between one and failed_element_count")
+    for name, value in {
+        "boundary_associated_failure_count": boundary_associated_failure_count,
+        "two_or_more_boundary_nodes_count": two_or_more_boundary_nodes_count,
+        "three_or_more_boundary_nodes_count": three_or_more_boundary_nodes_count,
+        "dominant_hotspot_element_count": dominant_hotspot_element_count,
+        "minimum_height_fail_count": minimum_height_fail_count,
+        "tet_collapse_fail_count": tet_collapse_fail_count,
+        "aspect_ratio_fail_count": aspect_ratio_fail_count,
+        "volumetric_skew_fail_count": volumetric_skew_fail_count,
+    }.items():
+        if value < 0 or value > failed_element_count:
+            raise ValueError(f"{name} must be between zero and failed_element_count")
+    if two_or_more_boundary_nodes_count > boundary_associated_failure_count:
+        raise ValueError("two_or_more_boundary_nodes_count cannot exceed boundary_associated_failure_count")
+    if three_or_more_boundary_nodes_count > two_or_more_boundary_nodes_count:
+        raise ValueError("three_or_more_boundary_nodes_count cannot exceed two_or_more_boundary_nodes_count")
+    for name, value in {
+        "target_size": target_size,
+        "minimum_surface_size": minimum_surface_size,
+        "minimum_height_threshold": minimum_height_threshold,
+        "maximum_growth_ratio": maximum_growth_ratio,
+    }.items():
+        if value <= 0:
+            raise ValueError(f"{name} must be greater than zero")
+    if maximum_growth_ratio <= 1.0:
+        raise ValueError("maximum_growth_ratio must be greater than one")
+    for name, value in {
+        "minimum_height_worst": minimum_height_worst,
+        "minimum_failed_tet_edge": minimum_failed_tet_edge,
+        "minimum_associated_geometry_edge": minimum_associated_geometry_edge,
+        "requested_local_size": requested_local_size,
+    }.items():
+        if value is not None and value <= 0:
+            raise ValueError(f"{name} must be greater than zero when provided")
+
+    boundary_ratio = boundary_associated_failure_count / failed_element_count
+    boundary_two_ratio = two_or_more_boundary_nodes_count / failed_element_count
+    boundary_three_ratio = three_or_more_boundary_nodes_count / failed_element_count
+    interior_count = failed_element_count - boundary_associated_failure_count
+    dominant_share = dominant_hotspot_element_count / failed_element_count
+
+    if boundary_two_ratio >= 0.60:
+        classification = "boundary_topology_driven"
+    elif boundary_ratio <= 0.30:
+        classification = "interior_node_or_connectivity_driven"
+    else:
+        classification = "mixed_boundary_and_interior"
+
+    height_dominant = minimum_height_fail_count == max(
+        minimum_height_fail_count,
+        tet_collapse_fail_count,
+        aspect_ratio_fail_count,
+        volumetric_skew_fail_count,
+    ) and minimum_height_fail_count > 0
+    severe_height = (
+        minimum_height_worst is not None
+        and minimum_height_worst < 0.5 * minimum_height_threshold
+    )
+    local_size = requested_local_size or minimum_surface_size
+    local_size_to_height_gate = local_size / minimum_height_threshold
+    blind_refinement_blocked = bool(
+        height_dominant
+        and (
+            boundary_two_ratio >= 0.60
+            or severe_height
+            or local_size_to_height_gate <= 2.0
+        )
+    )
+
+    if blind_refinement_blocked:
+        first_action = "regularize_or_coarsen_boundary_sampling_before_any_refinement"
+        refinement_decision = "blocked_as_default"
+        refinement_reason = (
+            "Minimum height is dominant and the failures are boundary constrained or severe. "
+            "Further local refinement can reduce absolute tetra height; first redistribute edge/surface "
+            "sampling, repair the boundary trias, or review non-physical topology."
+        )
+    elif classification == "interior_node_or_connectivity_driven":
+        first_action = "fixed_boundary_local_tetra_optimization"
+        refinement_decision = "conditional"
+        refinement_reason = "The evidence is mainly interior; optimize connectivity/node placement before changing CAD density."
+    else:
+        first_action = "surface_first_cluster_remesh_with_feature_constraints"
+        refinement_decision = "conditional"
+        refinement_reason = "Refine only when curvature or physics is under-resolved; otherwise regularize the boundary mesh."
+
+    baseline_ratios = (0.25, 0.275, 0.30, 0.33)
+    minimum_gate_margin = 2.5 * minimum_height_threshold
+    parameter_search = []
+    for ratio in baseline_ratios:
+        candidate = max(minimum_gate_margin, ratio * target_size)
+        if not any(math.isclose(candidate, row["minimum_size"], rel_tol=0.0, abs_tol=1e-12) for row in parameter_search):
+            parameter_search.append(
+                {
+                    "minimum_size": candidate,
+                    "minimum_to_target_ratio": candidate / target_size,
+                    "maximum_growth_ratio": maximum_growth_ratio,
+                    "purpose": "model-level baseline only; protected features may use a reviewed smaller local size",
+                }
+            )
+
+    geometry_edge_signal = None
+    if minimum_associated_geometry_edge is not None and minimum_failed_tet_edge is not None:
+        geometry_edge_signal = (
+            "mesh_sampling_or_boundary_tria_conflict"
+            if minimum_associated_geometry_edge > 2.0 * minimum_failed_tet_edge
+            else "small_retained_geometry_may_be_driving_the_failure"
+        )
+
+    return {
+        "status": "planned",
+        "classification": classification,
+        "statistics": {
+            "total_elements": total_elements,
+            "failed_element_count": failed_element_count,
+            "failure_rate_percent": 100.0 * failed_element_count / total_elements,
+            "hotspot_count": hotspot_count,
+            "boundary_associated_failure_count": boundary_associated_failure_count,
+            "boundary_associated_ratio": boundary_ratio,
+            "two_or_more_boundary_nodes_ratio": boundary_two_ratio,
+            "three_or_more_boundary_nodes_ratio": boundary_three_ratio,
+            "interior_failure_count": interior_count,
+            "dominant_hotspot_element_count": dominant_hotspot_element_count,
+            "dominant_hotspot_share": dominant_share,
+        },
+        "diagnosis": {
+            "height_dominant": height_dominant,
+            "severe_minimum_height": severe_height,
+            "minimum_height_threshold": minimum_height_threshold,
+            "minimum_height_worst": minimum_height_worst,
+            "requested_or_current_local_size": local_size,
+            "local_size_to_height_gate": local_size_to_height_gate,
+            "minimum_failed_tet_edge": minimum_failed_tet_edge,
+            "minimum_associated_geometry_edge": minimum_associated_geometry_edge,
+            "geometry_edge_signal": geometry_edge_signal,
+        },
+        "refinement_gate": {
+            "decision": refinement_decision,
+            "blind_refinement_blocked": blind_refinement_blocked,
+            "reason": refinement_reason,
+            "allowed_only_for": [
+                "under-resolved protected curvature",
+                "contact/load/fatigue or result-gradient region",
+                "a refinement zone with an explicit transition and successful all-metric recheck",
+            ],
+        },
+        "first_action": first_action,
+        "parameter_search": parameter_search,
+        "cluster_routes": {
+            "geometry_edge_or_three_boundary_nodes": [
+                "inspect associated line IDs, total line length, local node spacing, tangency, and protected role",
+                "redistribute or coarsen irregular edge seeding; do not automatically split an already short height",
+                "remesh the attached surface patch while maintaining geometry edges, feature lines, and anchors",
+            ],
+            "surface_boundary": [
+                "quality-check boundary trias, then test edge-swap and remesh candidates independently",
+                "include one neighboring layer first; add a second layer only when transition distance is inadequate",
+            ],
+            "interior": [
+                "use fixed-boundary local tetra optimization or connectivity repair before changing surface density",
+            ],
+        },
+        "transaction_sequence": [
+            "Export exact failed IDs/values/centroids and node-to-geometry associations; cluster by shared topology or a radius tied to target size.",
+            "Rank hotspots by severity, multi-metric overlap, boundary-node ratio, protected physics role, and hotspot size.",
+            "Checkpoint the current accepted mesh before each hotspot; process one hotspot instead of the full union.",
+            "Run route-specific fixed-topology, edge-swap, or boundary-remesh candidates with protected geometry edges, feature lines, interfaces, and anchor nodes.",
+            "Recheck every active metric globally, not only the seed metric; compare counts, exact worst values, locations, element count, geometry entities, and time.",
+            "Commit the hotspot candidate only when it satisfies the acceptance contract; otherwise reload the checkpoint and record the rejection.",
+            "After an accepted topology-changing transaction, regenerate hotspot IDs because element numbers and adjacency can change.",
+        ],
+        "acceptance_contract": {
+            "mode": "strict_pareto" if strict_pareto else "reviewed_tradeoff",
+            "rollback_on_any_active_metric_regression": strict_pareto,
+            "requires_global_recheck": True,
+            "requires_exact_worst_values": True,
+            "requires_geometry_and_feature_preservation": True,
+            "requires_candidate_checkpoint": True,
+        },
+    }
+
+
+def plan_tetra_zero_failure_search(
+    total_elements: int,
+    unique_failed_element_count: int,
+    hotspot_count: int,
+    boundary_associated_failure_count: int,
+    two_or_more_boundary_nodes_count: int,
+    tet_collapse_fail_count: int = 0,
+    aspect_ratio_fail_count: int = 0,
+    volumetric_skew_fail_count: int = 0,
+    minimum_height_fail_count: int = 0,
+    tet_collapse_worst: float | None = None,
+    aspect_ratio_worst: float | None = None,
+    volumetric_skew_worst: float | None = None,
+    minimum_height_worst: float | None = None,
+    jacobian_fail_count: int = 0,
+    non_tetra_element_count: int = 0,
+    plateau_detected: bool = False,
+    zero_failure_required: bool = True,
+    observed_maximum_boundary_displacement: float | None = None,
+    maximum_allowed_boundary_displacement: float | None = None,
+    current_geometry_association_change_count: int = 0,
+    initial_geometry_association_change_count: int = 0,
+) -> dict[str, Any]:
+    """Plan the final zero-failure search and keep geometry risk explicit.
+
+    This is the escalation planner used after ordinary surface-first and local
+    hotspot repair reaches a plateau.  It deliberately keeps the numerical
+    quality gate separate from CAD-adherence acceptance: zero failed elements
+    must never hide excessive boundary motion or lost feature associations.
+    """
+
+    if total_elements < 1:
+        raise ValueError("total_elements must be greater than zero")
+    counts = {
+        "unique_failed_element_count": unique_failed_element_count,
+        "hotspot_count": hotspot_count,
+        "boundary_associated_failure_count": boundary_associated_failure_count,
+        "two_or_more_boundary_nodes_count": two_or_more_boundary_nodes_count,
+        "tet_collapse_fail_count": tet_collapse_fail_count,
+        "aspect_ratio_fail_count": aspect_ratio_fail_count,
+        "volumetric_skew_fail_count": volumetric_skew_fail_count,
+        "minimum_height_fail_count": minimum_height_fail_count,
+        "jacobian_fail_count": jacobian_fail_count,
+        "non_tetra_element_count": non_tetra_element_count,
+        "current_geometry_association_change_count": current_geometry_association_change_count,
+        "initial_geometry_association_change_count": initial_geometry_association_change_count,
+    }
+    for name, value in counts.items():
+        if value < 0:
+            raise ValueError(f"{name} must be zero or greater")
+    if unique_failed_element_count > total_elements:
+        raise ValueError("unique_failed_element_count cannot exceed total_elements")
+    if hotspot_count > unique_failed_element_count:
+        raise ValueError("hotspot_count cannot exceed unique_failed_element_count")
+    if boundary_associated_failure_count > unique_failed_element_count:
+        raise ValueError("boundary_associated_failure_count cannot exceed unique_failed_element_count")
+    if two_or_more_boundary_nodes_count > boundary_associated_failure_count:
+        raise ValueError("two_or_more_boundary_nodes_count cannot exceed boundary_associated_failure_count")
+    for name, value in {
+        "tet_collapse_worst": tet_collapse_worst,
+        "aspect_ratio_worst": aspect_ratio_worst,
+        "volumetric_skew_worst": volumetric_skew_worst,
+        "minimum_height_worst": minimum_height_worst,
+        "observed_maximum_boundary_displacement": observed_maximum_boundary_displacement,
+        "maximum_allowed_boundary_displacement": maximum_allowed_boundary_displacement,
+    }.items():
+        if value is not None and value < 0:
+            raise ValueError(f"{name} must be zero or greater when provided")
+
+    metric_failures = {
+        "tet_collapse": tet_collapse_fail_count,
+        "aspect_ratio": aspect_ratio_fail_count,
+        "volumetric_skew": volumetric_skew_fail_count,
+        "minimum_height": minimum_height_fail_count,
+        "jacobian": jacobian_fail_count,
+    }
+    four_metric_zero = all(
+        metric_failures[name] == 0
+        for name in ("tet_collapse", "aspect_ratio", "volumetric_skew", "minimum_height")
+    )
+    pure_tetra = non_tetra_element_count == 0
+    numerical_acceptance = four_metric_zero and jacobian_fail_count == 0 and pure_tetra
+    boundary_ratio = (
+        boundary_associated_failure_count / unique_failed_element_count
+        if unique_failed_element_count
+        else 0.0
+    )
+    constrained_boundary_ratio = (
+        two_or_more_boundary_nodes_count / unique_failed_element_count
+        if unique_failed_element_count
+        else 0.0
+    )
+
+    if observed_maximum_boundary_displacement is None:
+        geometry_status = "not_measured"
+    elif maximum_allowed_boundary_displacement is None:
+        geometry_status = "measured_tolerance_not_defined"
+    elif observed_maximum_boundary_displacement <= maximum_allowed_boundary_displacement:
+        geometry_status = "pass"
+    else:
+        geometry_status = "fail"
+    association_status = (
+        "pass"
+        if current_geometry_association_change_count == 0
+        and initial_geometry_association_change_count == 0
+        else "review_required"
+    )
+    geometry_acceptance = geometry_status == "pass" and association_status == "pass"
+
+    if numerical_acceptance:
+        phase = "independent_reload_and_geometry_acceptance"
+    elif plateau_detected and boundary_ratio >= 0.90:
+        phase = "shape_preserving_boundary_escalation"
+    elif boundary_ratio >= 0.60:
+        phase = "boundary_hotspot_transaction"
+    else:
+        phase = "split_boundary_and_interior_residuals"
+
+    residual_routes = {
+        "boundary_plateau": [
+            "Checkpoint the best globally accepted mesh before each candidate.",
+            "Test *morphsmoothmorphbased on one and two neighboring layers with quality 2/3, feature-aware fixing, and protected interfaces/anchors.",
+            "Rank candidates lexicographically by total failed counts, exact worst margins, protected-feature integrity, then boundary displacement; do not optimize a single metric in isolation.",
+        ],
+        "minimum_height_residual": [
+            "Use a one-layer shape-preserving local free-morph candidate only after the boundary plateau route.",
+            "Do not refine an absolute-height residual by default; measure the local boundary-tria and geometry-edge spacing first.",
+        ],
+        "interior_skew_or_connectivity_residual": [
+            "Use fixed-boundary local *tetmesh mode 6 on the residual patch plus one neighboring layer.",
+            "Use mode 7 only for swappable-boundary trials and mode 8 only for remeshable-boundary trials; keep min_height active and verify the installed release syntax.",
+        ],
+    }
+
+    return {
+        "status": "accepted" if numerical_acceptance else "planned",
+        "phase": phase,
+        "classification": {
+            "boundary_associated_ratio": boundary_ratio,
+            "two_or_more_boundary_nodes_ratio": constrained_boundary_ratio,
+            "plateau_detected": plateau_detected,
+        },
+        "quality_evidence": {
+            "metric_fail_counts": metric_failures,
+            "exact_worst_values": {
+                "tet_collapse": tet_collapse_worst,
+                "aspect_ratio": aspect_ratio_worst,
+                "volumetric_skew": volumetric_skew_worst,
+                "minimum_height": minimum_height_worst,
+            },
+            "four_metric_zero": four_metric_zero,
+            "pure_tetra": pure_tetra,
+            "numerical_acceptance_pass": numerical_acceptance,
+        },
+        "geometry_evidence": {
+            "status": geometry_status,
+            "association_status": association_status,
+            "observed_maximum_boundary_displacement": observed_maximum_boundary_displacement,
+            "maximum_allowed_boundary_displacement": maximum_allowed_boundary_displacement,
+            "current_geometry_association_change_count": current_geometry_association_change_count,
+            "initial_geometry_association_change_count": initial_geometry_association_change_count,
+            "geometry_acceptance_pass": geometry_acceptance,
+            "warning": (
+                "Numerical quality and CAD adherence are separate gates. Define an engineering displacement tolerance before simulation acceptance."
+                if geometry_status != "pass"
+                else None
+            ),
+        },
+        "residual_routes": residual_routes,
+        "transaction_sequence": [
+            "Export exact values, IDs, centroids, metric intersections, boundary-node counts, and geometry associations; never reuse stale IDs after a topology change.",
+            "Run one route-specific candidate from a checkpoint and recheck every metric globally.",
+            "Rollback any candidate that worsens an active count, exact worst margin, protected feature, element type, or documented geometry tolerance.",
+            "When four metrics reach zero, export the solver deck and independently reload it for a second full-model check.",
+            "Audit node displacement and both current and initial CAD associations. Do not force-project stale initial IDs unless the referenced current geometry entity exists and a checkpointed trial passes all gates.",
+        ],
+        "acceptance_contract": {
+            "zero_failure_required": zero_failure_required,
+            "quality_acceptance_pass": numerical_acceptance,
+            "geometry_acceptance_pass": geometry_acceptance,
+            "simulation_acceptance_pass": numerical_acceptance and geometry_acceptance,
+            "requires_independent_reload": True,
+            "requires_exact_worst_values": True,
+            "requires_pure_tetra_audit": True,
+            "requires_boundary_displacement_tolerance": True,
+            "requires_geometry_association_audit": True,
+        },
+    }
+
+
 def register_hypermesh_profile(server: Any) -> Any:
     # FastMCP v1 exposes instructions as a read-only facade over the low-level
     # server. The profile pins v1 and sets the low-level field deliberately.
@@ -1523,6 +1933,110 @@ exports. Do not claim success from return code or file presence alone."""
             previous_minimum_height_fail_count,
             optimized_minimum_height_fail_count,
             protected_small_features,
+        )
+
+    @server.tool(
+        name="hypermesh_plan_tetra_hotspot_remediation",
+        title="Plan Tetra Hotspot Remediation",
+        description="Classify geometry-boundary versus interior tetra hotspots, block harmful blind refinement, and create checkpointed per-cluster Pareto remediation routes.",
+        structured_output=True,
+    )
+    def hypermesh_plan_tetra_hotspot_remediation(
+        total_elements: int,
+        failed_element_count: int,
+        hotspot_count: int,
+        boundary_associated_failure_count: int,
+        two_or_more_boundary_nodes_count: int,
+        three_or_more_boundary_nodes_count: int,
+        target_size: float,
+        minimum_surface_size: float,
+        minimum_height_fail_count: int = 0,
+        minimum_height_worst: float | None = None,
+        minimum_height_threshold: float = 0.20,
+        tet_collapse_fail_count: int = 0,
+        aspect_ratio_fail_count: int = 0,
+        volumetric_skew_fail_count: int = 0,
+        dominant_hotspot_element_count: int = 0,
+        minimum_failed_tet_edge: float | None = None,
+        minimum_associated_geometry_edge: float | None = None,
+        requested_local_size: float | None = None,
+        maximum_growth_ratio: float = 1.25,
+        strict_pareto: bool = True,
+    ) -> dict[str, Any]:
+        return plan_tetra_hotspot_remediation(
+            total_elements,
+            failed_element_count,
+            hotspot_count,
+            boundary_associated_failure_count,
+            two_or_more_boundary_nodes_count,
+            three_or_more_boundary_nodes_count,
+            target_size,
+            minimum_surface_size,
+            minimum_height_fail_count,
+            minimum_height_worst,
+            minimum_height_threshold,
+            tet_collapse_fail_count,
+            aspect_ratio_fail_count,
+            volumetric_skew_fail_count,
+            dominant_hotspot_element_count,
+            minimum_failed_tet_edge,
+            minimum_associated_geometry_edge,
+            requested_local_size,
+            maximum_growth_ratio,
+            strict_pareto,
+        )
+
+    @server.tool(
+        name="hypermesh_plan_tetra_zero_failure_search",
+        title="Plan Tetra Zero-Failure Search",
+        description="Escalate a plateaued tetra mesh through shape-preserving boundary morphing and metric-specific residual repair, then separate numerical and CAD-adherence acceptance.",
+        structured_output=True,
+    )
+    def hypermesh_plan_tetra_zero_failure_search(
+        total_elements: int,
+        unique_failed_element_count: int,
+        hotspot_count: int,
+        boundary_associated_failure_count: int,
+        two_or_more_boundary_nodes_count: int,
+        tet_collapse_fail_count: int = 0,
+        aspect_ratio_fail_count: int = 0,
+        volumetric_skew_fail_count: int = 0,
+        minimum_height_fail_count: int = 0,
+        tet_collapse_worst: float | None = None,
+        aspect_ratio_worst: float | None = None,
+        volumetric_skew_worst: float | None = None,
+        minimum_height_worst: float | None = None,
+        jacobian_fail_count: int = 0,
+        non_tetra_element_count: int = 0,
+        plateau_detected: bool = False,
+        zero_failure_required: bool = True,
+        observed_maximum_boundary_displacement: float | None = None,
+        maximum_allowed_boundary_displacement: float | None = None,
+        current_geometry_association_change_count: int = 0,
+        initial_geometry_association_change_count: int = 0,
+    ) -> dict[str, Any]:
+        return plan_tetra_zero_failure_search(
+            total_elements=total_elements,
+            unique_failed_element_count=unique_failed_element_count,
+            hotspot_count=hotspot_count,
+            boundary_associated_failure_count=boundary_associated_failure_count,
+            two_or_more_boundary_nodes_count=two_or_more_boundary_nodes_count,
+            tet_collapse_fail_count=tet_collapse_fail_count,
+            aspect_ratio_fail_count=aspect_ratio_fail_count,
+            volumetric_skew_fail_count=volumetric_skew_fail_count,
+            minimum_height_fail_count=minimum_height_fail_count,
+            tet_collapse_worst=tet_collapse_worst,
+            aspect_ratio_worst=aspect_ratio_worst,
+            volumetric_skew_worst=volumetric_skew_worst,
+            minimum_height_worst=minimum_height_worst,
+            jacobian_fail_count=jacobian_fail_count,
+            non_tetra_element_count=non_tetra_element_count,
+            plateau_detected=plateau_detected,
+            zero_failure_required=zero_failure_required,
+            observed_maximum_boundary_displacement=observed_maximum_boundary_displacement,
+            maximum_allowed_boundary_displacement=maximum_allowed_boundary_displacement,
+            current_geometry_association_change_count=current_geometry_association_change_count,
+            initial_geometry_association_change_count=initial_geometry_association_change_count,
         )
 
     @server.tool(

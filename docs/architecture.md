@@ -13,7 +13,8 @@ Obsidian knowledge -> prompt template -> local environment check -> solver bridg
 | Knowledge layer | Concepts, examples, prompt patterns, checklists |
 | Agent layer | Codex, Claude Code, or another tool-using assistant |
 | Bridge layer | MCP server, Python API, desktop plugin, socket bridge, journal file, or file queue |
-| Solver layer | Abaqus, Fluent, Workbench, COMSOL, MATLAB/Simulink, OpenFOAM |
+| Solver layer | AEDT, Abaqus, Fluent, Mechanical/Workbench, HyperMesh, LAMMPS, COMSOL, MATLAB/Simulink, OpenFOAM |
+| Postprocessing layer | OVITO, ParaView, native solver result systems |
 | Evidence layer | Logs, solver files, images, CSV/JSON, report notes |
 
 ## Bridge Patterns
@@ -33,6 +34,22 @@ Run a small plugin inside the desktop software and talk to it from the agent. Th
 ### File queue IPC
 
 Write command JSON files to a queue and let the software-side bridge return result JSON files. This is easy to audit and recover.
+
+## Module Contract
+
+Each mature software module should expose the same public chain:
+
+```text
+adapter -> solver-scoped MCP profile -> Codex skill -> prompt -> checklist -> example -> tests
+```
+
+The chain separates capability from credibility:
+
+- an executable check proves only path presence;
+- a Python import proves only API availability;
+- a connection smoke proves only bridge functionality;
+- a native solve plus logs and outputs proves execution;
+- engineering credibility additionally requires solver-specific acceptance gates.
 
 ## Evidence Contract
 

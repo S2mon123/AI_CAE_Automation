@@ -25,8 +25,14 @@ Current public skill packages:
 | Skill | Purpose |
 |---|---|
 | `ai-cae-run-manager` | Run folders, evidence scans, credibility grading, reports |
+| `aedt-evidence-electromagnetics` | AEDT/PyAEDT design-type, logs, fields, and tables |
 | `abaqus-evidence-simulation` | Abaqus modeling, job execution, status, ODB evidence |
 | `fluent-evidence-cfd` | Fluent journal/PyFluent workflow, logs, case/data evidence |
+| `ansys-mechanical-evidence-structural` | Mechanical structural solve and result acceptance gates |
+| `hypermesh-evidence-meshing` | HyperMesh import, Tcl/batch mesh, quality, and deck evidence |
+| `lammps-evidence-md` | LAMMPS run integrity, potentials, thermo, and trajectories |
+| `ovito-evidence-postprocessing` | OVITO GUI/script capability and auditable postprocessing |
 | `comsol-evidence-multiphysics` | COMSOL Java API, batch runs, MPH exports |
+| `comsol-motor-nvh-evidence` | Checkpointed PM motor electromagnetic-structural-acoustic NVH workflow |
 | `open-toolchain-evidence` | MATLAB/Simulink, OpenFOAM, and ParaView evidence workflows |
 | `pcschematic-evidence-cad` | PCSCHEMATIC COM/OLE and electrical CAD evidence |

@@ -21,6 +21,16 @@ class SolverAdapterInfo:
 def known_adapters() -> list[SolverAdapterInfo]:
     return [
         SolverAdapterInfo(
+            name="aedt",
+            maturity="bridge-preview",
+            env_vars=("AEDT_EXE", "AEDT_INSTALL_DIR", "PYAEDT_PYTHON"),
+            capabilities=(
+                AdapterCapability("check_install", "Verify AEDT and the selected PyAEDT Python."),
+                AdapterCapability("run_pyaedt_script", "Run a user-supplied PyAEDT automation script."),
+            ),
+            notes="Maxwell, HFSS, Icepak, and Q3D workflows must identify the actual AEDT design type used.",
+        ),
+        SolverAdapterInfo(
             name="abaqus",
             maturity="minimal",
             env_vars=("ABAQUS_COMMAND",),
@@ -50,6 +60,47 @@ def known_adapters() -> list[SolverAdapterInfo]:
                 AdapterCapability("run_workbench_journal", "Run a Workbench journal in batch mode."),
             ),
             notes="Workbench adapters should write logs and avoid modifying original project files.",
+        ),
+        SolverAdapterInfo(
+            name="ansys-mechanical",
+            maturity="bridge-preview",
+            env_vars=("WORKBENCH_EXE", "PYMECHANICAL_PYTHON", "ANSYS_MECHANICAL_EXE"),
+            capabilities=(
+                AdapterCapability("run_workbench_journal", "Run a Workbench journal that enters Mechanical."),
+                AdapterCapability("run_python_controller", "Run a PyMechanical controller script."),
+                AdapterCapability("validate_result_summary", "Gate Solved state, MAPDL termination, reactions, and RST."),
+            ),
+            notes="Treat Mechanical analysis state and MAPDL termination as separate success gates.",
+        ),
+        SolverAdapterInfo(
+            name="hypermesh",
+            maturity="bridge-preview",
+            env_vars=("HMBATCH_EXE", "HYPERMESH_EXE", "ALTAIR_HOME"),
+            capabilities=(
+                AdapterCapability("check_install", "Verify hmbatch."),
+                AdapterCapability("run_tcl", "Run explicit Tcl through hmbatch -tcl."),
+            ),
+            notes="CAD import failure and mesh-quality failure must block downstream solver claims.",
+        ),
+        SolverAdapterInfo(
+            name="lammps",
+            maturity="bridge-preview",
+            env_vars=("LAMMPS_EXE",),
+            capabilities=(
+                AdapterCapability("check_install", "Verify a LAMMPS executable."),
+                AdapterCapability("run_input", "Run a LAMMPS input deck and capture the log."),
+            ),
+            notes="Interatomic potential redistribution rights must be reviewed separately.",
+        ),
+        SolverAdapterInfo(
+            name="ovito",
+            maturity="bridge-preview",
+            env_vars=("OVITO_EXE", "OVITOS_EXE", "OVITO_PYTHON"),
+            capabilities=(
+                AdapterCapability("check_install", "Distinguish OVITO GUI from script-capable installations."),
+                AdapterCapability("run_script", "Run an OVITO Python postprocessing script."),
+            ),
+            notes="A rendered image is postprocessing evidence, not proof that the upstream MD solve succeeded.",
         ),
         SolverAdapterInfo(
             name="comsol",

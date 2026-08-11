@@ -45,9 +45,14 @@ is:
 
 | Solver | Tools |
 | --- | --- |
+| AEDT | `aedt_check_installation`, `aedt_run_pyaedt_script_file` |
 | Abaqus | `abaqus_run_no_gui_script`, `abaqus_submit_input_deck` |
 | Fluent | `fluent_run_journal_file` |
 | Ansys Workbench | `ansys_check_installation`, `ansys_run_workbench_journal_file` |
+| Ansys Mechanical | `mechanical_check_installation`, `mechanical_run_workbench_journal_file`, `mechanical_run_python_controller_file`, `mechanical_validate_result_summary_file` |
+| HyperMesh | `hypermesh_check_installation`, `hypermesh_run_tcl_file` |
+| LAMMPS | `lammps_check_installation`, `lammps_run_input_file` |
+| OVITO | `ovito_check_installation`, `ovito_run_script_file` |
 | COMSOL | `comsol_check_installation`, `comsol_compile_java_file`, `comsol_run_compiled_java_class`, `comsol_run_batch_file` |
 | MATLAB | `matlab_check_installation`, `matlab_run_script_file` |
 | OpenFOAM | `openfoam_check_installation`, `openfoam_run_case_command` |

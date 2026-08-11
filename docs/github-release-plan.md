@@ -4,7 +4,8 @@
 
 - README in English and Chinese.
 - Architecture, workflow, and software matrix.
-- Prompt templates for Abaqus, Fluent, and COMSOL.
+- Prompt templates for AEDT, Abaqus, Fluent, Mechanical, HyperMesh, LAMMPS,
+  OVITO, and COMSOL.
 - Smoke-test and evidence-chain checklists.
 - Environment checker script.
 
@@ -16,9 +17,9 @@
 
 ## Phase 3: MCP Tooling
 
-- Add minimal MCP server templates.
-- Add client configuration examples.
-- Add smoke tests for tool listing and no-op commands.
+- Maintain solver-scoped MCP packages and client configuration examples.
+- Test aliases, tool isolation, smoke templates, failure signals, and evidence gates.
+- Keep commercial executables, licenses, private projects, and large outputs external.
 
 ## Phase 4: Documentation Site
 
@@ -32,4 +33,15 @@
 - No paid material copied verbatim.
 - No proprietary geometry.
 - No solver license files.
+- No unreviewed interatomic potentials.
+- No unredacted absolute local paths in public source.
+- No large trajectory, video, project, or result database files.
 - No false claims of verified results.
+
+## Current Release Gate
+
+- Code/unit tests and Skill validation must pass in CI.
+- JSON/TOML examples must parse.
+- Markdown links and referenced repository paths must resolve.
+- `git diff --check`, secret/path scan, and large-file scan must pass.
+- Real commercial-solver smoke status must be reported separately from code readiness.

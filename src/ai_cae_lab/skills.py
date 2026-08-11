@@ -9,6 +9,12 @@ SKILL_PACKS = [
         "best_with": ["env_check", "create_run_record", "scan_run_evidence", "generate_run_report"],
     },
     {
+        "name": "aedt-evidence-electromagnetics",
+        "path": "codex-skills/aedt-evidence-electromagnetics",
+        "purpose": "AEDT/PyAEDT electromagnetics with design-type checks, solver logs, fields, and tables.",
+        "best_with": ["ai-cae-run-manager"],
+    },
+    {
         "name": "abaqus-evidence-simulation",
         "path": "codex-skills/abaqus-evidence-simulation",
         "purpose": "Abaqus modeling, input decks, job submission, ODB evidence, and result exports.",
@@ -19,6 +25,30 @@ SKILL_PACKS = [
         "path": "codex-skills/fluent-evidence-cfd",
         "purpose": "Fluent journals, PyFluent workflows, residual logs, case/data evidence, and CFD exports.",
         "best_with": ["ai-cae-run-manager"],
+    },
+    {
+        "name": "ansys-mechanical-evidence-structural",
+        "path": "codex-skills/ansys-mechanical-evidence-structural",
+        "purpose": "Mechanical structural analysis through RunWB2, ACT/ExtAPI, or PyMechanical with solve gates.",
+        "best_with": ["ai-cae-run-manager"],
+    },
+    {
+        "name": "hypermesh-evidence-meshing",
+        "path": "codex-skills/hypermesh-evidence-meshing",
+        "purpose": "HyperMesh Tcl/batch meshing with CAD-import and mesh-quality gates.",
+        "best_with": ["ai-cae-run-manager"],
+    },
+    {
+        "name": "lammps-evidence-md",
+        "path": "codex-skills/lammps-evidence-md",
+        "purpose": "LAMMPS molecular dynamics inputs, logs, thermo data, trajectories, and reproducibility checks.",
+        "best_with": ["ai-cae-run-manager", "ovito-evidence-postprocessing"],
+    },
+    {
+        "name": "ovito-evidence-postprocessing",
+        "path": "codex-skills/ovito-evidence-postprocessing",
+        "purpose": "OVITO visualization and atomistic postprocessing with pipeline and export evidence.",
+        "best_with": ["ai-cae-run-manager", "lammps-evidence-md"],
     },
     {
         "name": "comsol-evidence-multiphysics",

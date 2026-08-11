@@ -13,7 +13,7 @@
 ## 仓库定位
 
 - 建立 AI + CAE + MCP + Prompt + 证据链的一体化工作台。
-- 覆盖 Abaqus、Ansys Fluent、Workbench/Mechanical、COMSOL、MATLAB/Simulink、OpenFOAM、ParaView、PCSCHEMATIC Automation 等方向。
+- 覆盖 AEDT、Abaqus、Ansys Fluent、Workbench/Mechanical、HyperMesh、LAMMPS、OVITO、COMSOL、MATLAB/Simulink、OpenFOAM、ParaView、PCSCHEMATIC Automation 等方向。
 - 让每次仿真或电气 CAD 自动化任务先检查环境，再执行真实软件，最后导出日志、图片、CSV、工程文件等证据。
 - 区分预览、dry-run、功能验证、工程初稿和报告级结果，避免把演示当作可信工程结论。
 
@@ -44,7 +44,7 @@ python -m venv .venv
 .\.venv\Scripts\ai-cae-toolbox.exe doctor
 ```
 
-`setup` 会在首次运行时自动发现 Abaqus、COMSOL、MATLAB、Ansys、Fluent、Workbench、PCSCHEMATIC，检查真实可执行文件，生成 `private/ai-cae.local.json`、`private/activate-ai-cae.ps1` 和 `private/codex-mcp.local.toml`。`private/` 已被 git 忽略，本机路径不会提交到公开仓库。
+`setup` 会在首次运行时发现 AEDT、Abaqus、Ansys Fluent、Workbench/Mechanical、HyperMesh、LAMMPS、OVITO、COMSOL、MATLAB 和 PCSCHEMATIC，检查可执行文件并生成 `private/ai-cae.local.json`、`private/activate-ai-cae.ps1` 和 `private/codex-mcp.local.toml`。`private/` 已被 git 忽略。路径发现不等于许可证可用，也不等于真实求解完成。
 
 ## Codex 接入
 
@@ -62,9 +62,15 @@ python -m venv .venv
 当前可安装技能包：
 
 - `ai-cae-run-manager`
+- `aedt-evidence-electromagnetics`
 - `abaqus-evidence-simulation`
 - `fluent-evidence-cfd`
+- `ansys-mechanical-evidence-structural`
+- `hypermesh-evidence-meshing`
+- `lammps-evidence-md`
+- `ovito-evidence-postprocessing`
 - `comsol-evidence-multiphysics`
+- `comsol-motor-nvh-evidence`
 - `open-toolchain-evidence`
 - `pcschematic-evidence-cad`
 
@@ -114,6 +120,11 @@ python -m venv .venv
 | `fluent_run_journal_file` | 批处理运行 Fluent journal 并写入日志 |
 | `ansys_check_installation` | 检查 Ansys/Fluent/Workbench 配置路径 |
 | `ansys_run_workbench_journal_file` | 批处理运行 Workbench journal 并写入日志 |
+| `aedt_check_installation` / `aedt_run_pyaedt_script_file` | 检查 AEDT/PyAEDT 并运行显式 PyAEDT 脚本 |
+| `mechanical_check_installation` / `mechanical_validate_result_summary_file` | 检查 Mechanical 控制路线并校验求解证据门 |
+| `hypermesh_check_installation` / `hypermesh_run_tcl_file` | 检查 hmbatch 并运行显式 Tcl |
+| `lammps_check_installation` / `lammps_run_input_file` | 检查 LAMMPS 并运行输入脚本 |
+| `ovito_check_installation` / `ovito_run_script_file` | 区分 OVITO GUI 与批处理 Python，并运行后处理脚本 |
 | `comsol_check_installation` | 检查 COMSOL 可执行文件、batch、compile、Java、mphserver 和 API 文档路径 |
 | `comsol_write_cube_smoke_java` | 写入 10mm 立方体 COMSOL Java API smoke 模型 |
 | `comsol_compile_java_file` | 使用 `comsolcompile` 编译 COMSOL Java API 脚本 |
@@ -133,7 +144,12 @@ python -m venv .venv
 - [`examples/fluent-sinusoidal-weld-pool`](examples/fluent-sinusoidal-weld-pool/README.md)：正弦轨迹焊接熔池 Fluent 工作流。
 - [`examples/comsol-cube-10mm`](examples/comsol-cube-10mm/README.md)：COMSOL Java API 10mm 立方体 smoke，验证从零建模、网格和 `.mph` 保存链路。
 - [`examples/comsol-ehd-soybean-drying`](examples/comsol-ehd-soybean-drying/README.md)：COMSOL 等效 EHD 离子风黄豆干燥工作流。
+- [`examples/comsol-pm-motor-nvh`](examples/comsol-pm-motor-nvh/README.md)：COMSOL 永磁电机电磁—结构—声学 NVH 分阶段证据链。
 - [`examples/mcp-smoke-workflows`](examples/mcp-smoke-workflows/README.md)：别人 clone 后验证 MCP 工具箱层的最小流程。
+- [`examples/aedt-wireless-power`](examples/aedt-wireless-power/README.md)：Maxwell 无线电能传输证据链骨架。
+- [`examples/ansys-mechanical-static`](examples/ansys-mechanical-static/README.md)：Mechanical 结构求解结果摘要契约。
+- [`examples/hypermesh-meshing`](examples/hypermesh-meshing/README.md)：CAD 导入、网格质量和 deck 导出验收骨架。
+- [`examples/lammps-tension`](examples/lammps-tension/README.md)：不携带势函数的 LAMMPS smoke 与 OVITO 后处理骨架。
 
 ## 测试
 
@@ -141,7 +157,7 @@ python -m venv .venv
 python -m unittest discover -s tests
 ```
 
-这些测试验证桥接计划、COMSOL cube 模板生成、run 状态流转、日志信号解析和证据分类，不需要商业 CAE 软件许可证。
+这些测试验证求解器别名、MCP 工具隔离、smoke 模板、Mechanical 证据门、GUI/脚本能力区分、日志信号和证据分类，不需要商业 CAE 软件许可证。
 
 ## 工作原则
 
@@ -167,7 +183,7 @@ python -m unittest discover -s tests
 
 ## 状态
 
-当前处于 bridge-preview 阶段。项目已经具备本地工具箱、MCP server、运行记录、日志信号解析、证据扫描、报告生成、基础求解器适配器，以及第一个 COMSOL Java API 真实建模 smoke；后续重点是继续增加 Abaqus、Fluent、Workbench 等 solver-native 可运行最小案例。
+当前处于 bridge-preview 阶段。项目已经具备本地工具箱、按软件拆分的 MCP server、11 个 Codex Skill、运行记录、日志解析、证据扫描、报告生成和多软件 smoke 模板。真实 solver-native 验证仍取决于用户自有软件、API 包、许可证和模型输入。
 
 ## 许可证
 

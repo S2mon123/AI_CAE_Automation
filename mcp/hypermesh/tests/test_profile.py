@@ -28,7 +28,9 @@ from hypermesh_profile import (  # noqa: E402
     plan_partition_strategy,
     plan_size_transition,
     plan_sphere_mesh,
+    plan_tetra_hotspot_remediation,
     plan_tetra_quality_remediation,
+    plan_tetra_zero_failure_search,
     validate_workspace_paths,
 )
 
@@ -55,6 +57,8 @@ class HyperMeshProfileTests(unittest.TestCase):
                 "hypermesh_plan_circular_feature_mesh",
                 "hypermesh_plan_fillet_chamfer_mesh",
                 "hypermesh_plan_tetra_quality_remediation",
+                "hypermesh_plan_tetra_hotspot_remediation",
+                "hypermesh_plan_tetra_zero_failure_search",
                 "hypermesh_plan_sphere_mesh",
                 "hypermesh_plan_flange_mesh",
                 "hypermesh_list_client_roots",
@@ -321,6 +325,120 @@ class HyperMeshProfileTests(unittest.TestCase):
         )
         self.assertEqual(plan["evidence_status"], "incomplete")
         self.assertEqual(plan["missing_worst_values"], ["minimum_height"])
+
+    def test_tetra_hotspot_plan_blocks_blind_refinement_for_boundary_height_failures(self) -> None:
+        plan = plan_tetra_hotspot_remediation(
+            total_elements=355651,
+            failed_element_count=114,
+            hotspot_count=20,
+            boundary_associated_failure_count=113,
+            two_or_more_boundary_nodes_count=109,
+            three_or_more_boundary_nodes_count=74,
+            target_size=2.0,
+            minimum_surface_size=0.66,
+            minimum_height_fail_count=102,
+            minimum_height_worst=0.0485968427,
+            tet_collapse_fail_count=3,
+            aspect_ratio_fail_count=19,
+            volumetric_skew_fail_count=18,
+            dominant_hotspot_element_count=37,
+            minimum_failed_tet_edge=0.100578736,
+            minimum_associated_geometry_edge=2.05803465,
+        )
+        self.assertEqual(plan["classification"], "boundary_topology_driven")
+        self.assertTrue(plan["refinement_gate"]["blind_refinement_blocked"])
+        self.assertEqual(
+            plan["first_action"],
+            "regularize_or_coarsen_boundary_sampling_before_any_refinement",
+        )
+        self.assertEqual(
+            plan["diagnosis"]["geometry_edge_signal"],
+            "mesh_sampling_or_boundary_tria_conflict",
+        )
+        self.assertEqual(
+            [row["minimum_size"] for row in plan["parameter_search"]],
+            [0.5, 0.55, 0.6, 0.66],
+        )
+        self.assertTrue(plan["acceptance_contract"]["rollback_on_any_active_metric_regression"])
+
+    def test_tetra_hotspot_plan_routes_interior_failures_to_fixed_boundary_optimization(self) -> None:
+        plan = plan_tetra_hotspot_remediation(
+            total_elements=1000,
+            failed_element_count=10,
+            hotspot_count=3,
+            boundary_associated_failure_count=2,
+            two_or_more_boundary_nodes_count=1,
+            three_or_more_boundary_nodes_count=0,
+            target_size=2.0,
+            minimum_surface_size=0.8,
+            aspect_ratio_fail_count=10,
+            dominant_hotspot_element_count=5,
+        )
+        self.assertEqual(plan["classification"], "interior_node_or_connectivity_driven")
+        self.assertEqual(plan["first_action"], "fixed_boundary_local_tetra_optimization")
+        self.assertFalse(plan["refinement_gate"]["blind_refinement_blocked"])
+
+    def test_zero_failure_search_escalates_boundary_plateau_to_shape_preserving_morph(self) -> None:
+        plan = plan_tetra_zero_failure_search(
+            total_elements=355383,
+            unique_failed_element_count=100,
+            hotspot_count=21,
+            boundary_associated_failure_count=100,
+            two_or_more_boundary_nodes_count=99,
+            tet_collapse_fail_count=2,
+            aspect_ratio_fail_count=16,
+            volumetric_skew_fail_count=5,
+            minimum_height_fail_count=91,
+            minimum_height_worst=0.0580368119,
+            plateau_detected=True,
+        )
+        self.assertEqual(plan["phase"], "shape_preserving_boundary_escalation")
+        self.assertFalse(plan["acceptance_contract"]["quality_acceptance_pass"])
+        boundary_route = " ".join(plan["residual_routes"]["boundary_plateau"])
+        interior_route = " ".join(
+            plan["residual_routes"]["interior_skew_or_connectivity_residual"]
+        )
+        self.assertIn("*morphsmoothmorphbased", boundary_route)
+        self.assertIn("mode 6", interior_route)
+        self.assertIn("min_height active", interior_route)
+
+    def test_zero_failure_quality_pass_does_not_hide_geometry_tolerance_failure(self) -> None:
+        plan = plan_tetra_zero_failure_search(
+            total_elements=355383,
+            unique_failed_element_count=0,
+            hotspot_count=0,
+            boundary_associated_failure_count=0,
+            two_or_more_boundary_nodes_count=0,
+            tet_collapse_worst=0.101912525,
+            aspect_ratio_worst=5.168739577,
+            volumetric_skew_worst=0.934614759,
+            minimum_height_worst=0.200055174,
+            observed_maximum_boundary_displacement=1.432328839,
+            maximum_allowed_boundary_displacement=0.5,
+        )
+        self.assertTrue(plan["acceptance_contract"]["quality_acceptance_pass"])
+        self.assertEqual(plan["geometry_evidence"]["status"], "fail")
+        self.assertFalse(plan["acceptance_contract"]["simulation_acceptance_pass"])
+
+    def test_zero_failure_requires_explicit_geometry_tolerance_for_simulation_acceptance(self) -> None:
+        plan = plan_tetra_zero_failure_search(
+            total_elements=100,
+            unique_failed_element_count=0,
+            hotspot_count=0,
+            boundary_associated_failure_count=0,
+            two_or_more_boundary_nodes_count=0,
+            tet_collapse_worst=0.12,
+            aspect_ratio_worst=4.0,
+            volumetric_skew_worst=0.90,
+            minimum_height_worst=0.22,
+            observed_maximum_boundary_displacement=0.04,
+        )
+        self.assertEqual(plan["status"], "accepted")
+        self.assertEqual(
+            plan["geometry_evidence"]["status"],
+            "measured_tolerance_not_defined",
+        )
+        self.assertFalse(plan["acceptance_contract"]["simulation_acceptance_pass"])
 
     def test_circular_feature_plan_rejects_partial_axial_input(self) -> None:
         with self.assertRaisesRegex(ValueError, "axial_length"):

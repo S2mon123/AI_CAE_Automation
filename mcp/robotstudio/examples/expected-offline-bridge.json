@@ -1,0 +1,8 @@
+{
+  "online": false,
+  "error": {
+    "code": "RS_BRIDGE_OFFLINE",
+    "retryable": true
+  },
+  "note": "An offline response is expected until RobotStudio loads the Add-In; no mock Station data is returned."
+}

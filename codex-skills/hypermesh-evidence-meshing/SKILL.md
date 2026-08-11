@@ -24,6 +24,8 @@ configured. Use `hypermesh_plan_partition_strategy`,
 `hypermesh_plan_size_transition`, and
 `hypermesh_plan_circular_feature_mesh`, `hypermesh_plan_fillet_chamfer_mesh`,
 `hypermesh_plan_tetra_quality_remediation`,
+`hypermesh_plan_tetra_hotspot_remediation`,
+`hypermesh_plan_tetra_zero_failure_search`,
 `hypermesh_plan_sphere_mesh`, and `hypermesh_plan_flange_mesh` before writing
 geometry-cut or meshing Tcl.
 
@@ -57,10 +59,18 @@ geometry-cut or meshing Tcl.
 8. Mesh difficult terminal/source regions first, then propagate compatible
    shared-face meshes through dependent blocks. Generate verified surface mesh
    before volume mesh when the route requires it.
-9. Diagnose failed elements by cause. Prefer topology repair or local remesh
-   before connectivity edits, and use node smoothing only when geometry and
-   topology are already suitable.
-10. Export `.hm`, solver deck, quality report, partition/feature summaries, and
+9. Diagnose failed elements by cause and node-to-geometry association. Cluster
+   failures, rank one hotspot at a time, and distinguish geometry-edge,
+   boundary-surface, and interior failures. Prefer topology repair or local
+   remesh before connectivity edits, and use node smoothing only when geometry
+   and topology are already suitable. Do not treat an absolute minimum-height
+   failure as an automatic request for a smaller local element size.
+10. When ordinary hotspot repair reaches a plateau, invoke the zero-failure
+    escalation route: checkpoint, test feature-aware shape-preserving morphing
+    on one/two neighboring layers, then route residual minimum-height and
+    interior-skew failures to separate local operations. Rank every candidate
+    globally and roll back regressions.
+11. Export `.hm`, solver deck, quality report, partition/feature summaries, and
     command/log evidence.
 
 Read [references/quality-gates.md](references/quality-gates.md) before accepting
@@ -97,6 +107,22 @@ for any tetra route or tetra-quality failure. Export exact values with
 feasibility, quality-check the boundary-tria mesh first, and reject node-only
 optimization when it plateaus or only renumbers failed elements.
 
+For a localized tetra repair, checkpoint the accepted mesh and process one
+hotspot as a transaction. Re-run every active metric globally after fixed-
+topology, edge-swap, or boundary-remesh candidates. Commit only a Pareto-safe
+candidate; otherwise reload the checkpoint. Recompute hotspot IDs after every
+accepted topology-changing operation because remeshing can invalidate element
+IDs and adjacency.
+
+For a hard zero-failure deliverable, all active failure counts must be zero in
+both the working model and an independently reloaded solver deck. Then audit
+pure element type, exact worst-value margins, moved boundary nodes, maximum
+displacement, and current/initial CAD associations. Numerical quality approval
+does not automatically approve geometry adherence; define and report an
+engineering displacement tolerance. Never force-project stale initial geometry
+IDs unless the referenced current entity exists and a checkpointed trial passes
+all quality and topology gates.
+
 ## Finish
 
 Report source geometry type, import translator, entity counts, element counts,
@@ -104,4 +130,6 @@ element types, global and local size controls, edge densities and bias, feature
 division counts, block dependency and meshing order, failed-quality counts,
 remediation, and exported solver profile. Preserve failed BatchMesher logs
 because they identify translator, criteria, parameter-file, or topology
-problems.
+problems. For a zero-failure run, also report the independent-reload result,
+exact quality margins, maximum boundary displacement, the applicable geometry
+tolerance, and association changes.

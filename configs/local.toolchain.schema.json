@@ -23,6 +23,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "aedt": {
+          "$ref": "#/$defs/pathMap"
+        },
         "abaqus": {
           "$ref": "#/$defs/pathMap"
         },
@@ -30,6 +33,18 @@
           "$ref": "#/$defs/pathMap"
         },
         "ansys-workbench": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "ansys-mechanical": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "hypermesh": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "lammps": {
+          "$ref": "#/$defs/pathMap"
+        },
+        "ovito": {
           "$ref": "#/$defs/pathMap"
         },
         "comsol": {
@@ -78,6 +93,21 @@
       "$ref": "#/$defs/pathMap"
     },
     "ansys-workbench": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "ansys-mechanical": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "aedt": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "hypermesh": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "lammps": {
+      "$ref": "#/$defs/pathMap"
+    },
+    "ovito": {
       "$ref": "#/$defs/pathMap"
     },
     "comsol": {

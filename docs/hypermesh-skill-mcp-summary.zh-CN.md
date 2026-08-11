@@ -166,6 +166,14 @@ Tet Collapse/Aspect/Volume Skew 失败集合交集和空间聚类、几何特征
 1% 或仅重编号失败单元时，方案必须返回短边、窄面、圆角、局部尺寸和边界
 三角形处理，不再重复无效的节点优化。
 
+新版增加“热点事务”：统计失败 Tet 的 CAD 关联节点数，先分成
+几何边驱动、表面边界驱动、内部节点/连接驱动和混合热点。当
+Minimum Height 是主导绝对门槛，且至少 60% 失败单元有两个以上边界
+节点时，默认阻止“继续局部细化”，改为边界采样重分布/适度粗化、
+表面三角形重铺或几何审查。每次只处理一个热点，保存 checkpoint，
+全局复测所有质量指标；任一指标退化即回滚，接受拓扑变更后必须
+重新生成失败单元 ID 和聚类。
+
 ## 3. HyperMesh MCP
 
 MCP 路径：[`mcp/hypermesh/`](../mcp/hypermesh/)
@@ -189,6 +197,8 @@ MCP 路径：[`mcp/hypermesh/`](../mcp/hypermesh/)
 | `hypermesh_plan_circular_feature_mesh` | 计算圆周、曲率角、轴向和 washer/radial 分段 |
 | `hypermesh_plan_fillet_chamfer_mesh` | 对圆角、倒角进行保留/抑制判定，计算行数、弦长、弦高误差和过渡 |
 | `hypermesh_plan_tetra_quality_remediation` | 根据准确最差值、失败率/交集、最小几何特征与优化历史，输出四面体表面优先修复方案 |
+| `hypermesh_plan_tetra_hotspot_remediation` | 根据边界节点比例、热点集中度和局部几何/网格尺寸分类热点，阻止有害盲目细化，输出逐簇 checkpoint/Pareto 修复方案 |
+| `hypermesh_plan_tetra_zero_failure_search` | 在常规修复进入平台期后执行保形边界平滑、按残差类型局部修复和独立重载验收，并把四项数值质量与 CAD 几何偏移分别判定 |
 | `hypermesh_plan_sphere_mesh` | 计算球体大圆/四分之一圆弧分段、非退化中心核、径向 block、壳厚层数和辅助切分顺序 |
 | `hypermesh_plan_flange_mesh` | 计算法兰 PCD、孔分段、孔间/内外侧净距、同心辅助圆、孔中心径向线和轴向层数 |
 | `hypermesh_list_client_roots` | 兼容查询客户端声明的旧版 MCP roots |
@@ -196,7 +206,7 @@ MCP 路径：[`mcp/hypermesh/`](../mcp/hypermesh/)
 
 MCP 还继承 15 个通用 CAE 工具，包括环境检查、工具链发现、创建 run、
 上下文收窄、bridge plan、smoke 模板、证据扫描及报告生成。因此服务器
-当前共暴露 27 个工具。
+当前共暴露 29 个工具。HyperMesh 专用包版本为 `0.9.0`。
 
 ### 3.2 Resources
 
@@ -301,3 +311,35 @@ Profile 保留 `hypermesh_list_client_roots` 作为协议兼容工具，但实�
 
 上述自动测试不启动商业 HyperMesh，因此不能代替本机 hmbatch smoke、
 真实模型划分和求解器侧质量/收敛验证。
+
+## 9. 0.9.0 真实模型零失败验收摘要
+
+在 HyperMesh 2025 中，以汽车换向节模型的 355,383 个 Tet4 单元为对象，
+对 0.8.1 基准残差进行了深度优化。优化前四项失败数为 Collapse 2、
+Aspect 16、Volumetric Skew 5、Minimum Height 91；100 个唯一失败单元全部
+与 CAD 边界关联，说明主要矛盾是边界三角形、特征线采样和体网格过渡，
+而不是全局网格密度不足。
+
+最终采用“边界平台期保形 morph → Minimum Height 残差局部 free morph →
+内部 Skew 残差固定边界局部 tet 重构”的分流策略，结果为：
+
+| 指标 | 门槛 | 最终最差值 | 失败数 |
+| --- | ---: | ---: | ---: |
+| Tet Collapse | ≥ 0.10 | 0.1019125250 | 0 |
+| Aspect Ratio | ≤ 8.0 | 5.1687395770 | 0 |
+| Volumetric Skew | ≤ 0.95 | 0.9346147594 | 0 |
+| Minimum Height | ≥ 0.20 mm | 0.2000551742 mm | 0 |
+| Jacobian | ≥ 0.60 | 1.0 | 0 |
+
+导出的 FEM 重新载入独立 HyperMesh 会话后仍为四项 0 失败，卡片审计为
+355,383 个 CTETRA、79,789 个 GRID、0 个 CTRIA3。孔、圆柱、球体、圆角和
+倒角的已有特征保护逻辑未改变。
+
+该实测形成 0.9.0 的新增工具
+`hypermesh_plan_tetra_zero_failure_search`，并将数值质量验收与几何贴合
+验收拆开。实测最大局部边界节点位移为 1.432328839 mm，Minimum Height
+通过裕量约为 0.000055 mm；因此四项数值质量已经合格，但正式仿真仍须由
+项目方给出 CAD 边界允许位移容差和安全裕量要求。
+
+本版本验证结果：HyperMesh 专项测试 29/29 通过，Ruff 静态检查通过，
+Codex 专用 Skill 与仓库副本逐文件哈希一致。

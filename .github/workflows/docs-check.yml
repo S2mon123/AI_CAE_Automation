@@ -34,9 +34,16 @@ jobs:
           test -f mcp/comsol/server.py
           test -f mcp/abaqus/server.py
           test -f "mcp/ansys/Fluent MCP/server.py"
+          test -f mcp/aedt/server.py
+          test -f "mcp/ansys/Mechanical MCP/server.py"
+          test -f mcp/hypermesh/server.py
+          test -f mcp/lammps/server.py
+          test -f mcp/ovito/server.py
+          test -f prompts/aedt-electromagnetics.md
+          test -f prompts/ansys-mechanical-structural.md
+          test -f prompts/hypermesh-meshing.md
+          test -f prompts/lammps-molecular-dynamics.md
+          test -f prompts/ovito-postprocessing.md
           test -f Skill/README.md
-      - name: Check public safety patterns
-        shell: bash
-        run: |
-          ! grep -RInE '[A-Z]:\\' \
-            --exclude-dir=.git --exclude-dir=runs --exclude-dir=.venv .
+      - name: Audit public repository
+        run: python scripts/audit_public_repo.py

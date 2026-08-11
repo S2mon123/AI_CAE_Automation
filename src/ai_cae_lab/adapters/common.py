@@ -17,6 +17,40 @@ def as_command(command: str, args: list[str]) -> list[str]:
     return [command, *args]
 
 
+def probe_python_import(command: str, module_name: str, timeout_sec: int = 20) -> dict[str, Any]:
+    script = (
+        "import importlib\n"
+        f"module = importlib.import_module({module_name!r})\n"
+        "print(getattr(module, '__version__', 'version-unavailable'))\n"
+    )
+    argv = as_command(command, ["-c", script])
+    try:
+        result = subprocess.run(
+            argv,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            errors="replace",
+            timeout=timeout_sec,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return {
+            "ok": False,
+            "module": module_name,
+            "command": argv,
+            "returncode": None,
+            "output": str(exc),
+        }
+    return {
+        "ok": result.returncode == 0,
+        "module": module_name,
+        "command": argv,
+        "returncode": result.returncode,
+        "output": result.stdout.strip()[-1000:],
+    }
+
+
 def ensure_run_dirs(run_dir: str | Path) -> Path:
     root = Path(run_dir)
     (root / "logs").mkdir(parents=True, exist_ok=True)

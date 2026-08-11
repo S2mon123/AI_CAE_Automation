@@ -37,6 +37,11 @@ FAILURE_PATTERNS = [
     re.compile(r"\baborted\b", re.IGNORECASE),
     re.compile(r"too many attempts made for this increment", re.IGNORECASE),
     re.compile(r"divergence detected", re.IGNORECASE),
+    re.compile(r"error on proc \d+", re.IGNORECASE),
+    re.compile(r"lost atoms", re.IGNORECASE),
+    re.compile(r"\*geomimport.*code\s*=\s*[1-9]\d*", re.IGNORECASE),
+    re.compile(r"failsafebatchmesh.*return val\s*=\s*[1-9]\d*", re.IGNORECASE),
+    re.compile(r"analysis_object_state\s*[:=]\s*(failed|error|not solved)", re.IGNORECASE),
     re.compile(r"reversed flow.*stabilize", re.IGNORECASE),
     re.compile(r"\u6ca1\u6709\u8981\u8fd0\u884c\u7684\u5bf9\u8c61", re.IGNORECASE),
     re.compile(r"\u53d1\u751f\u9519\u8bef", re.IGNORECASE),
@@ -57,6 +62,14 @@ SUCCESS_PATTERNS = [
     re.compile(r"fluent.*solution.*complete", re.IGNORECASE),
     re.compile(r"the following model has been saved", re.IGNORECASE),
     re.compile(r"AI_CAE_MPH_LOADABLE", re.IGNORECASE),
+    re.compile(r"AEDT_PYAEDT_SMOKE_OK", re.IGNORECASE),
+    re.compile(r"PYMECHANICAL_SMOKE_OK", re.IGNORECASE),
+    re.compile(r"HYPERMESH_MCP_SMOKE_TEST_OK", re.IGNORECASE),
+    re.compile(r"LAMMPS_SMOKE_TEST_OK", re.IGNORECASE),
+    re.compile(r"OVITO_PYTHON_SMOKE_OK", re.IGNORECASE),
+    re.compile(r"analysis_object_state\s*[:=]\s*solved", re.IGNORECASE),
+    re.compile(r"loop time of .* on \d+ procs? for \d+ steps", re.IGNORECASE),
+    re.compile(r"total wall time:", re.IGNORECASE),
     re.compile(r"\u6a21\u578b.*(\u5df2\u4fdd\u5b58|\u4fdd\u5b58\u6210\u529f)", re.IGNORECASE),
 ]
 
@@ -67,6 +80,17 @@ BENIGN_FAILURE_SUBSTRINGS = [
     "without error",
 ]
 
+# Mesh-quality evidence commonly uses words such as ``failed elements`` and
+# ``failure count`` for threshold violations. Those are engineering findings,
+# not proof that the solver or batch process failed. Keep them visible in the
+# evidence file without allowing the generic failure token matcher to downgrade
+# an otherwise completed run.
+BENIGN_QUALITY_FAILURE_PATTERNS = [
+    re.compile(r"\bfailed\s+(?:tet(?:ra)?s?|elements?|nodes?|metrics?|checks?|criteria|quality)\b", re.IGNORECASE),
+    re.compile(r"\bfailure\s+(?:count|rate|ratio|cluster|hotspot|metric|mode|set)s?\b", re.IGNORECASE),
+    re.compile(r"\b(?:quality|threshold)\s+fail(?:ed|ure)?s?\b", re.IGNORECASE),
+]
+
 
 def _trim(text: str, limit: int = 220) -> str:
     compact = " ".join(text.strip().split())
@@ -75,7 +99,9 @@ def _trim(text: str, limit: int = 220) -> str:
 
 def _is_benign_failure_line(line: str) -> bool:
     lower = line.lower()
-    return any(item in lower for item in BENIGN_FAILURE_SUBSTRINGS)
+    return any(item in lower for item in BENIGN_FAILURE_SUBSTRINGS) or any(
+        pattern.search(line) for pattern in BENIGN_QUALITY_FAILURE_PATTERNS
+    )
 
 
 def analyze_log_text(text: str) -> dict[str, Any]:

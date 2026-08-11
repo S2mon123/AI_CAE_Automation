@@ -1,6 +1,22 @@
 {
   "solver": "hypermesh",
-  "maturity": "bridge-preview",
-  "capabilities": ["check hmbatch", "run explicit Tcl", "scan mesh and deck evidence"],
-  "rules": ["Gate CAD import.", "Require nonzero entities/elements.", "Block severe quality or export failures."]
+  "maturity": "evidence-validated",
+  "profile_version": "0.9.0",
+  "capabilities": [
+    "check hmbatch",
+    "run explicit Tcl",
+    "plan feature-aware partitions and local controls",
+    "classify tetra boundary and interior hotspots",
+    "plan zero-failure tetra escalation",
+    "scan mesh and deck evidence",
+    "independently reload and verify exported decks",
+    "audit node displacement and CAD associations"
+  ],
+  "rules": [
+    "Gate CAD import.",
+    "Require nonzero entities/elements.",
+    "Block severe quality or export failures.",
+    "For a hard tetra acceptance, require zero collapse, aspect, volumetric-skew, and minimum-height failures after independent reload.",
+    "Keep numerical quality acceptance separate from CAD-adherence tolerance acceptance."
+  ]
 }

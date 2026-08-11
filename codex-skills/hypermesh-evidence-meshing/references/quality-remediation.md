@@ -25,6 +25,9 @@ solver-specific failure.
 5. For tetra meshes, read [tetra-quality-optimization.md](tetra-quality-optimization.md),
    export exact values with `hm_getelemcheckvalues`, and intersect the minimum-
    height, collapse, aspect, and volumetric-skew failure sets.
+6. Count CAD-associated nodes in each failed tetra and classify connected
+   hotspots as geometry-edge, surface-boundary, interior, or mixed before
+   selecting refinement, edge swap, boundary remesh, or fixed-topology repair.
 
 QI is a weighted compound indicator. Retain the individual metric values and
 solver calculation method because different solvers and element types do not
@@ -114,7 +117,30 @@ Stop automatic cleanup when improvements plateau, failures migrate into more
 critical regions, or an operation violates feature/interface constraints. Block
 acceptance when severe solver-specific failures remain unresolved.
 
+Apply local topology changes as checkpointed transactions. Process one hotspot,
+re-run all active metrics globally, and reload the checkpoint if any protected
+feature, failure count, or exact worst value regresses. Recompute the failure
+clusters after every accepted topology change rather than reusing stale element
+IDs.
+
 Treat less than one-percent improvement in the dominant failure count as a
 plateau unless the exact worst value or critical-region location improves
 materially. Do not repeat a node-only optimizer after this point; revisit the
 geometry, boundary trias, local controls, and remesh freedom.
+
+For a boundary-dominated tetra plateau, add a controlled shape-preserving
+escalation before destructive surface reconstruction: checkpoint the best mesh,
+test feature-aware `*morphsmoothmorphbased` candidates over one and two
+neighboring layers, and rank them by all active failures, exact margins,
+protected-feature integrity, and boundary displacement. After this broad
+regularization, repair only the remaining typed residuals: a one-layer local
+free-morph candidate for minimum-height clusters and fixed-boundary local
+tetra remeshing for interior skew/connectivity clusters. Independently reload
+the exported deck before accepting zero failures.
+
+The least failed mesh is not automatically the least distorted geometry.
+Always compare node coordinates against the accepted baseline, distinguish
+boundary and interior motion, set a documented displacement tolerance, and
+audit both current and initial CAD associations. Reject forced projection when
+the referenced current geometry entity is unavailable or when the trial
+creates degenerate elements.

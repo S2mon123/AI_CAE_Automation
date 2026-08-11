@@ -20,11 +20,19 @@ EXAMPLE_CONFIG_FILENAMES = (
     "configs/local.toolchain.template.json",
 )
 SOLVER_CONFIG_KEYS = {
+    "aedt",
+    "hfss",
+    "maxwell",
     "abaqus",
     "ansys",
     "fluent",
     "workbench",
     "ansys-workbench",
+    "mechanical",
+    "ansys-mechanical",
+    "hypermesh",
+    "lammps",
+    "ovito",
     "comsol",
     "matlab",
     "openfoam",
@@ -40,9 +48,15 @@ def _repo_root() -> Path:
 def normalize_solver_key(solver: str) -> str:
     key = solver.strip().lower()
     aliases = {
+        "hfss": "aedt",
+        "maxwell": "aedt",
+        "ansys-aedt": "aedt",
         "workbench": "ansys-workbench",
+        "mechanical": "ansys-mechanical",
+        "ansys-structural": "ansys-mechanical",
         "ansys": "ansys",
         "ansys-fluent": "fluent",
+        "altair-hypermesh": "hypermesh",
         "comsol-multiphysics": "comsol",
     }
     return aliases.get(key, key)
@@ -70,6 +84,8 @@ def _normalize_toolbox_config(payload: dict[str, Any]) -> dict[str, Any]:
             solver_paths.setdefault(normalize_solver_key(key), payload[key])
     if "workbench" in solver_paths and "ansys-workbench" not in solver_paths:
         solver_paths["ansys-workbench"] = solver_paths["workbench"]
+    if "mechanical" in solver_paths and "ansys-mechanical" not in solver_paths:
+        solver_paths["ansys-mechanical"] = solver_paths["mechanical"]
     return payload
 
 
@@ -111,10 +127,15 @@ def load_toolbox_config(config_path: str | Path | None = None, include_examples:
 def solver_env_names(config: dict[str, Any], solver: str) -> list[str]:
     solver = normalize_solver_key(solver)
     defaults = {
+        "aedt": ["AEDT_EXE", "AEDT_INSTALL_DIR", "PYAEDT_PYTHON"],
         "abaqus": ["ABAQUS_COMMAND"],
         "ansys": ["ANSYS_ROOT"],
         "ansys-workbench": ["ANSYS_ROOT", "WORKBENCH_EXE", "ANSYS_WORKBENCH_EXE"],
+        "ansys-mechanical": ["ANSYS_ROOT", "WORKBENCH_EXE", "ANSYS_MECHANICAL_EXE", "PYMECHANICAL_PYTHON"],
         "fluent": ["FLUENT_EXE", "FLUENT_ROOT"],
+        "hypermesh": ["HMBATCH_EXE", "HYPERMESH_EXE", "ALTAIR_HOME"],
+        "lammps": ["LAMMPS_EXE"],
+        "ovito": ["OVITO_EXE", "OVITOS_EXE", "OVITO_PYTHON"],
         "comsol": ["COMSOL_EXE", "COMSOL_ROOT", "COMSOL_BATCH", "COMSOL_COMPILE", "COMSOL_MPHSERVER", "COMSOL_JAVA"],
         "matlab": ["MATLAB_EXE", "MATLABROOT"],
         "openfoam": ["OPENFOAM_ROOT", "WM_PROJECT_DIR", "OPENFOAM_BLOCKMESH", "OPENFOAM_CHECKMESH"],
@@ -125,6 +146,8 @@ def solver_env_names(config: dict[str, Any], solver: str) -> list[str]:
     names = envs.get(solver, [])
     if solver == "ansys-workbench" and not names:
         names = envs.get("workbench", []) or envs.get("ansys", [])
+    if solver == "ansys-mechanical" and not names:
+        names = envs.get("mechanical", []) or envs.get("ansys-workbench", []) or envs.get("ansys", [])
     if not names:
         names = defaults.get(solver, [])
     return [str(item) for item in names]
@@ -136,6 +159,8 @@ def configured_solver_paths(config: dict[str, Any], solver: str) -> dict[str, st
     value = paths.get(solver, {})
     if solver == "ansys-workbench" and not value:
         value = paths.get("workbench", {}) or paths.get("ansys", {})
+    if solver == "ansys-mechanical" and not value:
+        value = paths.get("mechanical", {}) or paths.get("ansys-workbench", {}) or paths.get("workbench", {})
     if not isinstance(value, dict):
         return {}
     return {str(key): str(item) for key, item in value.items() if not is_placeholder_value(item)}
@@ -183,6 +208,15 @@ def bridge_plan(
     configured_paths = configured_solver_paths(config, solver_key)
 
     tool_map = {
+        "aedt": [
+            "solver_context_scope",
+            "solver_toolchain_paths",
+            "create_run_record",
+            "write_solver_smoke_template",
+            "aedt_check_installation",
+            "aedt_run_pyaedt_script_file",
+            "scan_run_evidence",
+        ],
         "abaqus": [
             "solver_context_scope",
             "solver_toolchain_paths",
@@ -207,6 +241,44 @@ def bridge_plan(
             "write_solver_smoke_template",
             "ansys_check_installation",
             "ansys_run_workbench_journal_file",
+            "scan_run_evidence",
+        ],
+        "ansys-mechanical": [
+            "solver_context_scope",
+            "solver_toolchain_paths",
+            "create_run_record",
+            "write_solver_smoke_template",
+            "mechanical_check_installation",
+            "mechanical_run_workbench_journal_file",
+            "mechanical_run_python_controller_file",
+            "mechanical_validate_result_summary_file",
+            "scan_run_evidence",
+        ],
+        "hypermesh": [
+            "solver_context_scope",
+            "solver_toolchain_paths",
+            "create_run_record",
+            "write_solver_smoke_template",
+            "hypermesh_check_installation",
+            "hypermesh_run_tcl_file",
+            "scan_run_evidence",
+        ],
+        "lammps": [
+            "solver_context_scope",
+            "solver_toolchain_paths",
+            "create_run_record",
+            "write_solver_smoke_template",
+            "lammps_check_installation",
+            "lammps_run_input_file",
+            "scan_run_evidence",
+        ],
+        "ovito": [
+            "solver_context_scope",
+            "solver_toolchain_paths",
+            "create_run_record",
+            "write_solver_smoke_template",
+            "ovito_check_installation",
+            "ovito_run_script_file",
             "scan_run_evidence",
         ],
         "comsol": [

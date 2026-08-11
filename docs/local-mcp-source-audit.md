@@ -1,12 +1,17 @@
 # Local MCP Source Audit
 
-This note records how local Abaqus, Ansys, COMSOL, open-toolchain, and
-electrical CAD automation material was handled before public release.
+This note records how local AEDT, Abaqus, Ansys, HyperMesh, LAMMPS/OVITO,
+COMSOL, open-toolchain, and electrical CAD automation material was handled
+before public release.
 
 ## Local Sources Found
 
 - Local prompt notes for Abaqus 2026 drilling and modal workflows.
 - Local prompt notes for Ansys Fluent external-flow and welding workflows.
+- Local AEDT wireless-power evidence and direct PyAEDT workflow notes.
+- Local Ansys Mechanical static-structural run evidence.
+- Local HyperMesh MCP/Tcl materials.
+- Local LAMMPS input/log/trajectory and OVITO installation evidence.
 - Local prompt notes for COMSOL Java API and batch-driven multiphysics tasks.
 - A local COMSOL EHD ion-wind soybean drying run folder with Java files, logs,
   reports, and solver artifacts.
@@ -21,6 +26,7 @@ private prompt notes verbatim. Instead it provides:
 - project-owned minimal MCP tools in `src/ai_cae_lab/adapters/`
 - installable Codex skills in `codex-skills/`
 - public-safe MCP documentation in `mcp/abaqus`, `mcp/ansys`, and `mcp/comsol`
+- original AEDT, Mechanical, HyperMesh, LAMMPS, and OVITO adapters and profiles
 - public-safe MCP documentation for MATLAB, OpenFOAM, and ParaView
 - rewritten public prompts and checklists, including the COMSOL EHD soybean
   drying prompt

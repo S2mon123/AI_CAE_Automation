@@ -38,7 +38,19 @@
     "openfoam_run_case_command",
     "paraview_check_installation",
     "paraview_run_pvpython_script",
-    "pcschematic_check_installation"
+    "pcschematic_check_installation",
+    "aedt_check_installation",
+    "aedt_run_pyaedt_script_file",
+    "mechanical_check_installation",
+    "mechanical_run_workbench_journal_file",
+    "mechanical_run_python_controller_file",
+    "mechanical_validate_result_summary_file",
+    "hypermesh_check_installation",
+    "hypermesh_run_tcl_file",
+    "lammps_check_installation",
+    "lammps_run_input_file",
+    "ovito_check_installation",
+    "ovito_run_script_file"
   ],
   "adapters": [
     "abaqus",
@@ -48,7 +60,12 @@
     "matlab",
     "openfoam",
     "paraview",
-    "pcschematic"
+    "pcschematic",
+    "aedt",
+    "ansys-mechanical",
+    "hypermesh",
+    "lammps",
+    "ovito"
   ],
   "public_safety": {
     "bundles_commercial_solvers": false,
@@ -71,6 +88,11 @@
       "openfoam_tools",
       "paraview_tools",
       "pcschematic_tools"
+      ,"aedt_tools"
+      ,"mechanical_tools"
+      ,"hypermesh_tools"
+      ,"lammps_tools"
+      ,"ovito_tools"
     ],
     "schemas": [
       "toolchain.schema.json",
@@ -118,16 +140,52 @@
       "profile": "pcschematic",
       "path": "mcp/pcschematic",
       "entry_script": "mcp/pcschematic/server.py"
+    },
+    {
+      "profile": "aedt",
+      "path": "mcp/aedt",
+      "entry_script": "mcp/aedt/server.py"
+    },
+    {
+      "profile": "ansys-mechanical",
+      "path": "mcp/ansys/Mechanical MCP",
+      "entry_script": "mcp/ansys/Mechanical MCP/server.py"
+    },
+    {
+      "profile": "hypermesh",
+      "path": "mcp/hypermesh",
+      "entry_script": "mcp/hypermesh/server.py"
+    },
+    {
+      "profile": "lammps",
+      "path": "mcp/lammps",
+      "entry_script": "mcp/lammps/server.py"
+    },
+    {
+      "profile": "ovito",
+      "path": "mcp/ovito",
+      "entry_script": "mcp/ovito/server.py"
+    },
+    {
+      "profile": "robotstudio",
+      "path": "mcp/robotstudio",
+      "entry_script": "mcp/robotstudio/src/robotstudio_mcp/__main__.py"
     }
   ],
   "profiles": [
+    "aedt",
     "abaqus",
+    "ansys-mechanical",
     "ansys-workbench",
     "comsol",
     "fluent",
+    "hypermesh",
+    "lammps",
     "matlab",
     "openfoam",
+    "ovito",
     "paraview",
-    "pcschematic"
+    "pcschematic",
+    "robotstudio"
   ]
 }

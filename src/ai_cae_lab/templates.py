@@ -140,10 +140,125 @@ print("active view:", pv.GetActiveView())
     }
 
 
+def _aedt_template(case_name: str) -> dict[str, str]:
+    return {
+        "scripts/aedt_connection_probe.py": """
+from ansys.aedt.core import Desktop
+
+desktop = Desktop(new_desktop=True, non_graphical=True, close_on_exit=True)
+print("AEDT_PYAEDT_SMOKE_OK")
+print("version=" + str(desktop.aedt_version_id))
+desktop.release_desktop(close_projects=True, close_desktop=True)
+""",
+        "inputs/README.md": """
+# AEDT Smoke Inputs
+
+This imports PyAEDT and starts a disposable AEDT session. It does not build or
+solve an electromagnetic model. A real workflow must record the design type,
+solution setup, mesh/adaptive passes, field plots, tables, and project file.
+""",
+    }
+
+
+def _mechanical_template(case_name: str) -> dict[str, str]:
+    return {
+        "scripts/mechanical_probe.py": """
+import json
+from ansys.mechanical.core import launch_mechanical
+
+mechanical = launch_mechanical(batch=True, cleanup_on_exit=True)
+try:
+    result = mechanical.run_python_script(
+        'import json\\n'
+        'print(json.dumps({"application_version": str(ExtAPI.ApplicationVersion), '
+        '"analysis_count": len(Model.Analyses)}))'
+    )
+    print("PYMECHANICAL_SMOKE_OK")
+    print(result)
+finally:
+    mechanical.exit(force=True)
+""",
+        "inputs/README.md": """
+# Mechanical Smoke Inputs
+
+This checks a disposable PyMechanical gRPC session. It is not structural solve
+evidence. A solved workflow must additionally prove Mechanical `Solved` state,
+MAPDL normal termination, reaction balance, mesh metrics, RST, numeric exports,
+and result images.
+""",
+    }
+
+
+def _hypermesh_template(case_name: str) -> dict[str, str]:
+    return {
+        "scripts/hypermesh_smoke.tcl": """
+puts "HYPERMESH_MCP_SMOKE_TEST_BEGIN"
+puts "HYPERMESH_MCP_SMOKE_TEST_OK"
+puts "HYPERMESH_MCP_SMOKE_TEST_END"
+""",
+        "inputs/README.md": """
+# HyperMesh Smoke Inputs
+
+Run this explicit Tcl file with `hmbatch -tcl`. It checks the batch bridge only;
+it does not prove CAD import, mesh creation, quality acceptance, or solver-deck export.
+""",
+    }
+
+
+def _lammps_template(case_name: str) -> dict[str, str]:
+    return {
+        "scripts/in.lammps_smoke": """
+units metal
+atom_style atomic
+lattice fcc 3.615
+region box block 0 2 0 2 0 2
+create_box 1 box
+create_atoms 1 box
+mass 1 63.546
+pair_style zero 8.0
+pair_coeff * *
+thermo 1
+run 0
+print "LAMMPS_SMOKE_TEST_OK"
+""",
+        "inputs/README.md": """
+# LAMMPS Smoke Inputs
+
+This zero-potential run checks parser and executable availability without an
+external interatomic-potential file. It is not a calibrated materials simulation.
+""",
+    }
+
+
+def _ovito_template(case_name: str) -> dict[str, str]:
+    return {
+        "scripts/ovito_connection_probe.py": """
+import ovito
+from ovito.io import import_file
+
+pipeline = import_file.__module__
+print("OVITO_PYTHON_SMOKE_OK")
+print("version=" + str(getattr(ovito, "version_string", "version-unavailable")))
+print("pipeline_module=" + pipeline)
+""",
+        "inputs/README.md": """
+# OVITO Smoke Inputs
+
+This imports the OVITO Python package. OVITO Basic GUI installations may not
+include `ovitos`; configure an external compatible Python environment when needed.
+""",
+    }
+
+
 TEMPLATE_BUILDERS = {
+    "aedt": _aedt_template,
     "abaqus": _abaqus_template,
     "fluent": _fluent_template,
     "ansys-workbench": _workbench_template,
+    "ansys-mechanical": _mechanical_template,
+    "hypermesh": _hypermesh_template,
+    "lammps": _lammps_template,
+    "ovito": _ovito_template,
     "comsol": _comsol_template,
     "matlab": _matlab_template,
     "openfoam": _openfoam_template,

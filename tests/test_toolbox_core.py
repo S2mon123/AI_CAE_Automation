@@ -16,6 +16,9 @@ from ai_cae_lab.adapters.comsol import (
     extract_java_public_class,
     write_comsol_cube_java,
 )
+from ai_cae_lab.adapters.mechanical import mechanical_validate_result_summary
+from ai_cae_lab.adapters.ovito import ovito_check_install
+from ai_cae_lab.adapters.aedt import aedt_check_install
 from ai_cae_lab.config import bridge_plan, load_toolbox_config, toolchain_paths
 from ai_cae_lab.context_scope import solver_context_scope
 from ai_cae_lab.discovery import (
@@ -129,7 +132,10 @@ class ToolboxCoreTests(unittest.TestCase):
 
     def test_mcp_solver_profile_normalization(self) -> None:
         self.assertEqual(normalize_active_solvers("comsol"), {"comsol"})
-        self.assertEqual(normalize_active_solvers("ansys"), {"ansys", "fluent", "workbench"})
+        self.assertEqual(
+            normalize_active_solvers("ansys"),
+            {"ansys", "aedt", "fluent", "workbench", "mechanical"},
+        )
         self.assertEqual(normalize_active_solvers("pc-schematic"), {"pcschematic"})
         self.assertIsNone(normalize_active_solvers("all"))
 
@@ -153,6 +159,33 @@ class ToolboxCoreTests(unittest.TestCase):
         self.assertIn("create_run_record", server.tools)
         self.assertNotIn("abaqus_run_no_gui_script", server.tools)
         self.assertNotIn("fluent_run_journal_file", server.tools)
+
+    def test_new_mcp_profiles_expose_only_their_solver_tools(self) -> None:
+        class FakeFastMCP:
+            def __init__(self, name: str) -> None:
+                self.name = name
+                self.tools: list[str] = []
+
+            def tool(self):
+                def decorator(func):
+                    self.tools.append(func.__name__)
+                    return func
+
+                return decorator
+
+        cases = {
+            "aedt": ("aedt_check_installation", "lammps_run_input_file"),
+            "mechanical": ("mechanical_validate_result_summary_file", "aedt_run_pyaedt_script_file"),
+            "hypermesh": ("hypermesh_run_tcl_file", "ovito_run_script_file"),
+            "lammps": ("lammps_run_input_file", "hypermesh_run_tcl_file"),
+            "ovito": ("ovito_run_script_file", "mechanical_run_python_controller_file"),
+        }
+        for profile, (included, excluded) in cases.items():
+            with patch("ai_cae_lab.mcp_server._load_fastmcp", return_value=FakeFastMCP):
+                server = build_server(profile)
+            self.assertIn(included, server.tools)
+            self.assertIn("create_run_record", server.tools)
+            self.assertNotIn(excluded, server.tools)
 
     def test_bridge_plan_contains_comsol_java_tools(self) -> None:
         plan = bridge_plan("comsol", "unit test")
@@ -191,6 +224,16 @@ class ToolboxCoreTests(unittest.TestCase):
         self.assertEqual(success["status"], "success")
         failed = analyze_log_text("RETURN_CODE: 0\nERROR: solver failed to converge\n")
         self.assertEqual(failed["status"], "failed")
+
+    def test_log_parser_does_not_treat_mesh_quality_findings_as_execution_failure(self) -> None:
+        parsed = analyze_log_text(
+            "classification=boundary-driven cluster: most failed tets have 2-4 geometry-associated nodes\n"
+            "failure_count=91\n"
+            "completed=true\n"
+            "RETURN_CODE: 0\n"
+        )
+        self.assertEqual(parsed["status"], "success")
+        self.assertFalse(any(signal["category"] == "failure" for signal in parsed["signals"]))
 
     def test_run_status_lifecycle_updates_run_json(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -235,6 +278,91 @@ class ToolboxCoreTests(unittest.TestCase):
                 payload = comsol_run_java_model_to_mph(str(java_file), tmp)
             self.assertEqual(payload["stage"], "compile")
             self.assertEqual(payload["status"], "missing")
+
+    def test_new_solver_bridge_plans_and_contexts_are_complete(self) -> None:
+        expected_tools = {
+            "aedt": "aedt_check_installation",
+            "ansys-mechanical": "mechanical_validate_result_summary_file",
+            "hypermesh": "hypermesh_run_tcl_file",
+            "lammps": "lammps_run_input_file",
+            "ovito": "ovito_run_script_file",
+        }
+        for solver, tool in expected_tools.items():
+            plan = bridge_plan(solver, "coverage")
+            self.assertIn(tool, plan["recommended_mcp_tools"])
+            self.assertFalse(solver_context_scope(solver)["missing"])
+
+    def test_new_solver_smoke_templates_are_written(self) -> None:
+        for solver, expected in {
+            "aedt": "aedt_connection_probe.py",
+            "ansys-mechanical": "mechanical_probe.py",
+            "hypermesh": "hypermesh_smoke.tcl",
+            "lammps": "in.lammps_smoke",
+            "ovito": "ovito_connection_probe.py",
+        }.items():
+            with tempfile.TemporaryDirectory() as tmp:
+                run = create_run(tmp, solver, "smoke", "template coverage")
+                payload = write_solver_smoke_template(solver, run["run_dir"], "smoke")
+                self.assertEqual(payload["status"], "ok")
+                self.assertTrue((Path(run["run_dir"]) / "scripts" / expected).exists())
+
+    def test_mechanical_result_summary_requires_all_evidence_gates(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "logs").mkdir()
+            (root / "outputs").mkdir()
+            (root / "exports").mkdir()
+            (root / "logs" / "solve.out").write_text("MAPDL normal termination\n", encoding="utf-8")
+            (root / "outputs" / "file.rst").write_bytes(b"rst")
+            (root / "exports" / "results.csv").write_text("value\n1\n", encoding="utf-8")
+            (root / "exports" / "deformation.png").write_bytes(b"png")
+            summary = root / "results-summary.json"
+            summary.write_text(
+                json.dumps(
+                    {
+                        "analysis_object_state": "Solved",
+                        "normal_mapdl_termination": True,
+                        "reaction_balance_error_percent": 0.5,
+                        "mesh_quality": {"element_count": 10, "failed_element_count": 0},
+                        "result_file": "outputs/file.rst",
+                        "solve_log_file": "logs/solve.out",
+                        "numeric_exports": ["exports/results.csv"],
+                        "image_exports": ["exports/deformation.png"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            payload = mechanical_validate_result_summary(str(summary))
+            self.assertEqual(payload["status"], "ok")
+
+    def test_aedt_and_ovito_checks_do_not_claim_solver_from_gui_only(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            gui = Path(tmp) / "gui.exe"
+            gui.write_bytes(b"")
+            with patch("ai_cae_lab.adapters.aedt.resolve_aedt_exe", return_value=str(gui)), patch(
+                "ai_cae_lab.adapters.aedt.resolve_pyaedt_python", return_value=None
+            ):
+                self.assertEqual(aedt_check_install()["status"], "partial")
+            with patch("ai_cae_lab.adapters.ovito.resolve_ovito_gui", return_value=str(gui)), patch(
+                "ai_cae_lab.adapters.ovito.resolve_ovito_script_command", return_value=None
+            ):
+                payload = ovito_check_install()
+            self.assertEqual(payload["status"], "partial")
+            self.assertTrue(payload["capabilities"]["interactive_gui"])
+            self.assertFalse(payload["capabilities"]["batch_python"])
+
+    def test_mechanical_install_check_accepts_one_real_control_route(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            workbench = Path(tmp) / "RunWB2.exe"
+            workbench.write_bytes(b"")
+            with patch("ai_cae_lab.adapters.mechanical.resolve_workbench_command", return_value=str(workbench)), patch(
+                "ai_cae_lab.adapters.mechanical.resolve_mechanical_python", return_value=None
+            ):
+                from ai_cae_lab.adapters.mechanical import mechanical_check_install
+
+                payload = mechanical_check_install()
+            self.assertEqual(payload["status"], "ok")
+            self.assertEqual(payload["available_routes"], ["Workbench RunWB2 journal / Mechanical ExtAPI"])
 
 
 if __name__ == "__main__":

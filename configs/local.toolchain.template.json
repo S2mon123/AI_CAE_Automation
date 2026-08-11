@@ -2,6 +2,11 @@
   "runs_root": "runs",
   "allow_model_writes": true,
   "solver_paths": {
+    "aedt": {
+      "aedt_exe": "<path-to-ansysedt.exe>",
+      "root": "<path-to-AnsysEM-directory>",
+      "python": "<path-to-python-with-ansys-aedt-core>"
+    },
     "abaqus": {
       "command": "<path-to-abaqus-or-abaqus.bat>"
     },
@@ -11,6 +16,23 @@
     },
     "ansys-workbench": {
       "workbench_exe": "<path-to-RunWB2.exe>"
+    },
+    "ansys-mechanical": {
+      "workbench_exe": "<path-to-RunWB2.exe>",
+      "mechanical_exe": "<optional-path-to-mechanical-executable>",
+      "python": "<optional-path-to-python-with-ansys-mechanical-core>"
+    },
+    "hypermesh": {
+      "batch_exe": "<path-to-hmbatch.exe>",
+      "gui_exe": "<optional-path-to-hypermesh-gui>",
+      "root": "<path-to-altair-root>"
+    },
+    "lammps": {
+      "lammps_exe": "<path-to-lmp.exe>"
+    },
+    "ovito": {
+      "ovito_exe": "<path-to-ovito.exe>",
+      "script_command": "<optional-path-to-ovitos-or-python>"
     },
     "comsol": {
       "root": "<path-to-COMSOL-root-or-Multiphysics-folder>",
