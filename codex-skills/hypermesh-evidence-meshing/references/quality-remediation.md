@@ -29,9 +29,11 @@ solver-specific failure.
    hotspots as geometry-edge, surface-boundary, interior, or mixed before
    selecting refinement, edge swap, boundary remesh, or fixed-topology repair.
 
-QI is a weighted compound indicator. Retain the individual metric values and
-solver calculation method because different solvers and element types do not
-use one universal quality definition.
+For supported 2D review, QI is a weighted compound indicator. Retain the
+individual metric values and solver calculation method because different
+solvers and element types do not use one universal quality definition. For 3D
+volume acceptance, run and report the named solid-element checks directly; do
+not use a source-surface QI as a substitute.
 
 ## Diagnose the Cause
 

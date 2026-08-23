@@ -1,6 +1,6 @@
 ---
 name: hypermesh-evidence-meshing
-description: Evidence-first Altair HyperMesh geometry cleanup, measured construction-line partitioning, shell/solid meshing, and mesh-quality remediation through Tcl and hmbatch. Use when Codex must plan or automate 2D quad flow, mapped/swept hexa blocks, tetra fallback, spheres, spherical shells, domes, flange plates, hubs, bolt circles/PCD, cylinders, holes, washers, slots, fillets, rounds, edge blends, chamfers, bevels, intersections, size transitions, biased edges, symmetry, contact or boundary regions, BatchMesher, solver-deck export, or repair of skew, Jacobian, warpage, aspect, angle, duplicate, and free-edge failures without reporting an empty or low-quality mesh as success.
+description: Plan, create, repair, and evidence-gate Altair HyperMesh surface and volume meshes with geometry cleanup, quad-flow source meshes, mapped or swept hexa block decomposition, feature controls, tetra fallback, quality remediation, Tcl or hmbatch execution, and solver-deck export. Use for HyperMesh meshing or automation tasks where nonzero entities, topology, solver-specific quality, and exports must be verified.
 ---
 
 # HyperMesh Evidence Meshing
@@ -35,6 +35,8 @@ geometry-cut or meshing Tcl.
   `automesh`; allow trias only where the solver and physics permit them.
 - For hex-dominant solids, prove each planned block is sweep/mapping-compatible
   and define source, target, path, shared-face dependencies, and mesh order.
+- For a pure-hex mapped block, require an all-quad, quality-checked source mesh.
+  A source tria propagates as a penta/wedge rather than a hexahedron.
 - For tet-dominant solids, clean and protect the boundary surface mesh first;
   do not over-partition merely to imitate a hex workflow.
 - Prefer a simpler, verifiable topology over a fragile pure-hex target when
@@ -56,9 +58,10 @@ geometry-cut or meshing Tcl.
    directions introduced by the cut.
 7. Define edge densities, local size, bias, washer rings, transition bands, and
    sweep layers before generating dependent surface or volume mesh.
-8. Mesh difficult terminal/source regions first, then propagate compatible
-   shared-face meshes through dependent blocks. Generate verified surface mesh
-   before volume mesh when the route requires it.
+8. Treat the source-face quad mesh as a release gate. Verify all-quad intent,
+   ordered boundary counts, feature capture, flow, and 2D quality before any
+   mapped volume operation. Mesh difficult terminal/source regions first, then
+   propagate compatible shared-face meshes through dependent blocks.
 9. Diagnose failed elements by cause and node-to-geometry association. Cluster
    failures, rank one hotspot at a time, and distinguish geometry-edge,
    boundary-surface, and interior failures. Prefer topology repair or local
@@ -79,6 +82,17 @@ successful mesh.
 
 Read [references/partition-strategy.md](references/partition-strategy.md) before
 cutting 2D surfaces or decomposing a solid for mapped/swept hex meshing.
+
+Read [references/mapped-hexa-workflow.md](references/mapped-hexa-workflow.md)
+for the complete manual or automated hexa workflow: topology cleanup, closed-
+surface-to-solid conversion, mappability diagnosis, source-target-path block
+planning, version-neutral route selection, staged mapping, interface control,
+failure diagnosis, and final evidence.
+
+Read [references/quad-surface-flow.md](references/quad-surface-flow.md) before
+creating a shell quad mesh or any source mesh that will be propagated into a
+hex volume. Use its rectangle, triangle, disk, annulus, hole, O-grid, junction,
+concave-corner, and size-transition patterns, then pass its source-face gate.
 
 Read [references/feature-meshing.md](references/feature-meshing.md) whenever the
 geometry includes cylinders, holes, circular/curved edges, slots, thin annuli,
