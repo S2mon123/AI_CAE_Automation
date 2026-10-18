@@ -12,6 +12,11 @@ This repository is being built as a public-facing companion to a private Obsidia
 
 ## Scope
 
+- [Adams MCP](mcp/adams/README.md): standalone Windows Adams/View bridge with
+  16 tools, configuration templates, tests and an
+  [evidence-first skill](codex-skills/adams-evidence-mbd/SKILL.md).
+  Install and register it separately from the shared toolbox.
+
 - AI-assisted workflows for AEDT, Abaqus, Ansys Fluent, Ansys Mechanical/Workbench, HyperMesh, LAMMPS, OVITO, COMSOL, MATLAB/Simulink, OpenFOAM, ParaView, and PCSCHEMATIC Automation.
 - MCP and desktop bridge patterns for connecting agents to local engineering software.
 - Prompt templates that force path checks, real execution, evidence export, and credibility grading.

@@ -24,6 +24,7 @@ Current public skill packages:
 
 | Skill | Purpose |
 |---|---|
+| [`adams-evidence-mbd`](adams-evidence-mbd/SKILL.md) | Adams rigid-body mechanisms, View batch execution and numeric reaction evidence |
 | `ai-cae-run-manager` | Run folders, evidence scans, credibility grading, reports |
 | `aedt-evidence-electromagnetics` | AEDT/PyAEDT design-type, logs, fields, and tables |
 | `abaqus-evidence-simulation` | Abaqus modeling, job execution, status, ODB evidence |

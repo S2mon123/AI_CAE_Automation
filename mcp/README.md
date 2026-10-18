@@ -29,6 +29,10 @@ discovery, evidence, and setup tools.
 
 ## Available Packages
 
+Standalone package: [Adams MCP](adams/README.md) provides its own
+`adams_mcp.server` entry point, 16 tools and local configuration. Install it
+separately; it does not use `AI_CAE_MCP_SOLVERS`.
+
 | Package | MCP profile | Purpose |
 |---|---|---|
 | `mcp/aedt` | `aedt` | AEDT/PyAEDT checks and user-supplied automation scripts |

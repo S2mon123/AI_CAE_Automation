@@ -12,6 +12,10 @@
 
 ## 仓库定位
 
+- [Adams MCP](mcp/adams/README.zh-CN.md)：独立的 Windows Adams/View 桥接模块，包含
+  16 个工具、配置模板、测试和[动力学 skill](codex-skills/adams-evidence-mbd/SKILL.md)。
+  该模块需单独安装、注册，不依赖共享 toolbox 的 solver 注册。
+
 - 建立 AI + CAE + MCP + Prompt + 证据链的一体化工作台。
 - 覆盖 AEDT、Abaqus、Ansys Fluent、Workbench/Mechanical、HyperMesh、LAMMPS、OVITO、COMSOL、MATLAB/Simulink、OpenFOAM、ParaView、PCSCHEMATIC Automation 等方向。
 - 让每次仿真或电气 CAD 自动化任务先检查环境，再执行真实软件，最后导出日志、图片、CSV、工程文件等证据。

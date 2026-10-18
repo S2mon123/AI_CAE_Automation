@@ -5,6 +5,9 @@ the maintained Codex skill packs under `codex-skills/`.
 
 ## Maintained Skills
 
+- [Adams evidence MBD](../codex-skills/adams-evidence-mbd/SKILL.md): standalone
+  Adams MCP modeling, transient execution and reaction-history validation.
+
 | Skill | Path | Purpose |
 |---|---|---|
 | `ai-cae-run-manager` | `codex-skills/ai-cae-run-manager` | Create run records, logs, reports, and evidence chains |
