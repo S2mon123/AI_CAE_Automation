@@ -11,9 +11,14 @@
     "block_credentials": true
   },
   "solver_environment_variables": {
+    "aedt": ["AEDT_EXE", "AEDT_INSTALL_DIR", "PYAEDT_PYTHON"],
     "abaqus": ["ABAQUS_COMMAND"],
     "ansys": ["ANSYS_ROOT", "WORKBENCH_EXE", "ANSYS_WORKBENCH_EXE"],
+    "ansys-mechanical": ["ANSYS_ROOT", "WORKBENCH_EXE", "ANSYS_MECHANICAL_EXE", "PYMECHANICAL_PYTHON"],
     "fluent": ["FLUENT_EXE", "FLUENT_ROOT"],
+    "hypermesh": ["HMBATCH_EXE", "HYPERMESH_EXE", "ALTAIR_HOME"],
+    "lammps": ["LAMMPS_EXE"],
+    "ovito": ["OVITO_EXE", "OVITOS_EXE", "OVITO_PYTHON"],
     "comsol": ["COMSOL_EXE", "COMSOL_ROOT", "COMSOL_BATCH", "COMSOL_COMPILE", "COMSOL_MPHSERVER", "COMSOL_JAVA"],
     "matlab": ["MATLAB_EXE", "MATLABROOT"],
     "openfoam": ["OPENFOAM_ROOT", "WM_PROJECT_DIR", "OPENFOAM_BLOCKMESH", "OPENFOAM_CHECKMESH"],
@@ -21,6 +26,11 @@
     "pcschematic": ["PCSCHEMATIC_EXE", "PCSCHEMATIC_ROOT", "PCSCHEMATIC_TLB"]
   },
   "solver_paths": {
+    "aedt": {
+      "aedt_exe": "<path-to-ansysedt.exe>",
+      "root": "<path-to-AnsysEM-directory>",
+      "python": "<path-to-python-with-ansys-aedt-core>"
+    },
     "abaqus": {
       "command": "<path-to-abaqus-or-abaqus.bat>"
     },
@@ -30,6 +40,23 @@
     },
     "ansys-workbench": {
       "workbench_exe": "<path-to-RunWB2.exe>"
+    },
+    "ansys-mechanical": {
+      "workbench_exe": "<path-to-RunWB2.exe>",
+      "mechanical_exe": "<optional-path-to-mechanical-executable>",
+      "python": "<optional-path-to-python-with-ansys-mechanical-core>"
+    },
+    "hypermesh": {
+      "batch_exe": "<path-to-hmbatch.exe>",
+      "gui_exe": "<optional-path-to-hypermesh-gui>",
+      "root": "<path-to-altair-root>"
+    },
+    "lammps": {
+      "lammps_exe": "<path-to-lmp.exe>"
+    },
+    "ovito": {
+      "ovito_exe": "<path-to-ovito.exe>",
+      "script_command": "<optional-path-to-ovitos-or-python>"
     },
     "comsol": {
       "root": "<path-to-COMSOL-Multiphysics-root-or-parent>",

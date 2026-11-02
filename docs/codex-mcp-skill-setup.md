@@ -21,9 +21,10 @@ python -m venv .venv
 .\.venv\Scripts\ai-cae-toolbox.exe doctor
 ```
 
-`setup` discovers local Abaqus, COMSOL, MATLAB, Ansys, Fluent, Workbench, and
-PCSCHEMATIC paths from environment variables, PATH, the Windows registry, and
-common vendor install roots. It writes ignored local files under `private/`:
+`setup` discovers local AEDT, Abaqus, Ansys Fluent, Workbench/Mechanical,
+HyperMesh, LAMMPS, OVITO, COMSOL, MATLAB, and PCSCHEMATIC paths from
+environment variables, PATH, the Windows registry, and common vendor install
+roots. It writes ignored local files under `private/`:
 
 - `private/ai-cae.local.json` for machine-specific solver paths
 - `private/activate-ai-cae.ps1` for environment-variable activation
@@ -42,6 +43,9 @@ This copies the folders under `codex-skills/` into `~/.codex/skills` or
 `%CODEX_HOME%\skills`.
 
 ## 4. Register MCP
+
+EPLAN MCP and Skill installation is documented in the separate
+[AI-CAD-Automation repository](https://github.com/S2mon123/AI-CAD-Automation).
 
 Copy the generated block from `private/codex-mcp.local.toml` into the local Codex
 `config.toml`. The generated block points `AI_CAE_TOOLBOX_CONFIG` at
@@ -85,8 +89,13 @@ what evidence is available without claiming an unrun solve.
 | Skill | Use |
 |---|---|
 | `ai-cae-run-manager` | Evidence-first run folder, scanning, and report workflow |
+| `aedt-evidence-electromagnetics` | AEDT/PyAEDT design, solve, field, and table evidence |
 | `abaqus-evidence-simulation` | Abaqus modeling, input decks, jobs, ODB evidence |
 | `fluent-evidence-cfd` | Fluent journals, PyFluent, residuals, CFD exports |
+| `ansys-mechanical-evidence-structural` | Mechanical solve and structural acceptance gates |
+| `hypermesh-evidence-meshing` | HyperMesh import, quality, and deck evidence |
+| `lammps-evidence-md` | LAMMPS run integrity, potentials, thermo, and trajectories |
+| `ovito-evidence-postprocessing` | OVITO pipeline, render, and provenance evidence |
 | `comsol-evidence-multiphysics` | COMSOL Java API, batch runs, MPH exports |
 | `pcschematic-evidence-cad` | PCSCHEMATIC COM/OLE, symbols, components, exports |
 
@@ -99,3 +108,7 @@ what evidence is available without claiming an unrun solve.
   templates, controlled solver calls, evidence scans, and reports.
 - Solver-specific execution tools are conservative. They return logs and status
   objects; they do not convert an unverified run into an engineering claim.
+- OVITO Basic can be GUI-only; `ovito.exe` does not prove `ovitos` or Python
+  automation availability.
+- Mechanical can use RunWB2/ExtAPI or PyMechanical, but solve credibility still
+  requires Solved state, MAPDL, reactions, mesh, RST, numeric data, and images.

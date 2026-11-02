@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Untrusted simulation evidence submission; not an approval",
+  "type": "object",
+  "required": [
+    "rapid_check",
+    "path_reachability",
+    "joint_limits",
+    "collision_check",
+    "singularity_and_configuration_review",
+    "speed_review",
+    "model_coverage",
+    "whole_path_check",
+    "task_id",
+    "spec_hash",
+    "source_hash",
+    "context_hash",
+    "report_id",
+    "source",
+    "issued_at",
+    "expires_at"
+  ],
+  "properties": {
+    "rapid_check": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN",
+        "STALE",
+        "NOT_CONFIGURED"
+      ]
+    },
+    "path_reachability": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN",
+        "STALE",
+        "NOT_CONFIGURED"
+      ]
+    },
+    "joint_limits": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN",
+        "STALE",
+        "NOT_CONFIGURED"
+      ]
+    },
+    "collision_check": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN",
+        "STALE",
+        "NOT_CONFIGURED"
+      ]
+    },
+    "singularity_and_configuration_review": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN",
+        "STALE",
+        "NOT_CONFIGURED"
+      ]
+    },
+    "speed_review": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN",
+        "STALE",
+        "NOT_CONFIGURED"
+      ]
+    },
+    "model_coverage": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN",
+        "STALE",
+        "NOT_CONFIGURED"
+      ]
+    },
+    "whole_path_check": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN",
+        "STALE",
+        "NOT_CONFIGURED"
+      ]
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "spec_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "context_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "enum": [
+        "ROBOTSTUDIO_VC",
+        "OPERATOR_ROBOTSTUDIO_REVIEW"
+      ]
+    },
+    "issued_at": {
+      "type": "number"
+    },
+    "expires_at": {
+      "type": "number"
+    }
+  }
+}

@@ -1,6 +1,12 @@
 {
   "solvers": [
     {
+      "solver": "aedt",
+      "template": true,
+      "first_real_tool": "aedt_run_pyaedt_script_file",
+      "required_env": ["AEDT_EXE", "PYAEDT_PYTHON"]
+    },
+    {
       "solver": "abaqus",
       "template": true,
       "first_real_tool": "abaqus_run_no_gui_script",
@@ -17,6 +23,30 @@
       "template": true,
       "first_real_tool": "ansys_run_workbench_journal_file",
       "required_env": ["WORKBENCH_EXE", "ANSYS_ROOT"]
+    },
+    {
+      "solver": "ansys-mechanical",
+      "template": true,
+      "first_real_tool": "mechanical_run_workbench_journal_file",
+      "required_env": ["WORKBENCH_EXE", "PYMECHANICAL_PYTHON"]
+    },
+    {
+      "solver": "hypermesh",
+      "template": true,
+      "first_real_tool": "hypermesh_run_tcl_file",
+      "required_env": ["HMBATCH_EXE"]
+    },
+    {
+      "solver": "lammps",
+      "template": true,
+      "first_real_tool": "lammps_run_input_file",
+      "required_env": ["LAMMPS_EXE"]
+    },
+    {
+      "solver": "ovito",
+      "template": true,
+      "first_real_tool": "ovito_run_script_file",
+      "required_env": ["OVITO_EXE", "OVITOS_EXE"]
     },
     {
       "solver": "comsol",

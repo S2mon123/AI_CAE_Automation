@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DistributionPackage>
+  <Title>RobotStudio MCP Read-Only Bridge</Title>
+  <DisplayVersion>0.1.0</DisplayVersion>
+  <Creator>AI CAE Automation Lab</Creator>
+  <Description>Authenticated local read-only MCP bridge for RobotStudio 2025.3.</Description>
+  <DetailedDescription>Phase 0/1 read-only inspection bridge for Codex and other MCP clients.</DetailedDescription>
+  <MinClientVersion>25.3</MinClientVersion>
+  <Date>2026-08-03</Date>
+  <Tags>
+    <Tag>RobotStudio-AddIn</Tag>
+    <Tag>MCP</Tag>
+  </Tags>
+</DistributionPackage>

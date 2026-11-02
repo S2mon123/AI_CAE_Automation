@@ -1,0 +1,5 @@
+{
+  "bridge": null,
+  "abb": null,
+  "note": "Offline by default. Fill explicit confirmed targets using docs/DEPLOYMENT.md. No write flags exist."
+}

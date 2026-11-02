@@ -1,0 +1,15 @@
+{
+  "bind_ip": "127.0.0.1",
+  "port": 8766,
+  "allowed_clients": ["127.0.0.1"],
+  "key_file": "REPLACE_WITH_ABSOLUTE_LOCAL_KEY_FILE",
+  "bridge_id": "REPLACE_WITH_SITE_BRIDGE_ID",
+  "target_confirmed": false,
+  "ams_net_id": null,
+  "ads_port": 801,
+  "ads_dll": "REPLACE_WITH_INSTALLED_X86_TcAdsDll.dll",
+  "aliases": {
+    "start": "Array6_Plc_to_Robot[3]",
+    "done": "Array1_Robot_to_Plc[3]"
+  }
+}

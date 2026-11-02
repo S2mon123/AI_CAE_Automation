@@ -66,6 +66,10 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Local build products
+mcp/robotstudio/**/bin/
+mcp/robotstudio/**/obj/
+
 # AI-CAE:fluent-weld-pool-example:START
 # Public sample outputs and seed inputs for the Fluent weld-pool example.
 !examples/fluent-sinusoidal-weld-pool/

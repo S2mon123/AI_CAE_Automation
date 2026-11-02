@@ -2,6 +2,10 @@
   "runs_root": "runs",
   "allow_model_writes": true,
   "solver_paths": {
+    "aedt": {
+      "aedt_exe": "<path-to-ansysedt.exe>",
+      "python": "<path-to-python-with-ansys-aedt-core>"
+    },
     "comsol": {
       "root": "<path-to-comsol-root>",
       "batch": "<path-to-comsolbatch.exe>",
@@ -9,6 +13,20 @@
     },
     "abaqus": {
       "command": "<path-to-abaqus.bat>"
+    },
+    "ansys-mechanical": {
+      "workbench_exe": "<path-to-RunWB2.exe>",
+      "python": "<optional-path-to-python-with-ansys-mechanical-core>"
+    },
+    "hypermesh": {
+      "batch_exe": "<path-to-hmbatch.exe>"
+    },
+    "lammps": {
+      "lammps_exe": "<path-to-lmp.exe>"
+    },
+    "ovito": {
+      "ovito_exe": "<path-to-ovito.exe>",
+      "script_command": "<optional-path-to-ovitos-or-python>"
     }
   }
 }

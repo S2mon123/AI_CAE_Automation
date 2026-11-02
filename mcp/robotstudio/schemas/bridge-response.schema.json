@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/robotstudio-mcp/bridge-response.schema.json",
+  "title": "RobotStudio MCP bridge response",
+  "type": "object",
+  "required": ["request_id", "ok", "result", "error", "warnings", "evidence", "elapsed_ms"],
+  "properties": {
+    "request_id": { "type": ["string", "null"] },
+    "ok": { "type": "boolean" },
+    "result": {},
+    "error": {
+      "type": ["object", "null"],
+      "properties": {
+        "code": { "type": "string" },
+        "message": { "type": "string" },
+        "details": { "type": "object" },
+        "retryable": { "type": "boolean" }
+      }
+    },
+    "warnings": { "type": "array" },
+    "evidence": { "type": "array" },
+    "elapsed_ms": { "type": "integer", "minimum": 0 }
+  }
+}

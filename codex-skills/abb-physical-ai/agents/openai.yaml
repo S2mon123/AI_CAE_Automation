@@ -1,0 +1,4 @@
+interface:
+  display_name: "ABB Physical AI"
+  short_description: "PLC/ABB read-only setup and evidence-gated cube drafts"
+  default_prompt: "Use $abb-physical-ai to inspect the PLC/ABB setup and prepare a frozen-context cube task without moving the robot."

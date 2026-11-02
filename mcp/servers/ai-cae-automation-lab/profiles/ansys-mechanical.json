@@ -1,0 +1,6 @@
+{
+  "solver": "ansys-mechanical",
+  "maturity": "bridge-preview",
+  "capabilities": ["RunWB2 journal", "PyMechanical controller", "result-summary validation"],
+  "rules": ["Require Solved state.", "Require MAPDL normal termination.", "Check reactions, mesh, RST, data, images, and logs."]
+}

@@ -1,0 +1,12 @@
+[mcp_servers.robotstudio]
+command = "<repo-root>/mcp/robotstudio/.venv/Scripts/python.exe"
+args = ["-m", "robotstudio_mcp"]
+startup_timeout_sec = 30.0
+tool_timeout_sec = 300.0
+
+[mcp_servers.robotstudio.env]
+ROBOTSTUDIO_MCP_WORKSPACE = "<workspace-root>"
+ROBOTSTUDIO_MCP_BRIDGE_HOST = "127.0.0.1"
+ROBOTSTUDIO_MCP_BRIDGE_PORT = "47625"
+ROBOTSTUDIO_MCP_CONTROLLER_SCOPE = "virtual_only"
+ROBOTSTUDIO_MCP_TOKEN_FILE = "<private-config-root>/robotstudio-bridge-token"

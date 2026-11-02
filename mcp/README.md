@@ -29,16 +29,34 @@ discovery, evidence, and setup tools.
 
 ## Available Packages
 
+EPLAN is maintained separately in [AI-CAD-Automation](https://github.com/S2mon123/AI-CAD-Automation).
+
+Standalone package: [Adams MCP](adams/README.md) provides its own
+`adams_mcp.server` entry point, 16 tools and local configuration. Install it
+separately; it does not use `AI_CAE_MCP_SOLVERS`.
+
 | Package | MCP profile | Purpose |
 |---|---|---|
+| `mcp/aedt` | `aedt` | AEDT/PyAEDT checks and user-supplied automation scripts |
 | `mcp/abaqus` | `abaqus` | Abaqus noGUI scripts and input-deck submission |
 | `mcp/ansys/Fluent MCP` | `fluent` | Fluent journal execution and CFD evidence capture |
 | `mcp/ansys/Workbench MCP` | `workbench` | Workbench journal execution and Ansys install checks |
+| `mcp/ansys/Mechanical MCP` | `mechanical` | RunWB2, ExtAPI/PyMechanical, and structural result gates |
+| `mcp/hypermesh` | `hypermesh` | Explicit Tcl execution through `hmbatch -tcl` |
+| `mcp/lammps` | `lammps` | LAMMPS input execution and log capture |
+| `mcp/ovito` | `ovito` | OVITO GUI/script capability checks and Python postprocessing |
 | `mcp/comsol` | `comsol` | COMSOL Java API compile, batch, MPH smoke, and validation |
 | `mcp/matlab` | `matlab` | MATLAB batch script execution |
 | `mcp/openfoam` | `openfoam` | OpenFOAM command execution for local or WSL cases |
 | `mcp/paraview` | `paraview` | ParaView `pvpython` postprocessing |
 | `mcp/pcschematic` | `pcschematic` | PCSCHEMATIC installation and COM/OLE evidence checks |
+| `mcp/robotstudio` | `robotstudio` | Separate RobotStudio 2025.3 MCP: Station/VC reads and cube-task context inspection |
+| `mcp/physical_ai_bridge` | `abb-physical-ai` | Separate v4 MCP: Win7/PLC and ABB read-only adapters, offline cube drafts and validation gates; no physical execution |
+
+Physical AI setup and current limitations are in
+[`physical_ai_bridge/README.md`](physical_ai_bridge/README.md). These two robot
+servers use their own entry points and environments; they are not writable robot
+adapters inside the general CAE toolbox.
 
 ## First-Run Flow
 

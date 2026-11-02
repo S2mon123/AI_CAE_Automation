@@ -59,6 +59,10 @@ A useful journal should:
 - Monitor residuals and at least one engineering quantity.
 - Separate mesh/geometry preview from solver results.
 - For transient tasks, record time step size, total steps, and save interval.
+- For external aerodynamics, audit geometry axes, far-field direction, force
+  vectors, reference area/length, mesh quality, and Cl/Cd stabilization.
+- For weld-pool work, separate thermal/solidification, melt flow, VOF free
+  surface, recoil/evaporation, spatter, and structural coupling claims.
 
 ## Evidence Collection
 
@@ -70,6 +74,9 @@ ai-cae-toolbox generate-report <run-dir>
 ```
 
 Treat a run as `engineering-draft` only when logs, solver outputs, and exported numeric or visual evidence agree. Treat setup-only or failed runs as dry runs or functional validation.
+
+Read [references/claim-gates.md](references/claim-gates.md) for external-flow
+and weld-pool acceptance rules.
 
 <!-- AI-CAE:weld-pool:START -->
 ## Welding Melt-Pool Tasks

@@ -21,15 +21,23 @@ class EvidenceItem:
 
 
 SOLVER_OUTPUT_EXTENSIONS = {
+    ".aedt",
+    ".aedtz",
     ".odb",
     ".sim",
     ".cas",
     ".dat",
+    ".rst",
     ".res",
     ".rfl",
     ".mph",
     ".wbpj",
     ".mechdat",
+    ".hm",
+    ".fem",
+    ".h3d",
+    ".lammpstrj",
+    ".dump",
     ".pro",
 }
 INPUT_EXTENSIONS = {
@@ -37,13 +45,29 @@ INPUT_EXTENSIONS = {
     ".cdb",
     ".msh",
     ".geo",
+    ".lmp",
     ".step",
     ".stp",
     ".iges",
     ".igs",
     ".sat",
 }
-SCRIPT_EXTENSIONS = {".py", ".java", ".m", ".jou", ".jnl", ".mac", ".bas", ".pas", ".c", ".cpp", ".h", ".udf"}
+SCRIPT_EXTENSIONS = {
+    ".py",
+    ".java",
+    ".m",
+    ".jou",
+    ".jnl",
+    ".wbjn",
+    ".tcl",
+    ".mac",
+    ".bas",
+    ".pas",
+    ".c",
+    ".cpp",
+    ".h",
+    ".udf",
+}
 LOG_EXTENSIONS = {".log", ".sta", ".msg", ".err", ".out", ".txt"}
 TABLE_EXTENSIONS = {".csv", ".tsv", ".xlsx", ".xls"}
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".svg", ".gif", ".bmp", ".tif", ".tiff"}
@@ -72,6 +96,10 @@ def classify_file(path: Path) -> str:
         return "evidence_metadata"
     if name == "report.md":
         return "report"
+    if name.startswith("log.") or name in {"solve.out", "screen.txt"}:
+        return "log"
+    if name.endswith((".cas.h5", ".dat.h5", ".msh.h5")):
+        return "solver_output"
     if suffix in LOG_EXTENSIONS:
         return "log"
     if suffix in SOLVER_OUTPUT_EXTENSIONS:

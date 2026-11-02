@@ -1,0 +1,4 @@
+interface:
+  display_name: "HyperMesh Evidence Meshing"
+  short_description: "Quad flow, mapped hex blocks, and quality gates"
+  default_prompt: "Use $hypermesh-evidence-meshing to clean and audit topology, design a quality-checked quad source mesh, decompose mapped or swept hexa blocks with explicit dependencies, and verify the final solver mesh with evidence."

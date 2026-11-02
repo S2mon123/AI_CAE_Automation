@@ -5,6 +5,7 @@ from dataclasses import asdict
 from typing import Any
 
 from .adapters import known_adapters
+from .adapters.aedt import aedt_check_install, aedt_run_pyaedt_script
 from .adapters.abaqus import abaqus_run_no_gui, abaqus_submit_inp
 from .adapters.ansys import ansys_check_install, ansys_run_workbench_journal
 from .adapters.comsol import (
@@ -18,8 +19,17 @@ from .adapters.comsol import (
     write_comsol_mph_validator_java,
 )
 from .adapters.fluent import fluent_run_journal
+from .adapters.hypermesh import hypermesh_check_install, hypermesh_run_tcl
+from .adapters.lammps import lammps_check_install, lammps_run_input
 from .adapters.matlab import matlab_check_install, matlab_run_script
+from .adapters.mechanical import (
+    mechanical_check_install,
+    mechanical_run_python_controller,
+    mechanical_run_workbench_journal,
+    mechanical_validate_result_summary,
+)
 from .adapters.openfoam import openfoam_check_install, openfoam_run_command
+from .adapters.ovito import ovito_check_install, ovito_run_script
 from .adapters.paraview import paraview_check_install, paraview_run_script
 from .adapters.pcschematic import pcschematic_check_install
 from .config import bridge_plan, toolchain_paths
@@ -39,11 +49,21 @@ from .skills import list_skill_packs
 from .templates import write_solver_smoke_template as write_solver_template
 
 SOLVER_ALIASES = {
+    "aedt": {"aedt"},
+    "ansys-aedt": {"aedt"},
+    "hfss": {"aedt"},
+    "maxwell": {"aedt"},
     "abaqus": {"abaqus"},
-    "ansys": {"ansys", "fluent", "workbench"},
+    "ansys": {"ansys", "aedt", "fluent", "workbench", "mechanical"},
     "ansys-workbench": {"ansys", "workbench"},
     "workbench": {"ansys", "workbench"},
+    "ansys-mechanical": {"ansys", "workbench", "mechanical"},
+    "mechanical": {"ansys", "workbench", "mechanical"},
     "fluent": {"ansys", "fluent"},
+    "hypermesh": {"hypermesh"},
+    "altair-hypermesh": {"hypermesh"},
+    "lammps": {"lammps"},
+    "ovito": {"ovito"},
     "comsol": {"comsol"},
     "matlab": {"matlab"},
     "openfoam": {"openfoam"},
@@ -204,6 +224,25 @@ def build_server(active_solvers: str | list[str] | tuple[str, ...] | set[str] | 
         """Generate report.md for a run directory based on its evidence inventory."""
         return generate_report(run_dir)
 
+    if _solver_enabled(active, "aedt"):
+        @server.tool()
+        def aedt_check_installation(
+            aedt_exe: str | None = None,
+            python_exe: str | None = None,
+        ) -> dict[str, Any]:
+            """Check AEDT and PyAEDT Python paths without claiming license or solver success."""
+            return aedt_check_install(aedt_exe, python_exe)
+
+        @server.tool()
+        def aedt_run_pyaedt_script_file(
+            script_path: str,
+            run_dir: str,
+            python_exe: str | None = None,
+            timeout_sec: int = 7200,
+        ) -> dict[str, Any]:
+            """Run a user-supplied PyAEDT script and capture its command log."""
+            return aedt_run_pyaedt_script(script_path, run_dir, python_exe, timeout_sec)
+
     if _solver_enabled(active, "abaqus"):
         @server.tool()
         def abaqus_run_no_gui_script(
@@ -258,6 +297,95 @@ def build_server(active_solvers: str | list[str] | tuple[str, ...] | set[str] | 
         ) -> dict[str, Any]:
             """Run an Ansys Workbench journal in batch mode and write command output to logs."""
             return ansys_run_workbench_journal(journal_path, run_dir, workbench_command, timeout_sec)
+
+    if _solver_enabled(active, "mechanical"):
+        @server.tool()
+        def mechanical_check_installation(
+            workbench_exe: str | None = None,
+            python_exe: str | None = None,
+        ) -> dict[str, Any]:
+            """Check Workbench and PyMechanical routes without claiming a structural solve."""
+            return mechanical_check_install(workbench_exe, python_exe)
+
+        @server.tool()
+        def mechanical_run_workbench_journal_file(
+            journal_path: str,
+            run_dir: str,
+            workbench_exe: str | None = None,
+            timeout_sec: int = 7200,
+        ) -> dict[str, Any]:
+            """Run a Workbench journal intended to build, solve, or postprocess Mechanical."""
+            return mechanical_run_workbench_journal(journal_path, run_dir, workbench_exe, timeout_sec)
+
+        @server.tool()
+        def mechanical_run_python_controller_file(
+            script_path: str,
+            run_dir: str,
+            python_exe: str | None = None,
+            timeout_sec: int = 7200,
+        ) -> dict[str, Any]:
+            """Run a PyMechanical gRPC controller script and capture its log."""
+            return mechanical_run_python_controller(script_path, run_dir, python_exe, timeout_sec)
+
+        @server.tool()
+        def mechanical_validate_result_summary_file(
+            summary_path: str,
+            solve_log_path: str | None = None,
+        ) -> dict[str, Any]:
+            """Validate Mechanical Solved state, MAPDL termination, reaction balance, and RST presence."""
+            return mechanical_validate_result_summary(summary_path, solve_log_path)
+
+    if _solver_enabled(active, "hypermesh"):
+        @server.tool()
+        def hypermesh_check_installation(batch_exe: str | None = None) -> dict[str, Any]:
+            """Check hmbatch availability without launching a meshing workflow."""
+            return hypermesh_check_install(batch_exe)
+
+        @server.tool()
+        def hypermesh_run_tcl_file(
+            script_path: str,
+            run_dir: str,
+            batch_exe: str | None = None,
+            timeout_sec: int = 3600,
+        ) -> dict[str, Any]:
+            """Run an explicit Tcl script through hmbatch -tcl and capture its log."""
+            return hypermesh_run_tcl(script_path, run_dir, batch_exe, timeout_sec)
+
+    if _solver_enabled(active, "lammps"):
+        @server.tool()
+        def lammps_check_installation(lammps_exe: str | None = None) -> dict[str, Any]:
+            """Check for a LAMMPS executable without running an input deck."""
+            return lammps_check_install(lammps_exe)
+
+        @server.tool()
+        def lammps_run_input_file(
+            input_path: str,
+            run_dir: str,
+            lammps_exe: str | None = None,
+            extra_args: list[str] | None = None,
+            timeout_sec: int = 7200,
+        ) -> dict[str, Any]:
+            """Run a LAMMPS input file and capture its log."""
+            return lammps_run_input(input_path, run_dir, lammps_exe, extra_args, timeout_sec)
+
+    if _solver_enabled(active, "ovito"):
+        @server.tool()
+        def ovito_check_installation(
+            ovito_exe: str | None = None,
+            script_command: str | None = None,
+        ) -> dict[str, Any]:
+            """Distinguish OVITO GUI availability from script-capable OVITO Python."""
+            return ovito_check_install(ovito_exe, script_command)
+
+        @server.tool()
+        def ovito_run_script_file(
+            script_path: str,
+            run_dir: str,
+            script_command: str | None = None,
+            timeout_sec: int = 3600,
+        ) -> dict[str, Any]:
+            """Run an OVITO Python postprocessing script and capture its log."""
+            return ovito_run_script(script_path, run_dir, script_command, timeout_sec)
 
     if _solver_enabled(active, "comsol"):
         @server.tool()

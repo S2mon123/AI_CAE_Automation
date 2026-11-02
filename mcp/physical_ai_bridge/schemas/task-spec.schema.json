@@ -1,0 +1,207 @@
+{
+  "$defs": {
+    "Anchor": {
+      "additionalProperties": false,
+      "properties": {
+        "translation_mm": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Translation Mm",
+          "type": "array"
+        },
+        "quaternion": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "title": "Quaternion",
+          "type": "array"
+        },
+        "configuration": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "title": "Configuration",
+          "type": "array"
+        },
+        "external_axes": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "title": "External Axes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "translation_mm",
+        "quaternion",
+        "configuration",
+        "external_axes"
+      ],
+      "title": "Anchor",
+      "type": "object"
+    },
+    "Context": {
+      "additionalProperties": false,
+      "properties": {
+        "controller_identity": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Controller Identity",
+          "type": "string"
+        },
+        "robotware_and_options_hash": {
+          "title": "Robotware And Options Hash",
+          "type": "string"
+        },
+        "profile_hash": {
+          "title": "Profile Hash",
+          "type": "string"
+        },
+        "station_hash": {
+          "title": "Station Hash",
+          "type": "string"
+        },
+        "configuration_hash": {
+          "title": "Configuration Hash",
+          "type": "string"
+        },
+        "tool_load_wobj_hash": {
+          "title": "Tool Load Wobj Hash",
+          "type": "string"
+        },
+        "dependencies_hash": {
+          "title": "Dependencies Hash",
+          "type": "string"
+        },
+        "tool": {
+          "title": "Tool",
+          "type": "string"
+        },
+        "wobj": {
+          "title": "Wobj",
+          "type": "string"
+        },
+        "anchor": {
+          "$ref": "#/$defs/Anchor"
+        },
+        "source": {
+          "default": "OPERATOR_PROVIDED",
+          "enum": [
+            "OPERATOR_PROVIDED",
+            "ROBOTSTUDIO_VC",
+            "ABB_LIVE"
+          ],
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "controller_identity",
+        "robotware_and_options_hash",
+        "profile_hash",
+        "station_hash",
+        "configuration_hash",
+        "tool_load_wobj_hash",
+        "dependencies_hash",
+        "tool",
+        "wobj",
+        "anchor"
+      ],
+      "title": "Context",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "mode": {
+      "enum": [
+        "A",
+        "B",
+        "C"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "context": {
+      "$ref": "#/$defs/Context"
+    },
+    "side_length_mm": {
+      "default": 200.0,
+      "exclusiveMinimum": 0,
+      "maximum": 1000,
+      "title": "Side Length Mm",
+      "type": "number"
+    },
+    "programmed_speed_mm_s": {
+      "const": 50,
+      "default": 50,
+      "title": "Programmed Speed Mm S",
+      "type": "integer"
+    },
+    "override_percent": {
+      "default": 30.0,
+      "exclusiveMinimum": 0,
+      "maximum": 100,
+      "title": "Override Percent",
+      "type": "number"
+    },
+    "completion_timeout_s": {
+      "default": 600.0,
+      "exclusiveMinimum": 0,
+      "maximum": 86400,
+      "title": "Completion Timeout S",
+      "type": "number"
+    },
+    "existing_module": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Existing Module"
+    },
+    "existing_routine": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Existing Routine"
+    },
+    "existing_source_sha256": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Existing Source Sha256"
+    }
+  },
+  "required": [
+    "mode",
+    "context"
+  ],
+  "title": "TaskSpec",
+  "type": "object"
+}

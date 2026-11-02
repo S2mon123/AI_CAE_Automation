@@ -3,7 +3,22 @@
   "license": "MIT",
   "maturity": "minimal",
   "entry_point": "ai-cae-mcp-server",
-  "tools": ["ansys_check_installation", "ansys_run_workbench_journal_file", "fluent_run_journal_file"],
-  "required_env": ["ANSYS_ROOT", "FLUENT_EXE", "FLUENT_ROOT", "WORKBENCH_EXE"],
+  "tools": [
+    "ansys_check_installation",
+    "ansys_run_workbench_journal_file",
+    "fluent_run_journal_file",
+    "mechanical_check_installation",
+    "mechanical_run_workbench_journal_file",
+    "mechanical_run_python_controller_file",
+    "mechanical_validate_result_summary_file"
+  ],
+  "required_env": [
+    "ANSYS_ROOT",
+    "FLUENT_EXE",
+    "FLUENT_ROOT",
+    "WORKBENCH_EXE",
+    "ANSYS_MECHANICAL_EXE",
+    "PYMECHANICAL_PYTHON"
+  ],
   "bundles_solver": false
 }

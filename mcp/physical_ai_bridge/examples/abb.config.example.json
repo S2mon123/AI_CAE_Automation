@@ -1,0 +1,10 @@
+{
+  "sdk_bin": "REPLACE_WITH_INSTALLED_ROBOTSTUDIO_2025_3_BIN",
+  "controller_identity": null,
+  "ip_address": null,
+  "expected_virtual": null,
+  "target_confirmed": false,
+  "username_env": "PHYSICAL_AI_ABB_USER",
+  "password_env": "PHYSICAL_AI_ABB_PASSWORD",
+  "allowed_signals": ["diPN_Test", "doPN_Test"]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "RobotStudio Read-Only Automation"
+  short_description: "Inspect RobotStudio stations and virtual controllers"
+  default_prompt: "Use $robotstudio-core to inspect the active RobotStudio station and virtual controller safely."

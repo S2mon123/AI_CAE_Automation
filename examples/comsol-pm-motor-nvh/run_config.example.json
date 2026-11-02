@@ -1,0 +1,15 @@
+{
+  "solver": "comsol",
+  "mode": "SMOKE_MODE",
+  "toolchain": {
+    "root": "${COMSOL_ROOT}",
+    "batch": "${COMSOL_BATCH}",
+    "compile": "${COMSOL_COMPILE}",
+    "java": "${COMSOL_JAVA}",
+    "temp": "${COMSOL_TMPDIR}"
+  },
+  "batch_cores": 1,
+  "smoke_speeds_rpm": [3000, 7000, 12000],
+  "smoke_harmonics": [2, 4, 6],
+  "full_speeds_rpm": [900, 1200, 1500, 1800, 2100, 2400, 2700, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000]
+}

@@ -1,0 +1,8 @@
+# Replace paths with your installation and private workspace. Keep existing robotstudio registration.
+[mcp_servers.abb-physical-ai]
+command = "C:/path/to/physical-ai-venv/Scripts/python.exe"
+args = ["-m", "physical_ai.server"]
+
+[mcp_servers.abb-physical-ai.env]
+PHYSICAL_AI_WORKSPACE = "C:/path/to/private/PhysicalAI/workspace"
+PHYSICAL_AI_CONFIG = "C:/path/to/private/host.local.json"
